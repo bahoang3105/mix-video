@@ -1,0 +1,90 @@
+.header {
+  display: flex;
+  padding: 3px 0 3px;
+  margin: -10px -10px -10px -10px;
+  background-color: #f2f4f8;
+  align-items: center;
+}
+
+.main-logo {
+  margin: 8px 12px 5px 20px;
+  height: 26px;
+  width: 26px;
+}
+
+.name-stream {
+  display: flex;
+  font-family: SVN-GilroyBold!important;
+  font-weight: 600!important;
+  line-height: 20px;
+  font-size: 11px;
+  text-decoration: none;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  padding-bottom: 0!important;
+  -webkit-line-clamp: 1;
+  max-width: calc(100% - 16px);
+  margin-right: 8px;
+}
+
+.input-name {
+  padding-bottom: 0!important;
+  -webkit-line-clamp: 1;
+  font-size: 12px;
+  align-self: center;
+  min-width: 80px;
+  margin-right: 4px!important;
+  background: none!important;
+  font-family: SVN-Gilroy!important;
+  border: 1px solid #00a6fd!important;
+  height: 13px;
+}
+
+.input-name:focus {
+  border-color: solid #00a6fd;
+}
+
+.change-name {
+  height: 1.6%;
+  width: 1.6%;
+  padding:3px 0 0 2px
+}
+
+.button-change-name {
+  padding-top: 2px;
+  margin-right: 30px;
+}
+
+.start-live-button {
+  position: absolute;
+  right: 2%;
+  text-decoration: none;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: 500;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ff6b8e!important;
+  box-shadow: 0 1px 2px #b02;
+  color: #fff;
+  line-height: 20px;
+  background: linear-gradient(119.16deg, rgb(255, 110, 93) -7.32%, rgb(255, 60, 106) 106.6%);
+  height: 40px;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0px 20px;
+  opacity: 1;
+  width: auto;
+  height: 30px;
+}
+
+.space {
+  margin-left: 5px;
+}
