@@ -1,6 +1,11 @@
+import Bars from "./bars";
+import '../../css/bottom.css';
+
 const BottomSidebar = () => {
   return(
-    <div>das</div>
+    <div>
+      <Bars className='bars bottom-bars'/>
+    </div>
   );
 };
 

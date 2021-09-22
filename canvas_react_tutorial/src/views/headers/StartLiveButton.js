@@ -12,7 +12,7 @@ const StartLiveButton = (props) => {
     >
       <AiFillPlayCircle />
       <span className='space'/>
-      Start liv
+      Start live
     </button>
   );
 }

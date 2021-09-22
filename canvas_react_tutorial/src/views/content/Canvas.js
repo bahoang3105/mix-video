@@ -6,7 +6,7 @@ const Canvas = props => {
   const { context } = options;
   const canvasRef = useCanvas(draw, {context});
  
-  return <canvas ref={canvasRef} {...rest}/>
+  return <canvas ref={canvasRef} {...rest} className='main-canvas'/>
 }
 
 export default Canvas;

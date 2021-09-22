@@ -1,0 +1,34 @@
+.bottom-bars {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: rgb(107, 107, 107);
+  padding: 3px 0 -4.5px 0;
+}
+
+.scene-video-card {
+  padding: 3px 15px 3px 15px;
+  display: flex;
+}
+
+.button-add {
+  padding: 3px 15px 3px 15px;
+  display: flex;
+  border-radius: 8px;
+  border: 1px solid rgb(202, 202, 202);
+  position: absolute;
+  right: 300px;
+}
+
+.bottom-active {
+  color:rgb(240, 0, 140);
+  border-color: rgb(240, 0, 140);
+}
+
+.bottom-inactive {
+  color: rgb(107, 107, 107);
+  border-color: rgb(194, 194, 194);
+}
+
+.bottom-bar-label {
+  font-size: 15px;
+  margin: 0 0 0 3px;
+}

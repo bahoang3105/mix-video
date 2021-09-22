@@ -5,7 +5,7 @@ const Preview = () => {
       <label className='label-preview'>PREVIEW</label>
       <span>854x480</span>
       <div className='speed'>
-        <lable className='label-speed'>Speed: </lable>
+        <label className='label-speed'>Speed: </label>
         <span>0 bps</span>
       </div>
       

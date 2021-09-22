@@ -1,16 +1,16 @@
 .grid-left-container {
   display: grid;
   grid-template-areas: 'undo redo settings save link question';
+  box-shadow: 0 1px #e0e0e0;
 }
 
 .grid-left-container > div {
   background-color:  white;
-  height: 27px;
+  height: 30px;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: 10px;
-  box-shadow: 0 1px rgba(114, 114, 114, 0.404) ;
+  padding-top: 15px;
 }
 
 .grid-left-container > div:hover {
@@ -18,28 +18,28 @@
 }
 
 .preview {
-  box-shadow: 0 1px rgb(185, 185, 185);
-  padding-bottom: 8px;
+  box-shadow: 0 1px #e0e0e0;
+  padding-bottom: 12px;
 }
 
 .preview-div {
   display: flex;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 8px;
+  font-size: 13px;
   margin-top: 5px;
   padding-top: 5px;
 }
 
 .label-preview {
   text-decoration-line: underline;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   margin-right: 40px;
-  margin-left: 2px;
+  margin-left: 10px;
 }
 
 .speed {
-  margin-left: 8px;
+  margin-left: 12px;
 }
 
 .label-speed {
@@ -49,9 +49,9 @@
 .label-info {
   display: flex;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: 8px;
-  margin-top: 5px;
-  padding: 5px 5px 5px;
+  font-size: 13px;
+  margin-top: 8px;
+  padding: 8px 8px 8px;
   background-color: beige;
   color: rgb(87, 87, 87);
 }

@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 
 const Bars = () => {
   return (
-    <div className='bars'>
+    <div className='bars' id='right-bar'>
       <Dropdown />
       <div className='cards'>
         <Card name='Settings' />
