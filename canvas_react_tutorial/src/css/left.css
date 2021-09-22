@@ -1,0 +1,57 @@
+.grid-left-container {
+  display: grid;
+  grid-template-areas: 'undo redo settings save link question';
+}
+
+.grid-left-container > div {
+  background-color:  white;
+  height: 27px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 10px;
+  box-shadow: 0 1px rgba(114, 114, 114, 0.404) ;
+}
+
+.grid-left-container > div:hover {
+  background-color: rgb(238, 238, 238);
+}
+
+.preview {
+  box-shadow: 0 1px rgb(185, 185, 185);
+  padding-bottom: 8px;
+}
+
+.preview-div {
+  display: flex;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 8px;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+
+.label-preview {
+  text-decoration-line: underline;
+  font-size: 9px;
+  font-weight: 700;
+  margin-right: 40px;
+  margin-left: 2px;
+}
+
+.speed {
+  margin-left: 8px;
+}
+
+.label-speed {
+  color: rgb(109, 109, 109);
+}
+
+.label-info {
+  display: flex;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 8px;
+  margin-top: 5px;
+  padding: 5px 5px 5px;
+  background-color: beige;
+  color: rgb(87, 87, 87);
+}

@@ -1,0 +1,26 @@
+.bars {
+  display: flex;
+  padding-top: 9px;
+  padding-bottom: 7px;
+  box-shadow: 0 1px rgb(201, 201, 201);
+}
+
+.cards {
+  background-color: rgb(230, 230, 230);
+  width: 90%;
+  padding: 0.5px 1px 3.5px 1px;
+  border-radius: 4px;
+}
+
+.card {
+  padding: 4px 20px 4px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 4px;
+  background-color: none;
+}
+
+#right-dropdown {
+  margin: 0 5px 0 5px;
+}

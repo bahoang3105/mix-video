@@ -1,0 +1,26 @@
+html {
+  background-color: rgba(245, 245, 245, 0.959);
+}
+
+.grid-container {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 180px auto 180px;
+  grid-gap: 10px;
+  min-height: 90vh;
+}
+
+.right-sidebar {
+  background-color: rgb(247, 247, 247);
+  box-shadow: -0.5px -0.5px rgb(235, 234, 234);
+}
+
+.left-sidebar {
+  background-color: rgb(247, 247, 247);
+  box-shadow: -0.5px -0.5px rgb(235, 234, 234);
+}
+
+.scenes {
+  background-color: rgb(247, 247, 247);
+  box-shadow: -0.5px -0.5px rgb(235, 234, 234);
+}
