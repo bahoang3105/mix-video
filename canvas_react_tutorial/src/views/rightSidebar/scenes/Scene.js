@@ -1,6 +1,6 @@
 const Scene = (props) => {
   return(
-    <div>
+    <div className='scene-card'>
       <span className='scene-name'>
         {props.name}
       </span>

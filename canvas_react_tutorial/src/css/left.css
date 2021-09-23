@@ -55,3 +55,71 @@
   background-color: beige;
   color: rgb(87, 87, 87);
 }
+
+.left-header {
+  display: flex;
+  box-shadow: 0 -2px #f0f0f0;
+  margin: 10px 0 15px 0;
+  padding: 10px 0 15px 0;
+}
+
+#name-layer {
+  padding-left: 5px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+#left-add {
+  position: absolute;
+  left: 260px;
+  font-size: 21px;
+  color: rgb(240, 0, 140);
+}
+
+#left-lock {
+  position: absolute;
+  left: 236px;
+  font-size: 18px;
+  padding-top: 2px;
+  color: #969696;
+}
+
+.layer {
+  display: flex;
+  color:rgb(104, 104, 104);
+  padding: 10px 0 5px 0;
+}
+
+.select-layer {
+  border: 1px solid rgb(129, 129, 129);
+  margin: -1px -1px;
+}
+
+.name-layer {
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.icon-layer {
+  font-size: 17px;
+  margin: 0 3px 0 3px;
+}
+
+#buttons-layer {
+  position: fixed;
+  left: 185px;
+  display: flex;
+}
+
+.flex {
+  margin-top: -6px;
+  padding: 5px 18px 5px 6px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.none {
+  visibility: hidden;
+}

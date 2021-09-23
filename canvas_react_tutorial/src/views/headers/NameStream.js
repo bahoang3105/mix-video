@@ -2,12 +2,17 @@ import { useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 
 const NameStream = (props) => {
-  const [name, setName] = useState('name');
+  if(localStorage.getItem('nameStream') === null) {
+    localStorage.setItem('nameStream', 'Stream1');
+  }
+  const nameStream = localStorage.getItem('nameStream');
+  const [name, setName] = useState(nameStream);
   const [display, setDisplay] = useState(true);
   const [inputName, setInputName] = useState(name);
 
   const allowChangeName = () => {
     setName(inputName);
+    localStorage.setItem('nameStream', inputName);
     setDisplay(!display);
   }
 

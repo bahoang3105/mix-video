@@ -3,7 +3,7 @@ import Scene from "./Scene";
 const Scenes = () => {
   return(
     <div>
-      <label class='select-all'>
+      <label className='select-all'>
         Select All
       </label>
       <Scene name='Scene 1'/>
