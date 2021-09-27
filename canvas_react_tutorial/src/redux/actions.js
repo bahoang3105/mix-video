@@ -25,10 +25,12 @@ import {
   CHANGE_CUR_SCENE,
 } from './actionTypes';
 
-export const addLayer = (type, scene) => ({
+export const addLayer = (type, curScene, details) => ({
   type: ADD_LAYER,
   payload: {
     type,
+    curScene,
+    details,
   }
 });
 
@@ -138,7 +140,7 @@ export const duplicateScene = scene => ({
 export const getLayers = () => {
   return (dispatch) => {
     const layers = JSON.parse(localStorage.getItem('layers'));
-    const num = parseInt(localStorage.getItem('numLayer'));
+    const num = parseInt(localStorage.getItem('numLayer')) ? parseInt(localStorage.getItem('numLayer')) : 1;
     dispatch({
       type: GET_LAYERS,
       payload: {

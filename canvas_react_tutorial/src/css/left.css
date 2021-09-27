@@ -103,17 +103,19 @@
 }
 
 .icon-layer {
-  font-size: 17px;
-  margin: 0 3px 0 3px;
+  font-size: 17px !important;
+  padding: 0 10px 0 10px;
 }
 
 #buttons-layer {
+  opacity: 70%;
   position: absolute;
   left: 185px;
   display: flex;
   margin-top: -6px;
   padding: 5px 18px 5px 6px;
   border-radius: 8px;
+  color: black;
 }
 
 .flex {

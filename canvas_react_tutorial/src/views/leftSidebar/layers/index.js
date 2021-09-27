@@ -18,7 +18,7 @@ const Layers = ({ curScene, layers }) => {
     let listLayer = [];
     for(let i = 0; i < layers.length; i++) {
       if(layers[i].scene === curScene) {
-        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} />);
+        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} />);
       };
     };
     return listLayer;
@@ -26,7 +26,7 @@ const Layers = ({ curScene, layers }) => {
 
   return(
     <div>
-      <Header />
+      <Header curScene={curScene}/>
       <div className='list-layer'>
         {renderLayers(layers, curScene)}
       </div>

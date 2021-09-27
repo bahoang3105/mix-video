@@ -1,7 +1,7 @@
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import ShowAdd from './showAdd';
 import { useState } from 'react';
-const ButtonAdd = () => {
+const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
   return(
     <div
@@ -11,7 +11,7 @@ const ButtonAdd = () => {
     >
       <AiOutlinePlusCircle />
       <span className='space' />
-      <ShowAdd display={displayAdd}/>
+      <ShowAdd display={displayAdd} curScene={props.curScene}/>
     </div>
   );
 };

@@ -13,8 +13,12 @@ const AudioButtons = () => {
       <Audio name='Audio' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayAudio}`}>
-        <Library name='Audio Library' />
-        <Micro name='Microphone' />
+        <div>
+          <Library name='Audio Library' />
+        </div>
+        <div>
+          <Micro name='Microphone' />
+        </div>
       </div>
     </div>
   );

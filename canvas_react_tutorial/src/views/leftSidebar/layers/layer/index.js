@@ -3,7 +3,7 @@ import Buttons from "./Buttons";
 import Icon from "./Icon";
 
 const Layer = (props) => {
-  const name = (props.nameLayer.length < 33) ? props.nameLayer : props.nameLayer.slice(0, 33) + '...';
+  const name = (props.nameLayer.length < 29) ? props.nameLayer : props.nameLayer.slice(0, 29) + '...';
   const [onSelect, setOnSelect] = useState(false);
   const selectLayer = onSelect ? ' select-layer' : '';
   return(
@@ -12,7 +12,7 @@ const Layer = (props) => {
       onMouseOver={() => setOnSelect(!onSelect)}
       onMouseOut={() => setOnSelect(!onSelect)}
     >
-      <Icon type='video'/>
+      <Icon type={props.type}/>
       <span className='name-layer'>
         {name}
       </span>

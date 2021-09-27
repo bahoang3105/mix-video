@@ -4,12 +4,12 @@ import ButtonAdd from "./ButtonAdd";
 import ButtonLock from "./ButtonLock";
 import NameOfLayer from "./NameOfLayer";
 
-const Header = ({ sceneName }) => {
+const Header = ({ curScene, sceneName }) => {
   return(
     <div className='left-header'>
       <NameOfLayer name={sceneName}/>
       <ButtonLock />
-      <ButtonAdd />
+      <ButtonAdd curScene={curScene}/>
     </div>
   );
 };

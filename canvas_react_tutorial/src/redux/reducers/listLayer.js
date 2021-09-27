@@ -14,22 +14,37 @@ import {
 
 const initialState = {
   layers: null,
-  num: 0,
+  num: null,
 };
 
 const listLayer = (state = initialState, action) => {
   switch(action.type) {
     case ADD_LAYER: {
-      const newLayer = {
-        "scene": state.curScene,
-        "type": action.payload.type,
-        "num": state.num,
-        "x": 0,
-        "y": 0,
-        "g": 0,
-        "w": 100,
-        "h": 100,
-
+      let newLayer;
+      switch(action.payload.type) {
+        case 'text': {
+          newLayer = {
+            "name": "Text " + state.num,
+            "type": action.payload.type,
+            "scene": action.payload.curScene,
+            "num": state.num,
+            "x": 0,
+            "y": 0,
+            "g": 0,
+            "w": 100,
+            "h": 100,
+          }
+          break;
+        }
+        default:
+          newLayer = {}
+      }
+      if(!state.layers) {
+        return {
+          ...state,
+          layers: [newLayer],
+          num: 2,
+        }
       }
       return {
         ...state,

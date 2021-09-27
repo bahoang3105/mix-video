@@ -11,17 +11,17 @@ import Group from './groupOfLayers';
 const ShowAdd = (props) => {
   return (
     <div className={`show-add-button${props.display}`}>
-      <TextButton />
-      <ImageButton />
-      <ShapeButton />
+      <TextButton curScene={props.curScene} />
+      <ImageButton curScene={props.curScene} />
+      <ShapeButton curScene={props.curScene} />
       <hr />
-      <VideoButton />
-      <AudioButton />
-      <ConferenceButton />
-      <EffectsButton />
-      <CommentButton />
+      <VideoButton curScene={props.curScene} />
+      <AudioButton curScene={props.curScene} />
+      <ConferenceButton curScene={props.curScene} />
+      <EffectsButton curScene={props.curScene} />
+      <CommentButton curScene={props.curScene} />
       <hr />
-      <Group />
+      <Group curScene={props.curScene} />
     </div>
   );
 }
