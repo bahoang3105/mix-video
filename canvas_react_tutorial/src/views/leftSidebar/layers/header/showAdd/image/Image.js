@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
+import { BiImageAlt } from 'react-icons/bi';
 
-const FilterUser = (props) => {
+const Image = (props) => {
   const [isSelect, setIsSelect] = useState('');
   return (
     <div
@@ -9,11 +9,11 @@ const FilterUser = (props) => {
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
     >
-      <AiOutlineUser />
+      <BiImageAlt />
       <span className='space' />
       {props.name}
     </div>
   );
 }
 
-export default FilterUser;
+export default Image;

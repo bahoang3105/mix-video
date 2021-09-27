@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
+import { GrObjectUngroup } from 'react-icons/gr';
 
-const FilterUser = (props) => {
+const GroupOfLayers = (props) => {
   const [isSelect, setIsSelect] = useState('');
   return (
     <div
@@ -9,11 +9,11 @@ const FilterUser = (props) => {
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
     >
-      <AiOutlineUser />
+      <GrObjectUngroup />
       <span className='space' />
       {props.name}
     </div>
   );
 }
 
-export default FilterUser;
+export default GroupOfLayers;

@@ -73,14 +73,14 @@
 
 #left-add {
   position: absolute;
-  left: 260px;
+  left: 248px;
   font-size: 21px;
   color: rgb(240, 0, 140);
 }
 
 #left-lock {
   position: absolute;
-  left: 236px;
+  left: 220px;
   font-size: 18px;
   padding-top: 2px;
   color: #969696;
@@ -138,4 +138,56 @@
 
 .on-select-duplicate {
   background-color: rgb(202, 202, 202);
+}
+
+.show-add-button {
+  color: #727272;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 15px;
+  display: block;
+  position: absolute;
+  left: 25px;
+  margin-top: -35px;
+  border: 1px solid rgb(190, 190, 190);
+  width: 170px;
+}
+
+.show-button-1 {
+  position: absolute;
+  display: block;
+  left: 175px;
+  border-radius: 5px;
+  width: 170px;
+  background-color: white;
+  margin-top: -39px;
+}
+
+.flex {
+  display: flex;
+}
+
+.absolute {
+  position: absolute;
+  left: 165px;
+  margin-top: -38px;
+}
+
+.left-add-buttons {
+  padding: 10px;
+}
+
+.space-1 {
+  padding: 19px;
+}
+
+.none-arrow {
+  display: none;
+}
+
+.arrow-select {
+  position: absolute;
+  left: 150px;
+  margin-top: -2px;
+  font-size: 20px;
 }

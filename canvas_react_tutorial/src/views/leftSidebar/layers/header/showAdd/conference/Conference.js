@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
+import { FcConferenceCall } from 'react-icons/fc';
 
-const FilterUser = (props) => {
+const Conference = (props) => {
   const [isSelect, setIsSelect] = useState('');
   return (
     <div
@@ -9,11 +9,11 @@ const FilterUser = (props) => {
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
     >
-      <AiOutlineUser />
+      <FcConferenceCall />
       <span className='space' />
       {props.name}
     </div>
   );
 }
 
-export default FilterUser;
+export default Conference;
