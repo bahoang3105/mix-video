@@ -16,8 +16,10 @@ const listVideo = (state = initialState, action) => {
       return;
     }
     case GET_VIDEOS: {
-
-      return;
+      return {
+        ...state,
+        videos: action.payload.videos
+      };
     }
     case DEL_VIDEO: {
 

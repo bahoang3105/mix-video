@@ -1,20 +1,20 @@
 .bottom-bars {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: rgb(107, 107, 107);
-  padding: 3px 0 -4.5px 0;
+  padding-left: 30px;
 }
 
 .scene-video-card {
-  padding: 3px 15px 3px 15px;
+  padding: 3px 15px 8px 15px;
   display: flex;
 }
 
 .button-add {
-  padding: 3px 15px 3px 15px;
+  padding: 5px 15px 3px 15px;
   display: flex;
   border-radius: 8px;
   border: 1px solid rgb(202, 202, 202);
-  margin-left: 950px;
+  margin-left: 920px;
 }
 
 .bottom-active {
@@ -30,4 +30,51 @@
 .bottom-bar-label {
   font-size: 15px;
   margin: 0 0 0 3px;
+}
+
+.on-select {
+  border-bottom: 2px solid rgb(240, 0, 140);
+}
+
+.scene-view {
+  border-radius: 8px;
+  margin-left: 20px;
+  height: 100px;
+  width: 170px;
+  padding-top: 4px;
+  border: 3px solid;
+}
+
+.name-scene-view {
+  color: white;
+  display: grid;
+  margin-top: 54px;
+  padding-left: 5px;
+  background-color: rgb(58, 58, 58);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.buttons-scene-view {
+  color:rgb(107, 107, 107);
+  background-color: rgb(202, 202, 202);
+  display: grid;
+  column-gap: 10px;
+  border-radius: 5px;
+  grid-template-columns: 20px 20px 20px;
+  margin: 0 4px 0 70px;
+  font-size: 18px;
+}
+
+.button-scene-view {
+  padding-left: 8px;
+  padding-top: 5px;
+}
+
+.list-scene {
+  display: flex;
+}
+
+.over-mouse {
+  color: black
 }

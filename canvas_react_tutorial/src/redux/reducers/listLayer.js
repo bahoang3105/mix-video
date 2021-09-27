@@ -6,6 +6,7 @@ import {
   LOCK_LAYER,
   HIDE_LAYER,
   CHANGE_LAYER,
+  CHANGE_CUR_LAYER,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
   ADD_TO_SCENE,
@@ -13,13 +14,28 @@ import {
 
 const initialState = {
   layers: null,
+  num: 0,
 };
 
 const listLayer = (state = initialState, action) => {
   switch(action.type) {
     case ADD_LAYER: {
+      const newLayer = {
+        "scene": state.curScene,
+        "type": action.payload.type,
+        "num": state.num,
+        "x": 0,
+        "y": 0,
+        "g": 0,
+        "w": 100,
+        "h": 100,
 
-      return;
+      }
+      return {
+        ...state,
+        layers: [...state.layers, newLayer],
+        num: state.num + 1,
+      };
     }
     case ADD_TO_SCENE: {
 
@@ -34,8 +50,11 @@ const listLayer = (state = initialState, action) => {
       return;
     }
     case GET_LAYERS: {
-
-      return;
+      return {
+        ...state,
+        layers: action.payload.layers,
+        num: action.payload.num,
+      };
     }
     case LOCK_LAYER: {
 
@@ -47,6 +66,10 @@ const listLayer = (state = initialState, action) => {
     }
     case CHANGE_LAYER: {
 
+      return;
+    }
+    case CHANGE_CUR_LAYER: {
+      
       return;
     }
     case ZOOMIN_LAYER: {

@@ -1,13 +1,25 @@
+import { useState } from "react";
 import Card from "./Card";
 import Dropdown from "./Dropdown";
 
-const Bars = () => {
+const Bars = (props) => {
+  const [isSelectScenes, setIsSelectScenes] = useState(true);
+  const colorScenes = isSelectScenes ? 'white' : '';
+  const colorSettings = isSelectScenes ? '' : 'white';
+  const onClickScenes = () => {
+    setIsSelectScenes(true);
+    props.isSelectScenes(true);
+  }
+  const onClickSettings = () => {
+    setIsSelectScenes(false);
+    props.isSelectScenes(false);
+  }
   return (
     <div className='bars' id='right-bar'>
       <Dropdown />
       <div className='cards'>
-        <Card name='Settings' />
-        <Card name='Scenes' color='white'/>
+        <Card name='Settings' color={colorSettings} onClick={onClickSettings} />
+        <Card name='Scenes' color={colorScenes} onClick={onClickScenes} />
       </div>
     </div>
   );

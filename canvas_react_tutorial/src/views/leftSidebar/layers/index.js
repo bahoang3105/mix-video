@@ -1,13 +1,42 @@
+import { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import { getLayers } from "../../../redux/actions";
+import { getCurScene, getListLayer } from "../../../redux/selectors";
 import Header from "./header";
 import Layer from "./layer";
 
-const Layers = () => {
+const Layers = ({ curScene, layers }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if(!layers) {
+      dispatch(getLayers());
+    };
+  });
+
+  const renderLayers = (layers, curScene) => {
+    if(!layers) return;
+    let listLayer = [];
+    for(let i = 0; i < layers.length; i++) {
+      if(layers[i].scene === curScene) {
+        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} />);
+      };
+    };
+    return listLayer;
+  };
+
   return(
     <div>
       <Header />
-      <Layer nameLayer='Layer 1das'/>
+      <div className='list-layer'>
+        {renderLayers(layers, curScene)}
+      </div>
     </div>
   );
 };
 
-export default Layers;
+const mapStateToProps = (state) => ({
+  layers: getListLayer(state),
+  curScene: getCurScene(state),
+});
+
+export default connect(mapStateToProps)(Layers);

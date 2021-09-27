@@ -3,7 +3,11 @@ import {
   ADD_SCENE,
   ADD_TO_SCENE,
   ADD_VIDEO,
+  CHANGE_NAME_LAYER,
+  CHANGE_NAME_SCENE,
+  CHANGE_NAME_VIDEO,
   CHANGE_LAYER,
+  CHANGE_CUR_LAYER,
   CREATE_THUMBNAIL,
   DEL_LAYER,
   DEL_SCENE,
@@ -11,19 +15,19 @@ import {
   DUPLICATE_LAYER,
   DUPLICATE_SCENE,
   GET_LAYERS,
-  GET_SCANES,
+  GET_SCENES,
   GET_VIDEOS,
   HIDE_LAYER,
   LOCK_LAYER,
   STOP_VIDEO,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
+  CHANGE_CUR_SCENE,
 } from './actionTypes';
 
 export const addLayer = (type, scene) => ({
   type: ADD_LAYER,
   payload: {
-    scene,
     type,
   }
 });
@@ -44,6 +48,38 @@ export const addToScene = (video, scene) => ({
   payload: {
     video,
     scene,
+  }
+});
+
+export const changeNameLayer = (newName, layer) => ({
+  type: CHANGE_NAME_LAYER,
+  payload: {
+    newName,
+    layer,
+  }
+});
+
+export const changeNameScene = (newName, scene) => ({
+  type: CHANGE_NAME_SCENE,
+  payload: {
+    newName,
+    scene,
+  }
+});
+
+export const changeCurScene = (scene, sceneName) => ({
+  type: CHANGE_CUR_SCENE,
+  payload: {
+    scene,
+    sceneName,
+  }
+});
+
+export const changeNameVideo = (newName, video) => ({
+  type: CHANGE_NAME_VIDEO,
+  payload: {
+    newName,
+    video,
   }
 });
 
@@ -92,7 +128,7 @@ export const duplicateLayer = layer => ({
   }
 });
 
-export const duplicateScene = scane => ({
+export const duplicateScene = scene => ({
   type: DUPLICATE_SCENE,
   payload: {
     scene,
@@ -101,11 +137,13 @@ export const duplicateScene = scane => ({
 
 export const getLayers = () => {
   return (dispatch) => {
-    const layers = localStorage.getItem('layers');
+    const layers = JSON.parse(localStorage.getItem('layers'));
+    const num = parseInt(localStorage.getItem('numLayer'));
     dispatch({
       type: GET_LAYERS,
       payload: {
         layers,
+        num,
       }
     });
   };
@@ -113,7 +151,7 @@ export const getLayers = () => {
 
 export const getVideos = () => {
   return (dispatch) => {
-    const videos = localStorage.getItem('videos');
+    const videos = JSON.parse(localStorage.getItem('videos'));
     dispatch({
       type: GET_VIDEOS,
       payload: {
@@ -125,11 +163,13 @@ export const getVideos = () => {
 
 export const getScenes = () => {
   return (dispatch) => {
-    const scenes = localStorage.getItem('scenes');
+    const scenes = JSON.parse(localStorage.getItem('scenes'));
+    const num = parseInt(localStorage.getItem('numScene'));
     dispatch({
-      type: GET_SCANES,
+      type: GET_SCENES,
       payload: {
         scenes,
+        num,
       }
     });
   };
@@ -165,6 +205,13 @@ export const zoominLayer = layer => ({
 
 export const zoomoutLayer = layer => ({
   type: ZOOMOUT_LAYER,
+  payload: {
+    layer,
+  }
+});
+
+export const changeCurLayer = layer => ({
+  type: CHANGE_CUR_LAYER,
   payload: {
     layer,
   }

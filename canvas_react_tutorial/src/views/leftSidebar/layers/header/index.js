@@ -1,15 +1,21 @@
+import { connect } from "react-redux";
+import { getCurSceneName } from "../../../../redux/selectors";
 import ButtonAdd from "./ButtonAdd";
 import ButtonLock from "./ButtonLock";
 import NameOfLayer from "./NameOfLayer";
 
-const Header = () => {
+const Header = ({ sceneName }) => {
   return(
     <div className='left-header'>
-      <NameOfLayer name='LAYERS OF SCENE 1'/>
+      <NameOfLayer name={sceneName}/>
       <ButtonLock />
       <ButtonAdd />
     </div>
   );
 };
 
-export default Header;
+const mapStateToProps = state => ({
+  sceneName: getCurSceneName(state),
+});
+
+export default connect(mapStateToProps)(Header);

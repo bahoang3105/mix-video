@@ -108,18 +108,34 @@
 }
 
 #buttons-layer {
-  position: fixed;
+  position: absolute;
   left: 185px;
   display: flex;
-}
-
-.flex {
   margin-top: -6px;
   padding: 5px 18px 5px 6px;
   border-radius: 8px;
+}
+
+.flex {
   background-color: white;
 }
 
 .none {
   visibility: hidden;
+}
+
+.duplicate-button {
+  position: absolute;
+  display: flex;
+  font-size: 13px;
+  left: 100px;
+  bottom: 1.8px;
+  background-color: white;
+  padding: 7px;
+  padding-right: 100px;
+  border-radius: 8px;
+}
+
+.on-select-duplicate {
+  background-color: rgb(202, 202, 202);
 }
