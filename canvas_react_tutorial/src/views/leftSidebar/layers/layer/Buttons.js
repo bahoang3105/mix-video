@@ -49,6 +49,7 @@ const Buttons = (props) => {
         <div 
           className={`duplicate-button${display}`}
           onMouseMove={() => setDisplay(' on-select-duplicate')}
+          onClick={props.duplicate}
         >
           <BiCopy />
           &nbsp;&nbsp;Duplicate

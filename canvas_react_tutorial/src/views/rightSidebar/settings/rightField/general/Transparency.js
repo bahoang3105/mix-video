@@ -2,14 +2,14 @@ const Transparency = (props) => {
   return (
     <div className='right-field'>
       <div className='right-field-name'>
-        Transparence
+        Transparency
       </div>
       <input
         type='range' 
         value={props.value} 
         max='100' 
         min='0' 
-        onChange={e => {props.setTrans(e.target.value)} }
+        onChange={e => {props.setValue('transparency', e.target.value)} }
         className='input-range'
       />
     </div>

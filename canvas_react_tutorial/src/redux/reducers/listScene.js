@@ -60,7 +60,6 @@ const listScene = (state = initialState, action) => {
           ...state.scenes.slice(0, place),
           ...state.scenes.slice(place+1)
         ],
-        num: state.num,
         curScene: curScene,
         curSceneName: curSceneName,
       };
@@ -68,8 +67,6 @@ const listScene = (state = initialState, action) => {
     case CHANGE_CUR_SCENE: {
       return {
         ...state,
-        scenes: state.scenes,
-        num: state.num,
         curScene: action.payload.scene,
         curSceneName: action.payload.sceneName,
       }

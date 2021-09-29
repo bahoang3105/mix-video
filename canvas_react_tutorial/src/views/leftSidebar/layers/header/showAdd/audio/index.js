@@ -3,7 +3,7 @@ import Audio from './Audio';
 import Library from './Library';
 import Micro from './Micro';
 
-const AudioButtons = () => {
+const AudioButtons = (props) => {
   const [displayAudio, setDisplayAudio] = useState(' none');
   return (
     <div
@@ -13,10 +13,10 @@ const AudioButtons = () => {
       <Audio name='Audio' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayAudio}`}>
-        <div>
+        <div onClick={() => props.addLayer('libraryAudio')}>
           <Library name='Audio Library' />
         </div>
-        <div>
+        <div onClick={() => props.addLayer('micro')}>
           <Micro name='Microphone' />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getCurLayer } from "../../../redux/selectors";
-import Genaral from "./general";
+import Text from './Text';
 
 const Settings = ({ curLayer }) => {
   const dispatch = useDispatch();
@@ -13,11 +13,11 @@ const Settings = ({ curLayer }) => {
 
   const renderSettings = curLayer => {
     if(curLayer.length === 0) return;
-    return(
-      <div>
-        <Genaral />
-      </div>
-    );
+    if(curLayer.type === 'text') {
+      return (
+        <Text data={curLayer} />
+      );
+    }
   }
   return(
     <div>

@@ -1,8 +1,8 @@
 import GroupOfLayers from './GroupOfLayers';
 
-const Group = () => {
+const Group = (props) => {
   return(
-    <div>
+    <div onClick={() => props.addLayer('group')}>
       <GroupOfLayers name='Group of layers' />
     </div>
   );

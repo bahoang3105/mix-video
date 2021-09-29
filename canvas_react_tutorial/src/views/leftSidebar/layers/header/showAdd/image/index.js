@@ -1,8 +1,8 @@
 import Image from './Image';
 
-const ImageButton = () => {
+const ImageButton = (props) => {
   return (
-    <div>
+    <div onClick={() => props.addLayer('image')}>
       <Image name='Image' />
     </div>
   );

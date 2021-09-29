@@ -4,7 +4,7 @@ import Rectangle from './Rectangle';
 import Triangle from './Triangle';
 import { useState } from 'react';
 
-const ShapeButton = () => {
+const ShapeButton = (props) => {
   const [displayShape, setDisplayShape] = useState(' none');
   return (
     <div
@@ -14,9 +14,15 @@ const ShapeButton = () => {
       <Shape name='Shape' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayShape}`}>
-        <Rectangle name='Rectangle' />
-        <Circle name='Circle' />
-        <Triangle name='Triangle' />
+        <div onClick={() => props.addLayer('rectangle')}>
+          <Rectangle name='Rectangle' />
+        </div>
+        <div onClick={() => props.addLayer('circle')}>
+          <Circle name='Circle' />
+        </div>
+        <div onClick={() => props.addLayer('triangle')}>
+          <Triangle name='Triangle' />
+        </div>
       </div>
     </div>
   );

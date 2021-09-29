@@ -1,8 +1,8 @@
 import Conference from './Conference';
 
-const ConferenceButton = () => {
+const ConferenceButton = (props) => {
   return (
-    <div>
+    <div onClick={() => props.addLayer('conference')}>
       <Conference name='Conference' />
     </div>
   );

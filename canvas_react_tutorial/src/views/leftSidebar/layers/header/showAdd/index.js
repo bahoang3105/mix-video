@@ -7,23 +7,31 @@ import ConferenceButton from './conference';
 import EffectsButton from './effects';
 import CommentButton from './comment';
 import Group from './groupOfLayers';
+import { connect } from 'react-redux';
+import { addLayer } from '../../../../../redux/actions';
 
 const ShowAdd = (props) => {
+  const addLayer = (type) => {
+    props.addLayer(type, props.curScene)
+  }
   return (
     <div className={`show-add-button${props.display}`}>
-      <TextButton curScene={props.curScene} />
-      <ImageButton curScene={props.curScene} />
-      <ShapeButton curScene={props.curScene} />
+      <TextButton curScene={props.curScene} addLayer={addLayer} />
+      <ImageButton curScene={props.curScene} addLayer={addLayer} />
+      <ShapeButton curScene={props.curScene} addLayer={addLayer} />
       <hr />
-      <VideoButton curScene={props.curScene} />
-      <AudioButton curScene={props.curScene} />
-      <ConferenceButton curScene={props.curScene} />
-      <EffectsButton curScene={props.curScene} />
-      <CommentButton curScene={props.curScene} />
+      <VideoButton curScene={props.curScene} addLayer={addLayer} />
+      <AudioButton curScene={props.curScene} addLayer={addLayer} />
+      <ConferenceButton curScene={props.curScene} addLayer={addLayer} />
+      <EffectsButton curScene={props.curScene} addLayer={addLayer} />
+      <CommentButton curScene={props.curScene} addLayer={addLayer} />
       <hr />
-      <Group curScene={props.curScene} />
+      <Group curScene={props.curScene} addLayer={addLayer} />
     </div>
   );
 }
 
-export default ShowAdd;
+export default connect(
+  null,
+  { addLayer }
+)(ShowAdd);

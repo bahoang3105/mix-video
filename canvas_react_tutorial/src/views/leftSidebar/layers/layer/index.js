@@ -4,6 +4,7 @@ import Icon from "./Icon";
 import {
   delLayer,
   changeCurLayer,
+  duplicateLayer,
 } from "../../../../redux/actions";
 import { connect } from "react-redux";
 
@@ -37,6 +38,7 @@ const Layer = (props) => {
         setShowDelete={onClickDelete}
         showDelete={showDelete}
         onClickDeleteOK={onClickDeleteOK}
+        duplicate={() => props.duplicateLayer(props.id)}
       />
     </div>
   );
@@ -44,5 +46,5 @@ const Layer = (props) => {
 
 export default connect(
   null,
-  { delLayer, changeCurLayer }
+  { delLayer, changeCurLayer, duplicateLayer }
 )(Layer);

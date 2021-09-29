@@ -5,7 +5,7 @@ import LuckyDial from './LuckyDial';
 import Prize from './Prize';
 import VirtualGift from './VirtualGift';
 
-const EffectButtons = () => {
+const EffectButtons = (props) => {
   const [displayEffects, setDisplayEffects] = useState(' none');
   return (
     <div 
@@ -15,10 +15,18 @@ const EffectButtons = () => {
       <Effects name='Effects' />
       <span className='space absolute' />
       <div className={`show-button-1${displayEffects}`}>
-        <VirtualGift name='Virtual Gift' />
-        <Countdown name='Countdown Timer' />
-        <LuckyDial name='Lucky Dial' />
-        <Prize name='Prize announcement' />
+        <div onClick={() => props.addLayer('virtualGift')}>
+          <VirtualGift name='Virtual Gift' />
+        </div>
+        <div onClick={() => props.addLayer('countdown')}>
+          <Countdown name='Countdown Timer' />
+        </div>
+        <div onClick={() => props.addLayer('luckyDial')}>
+          <LuckyDial name='Lucky Dial' />
+        </div>
+        <div onClick={() => props.addLayer('prize')}>
+          <Prize name='Prize announcement' />
+        </div>
       </div>
     </div>
   );

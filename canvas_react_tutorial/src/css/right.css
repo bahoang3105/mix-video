@@ -94,6 +94,7 @@
 .right-field {
   padding: 10px;
   border-bottom: 1px dashed rgb(194, 194, 194);
+  margin-bottom: 8px;
 }
 
 .right-field-name {
@@ -103,4 +104,48 @@
 
 .input-range {
   width: 90%;
+}
+
+.input-color {
+  border: 1px solid rgb(184, 184, 184);
+  font-size: 13px;
+  color: rgb(177, 177, 177);
+  position: absolute;
+  margin: -10px 0 0 80px;
+  padding: 2px 10px 2px 10px;
+  border-radius: 10px;
+}
+
+#input-color-grid {
+  margin-left: 10px;
+  border: none;
+  background: none;
+}
+
+.button-right-background {
+  position: absolute;
+  margin: -32px 0 0 195px;
+  font-size: 12px;
+}
+
+.button-input-color {
+  border: 1px solid rgb(199, 199, 199);
+  padding: 2px;
+  margin-left: 5px;
+}
+
+.button-input-color:hover {
+  background-color: aqua;
+  cursor: pointer;
+}
+
+.textarea-right {
+  border: 1px solid rgb(211, 211, 211);
+  border-radius: 8px;
+  font-size: small;
+  padding: 5px;
+}
+
+.textarea-right:hover {
+  border-color: rgb(175, 175, 175);
 }
