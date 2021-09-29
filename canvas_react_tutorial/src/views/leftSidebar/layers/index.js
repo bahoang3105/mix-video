@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getLayers } from "../../../redux/actions";
-import { getCurScene, getListLayer } from "../../../redux/selectors";
+import { getCurLayer, getCurScene, getListLayer } from "../../../redux/selectors";
 import Header from "./header";
 import Layer from "./layer";
 
-const Layers = ({ curScene, layers }) => {
+const Layers = ({ curScene, layers, curLayer }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if(!layers) {
@@ -13,12 +13,12 @@ const Layers = ({ curScene, layers }) => {
     };
   });
 
-  const renderLayers = (layers, curScene) => {
+  const renderLayers = (layers, curScene, curLayer) => {
     if(!layers) return;
     let listLayer = [];
     for(let i = 0; i < layers.length; i++) {
       if(layers[i].scene === curScene) {
-        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} />);
+        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} id={layers[i].num} selectedLayer={curLayer.num}/>);
       };
     };
     return listLayer;
@@ -28,7 +28,7 @@ const Layers = ({ curScene, layers }) => {
     <div>
       <Header curScene={curScene}/>
       <div className='list-layer'>
-        {renderLayers(layers, curScene)}
+        {renderLayers(layers, curScene, curLayer)}
       </div>
     </div>
   );
@@ -37,6 +37,7 @@ const Layers = ({ curScene, layers }) => {
 const mapStateToProps = (state) => ({
   layers: getListLayer(state),
   curScene: getCurScene(state),
+  curLayer: getCurLayer(state),
 });
 
 export default connect(mapStateToProps)(Layers);

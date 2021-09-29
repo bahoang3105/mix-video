@@ -30,3 +30,72 @@ html {
   padding-top: 15px;
   padding-bottom: 13px;
 }
+
+.modal {
+  top: 30%;
+  left: 50%;
+  right: auto;
+  bottom: auto;  
+  transform: translate(-50%, -50%);
+  position: fixed;
+  width: 190vh;
+  height: 100vh;
+  padding-top: 80vh;
+  background-color: rgb(219, 219, 219);
+  opacity: 85%;
+}
+
+.border-modal {
+  border: 1px solid black;
+  position: fixed;
+  left: 35%;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.x-close {
+  position: absolute;
+  color:rgb(151, 151, 151);
+  font-size: 18px;
+}
+
+.x-close:hover {
+  background-color: rgb(202, 202, 202);
+  border-radius: 15px;
+  color: rgb(158, 158, 158);
+  cursor: pointer;
+  padding: 0 5px 0 5px;
+  margin-left: -5px;
+}
+
+.modal-buttons {
+  position: absolute;
+}
+
+.modal-button {
+  padding: 10px;
+  margin-left: 10px;
+  width: 70px;
+  border: 1px solid rgb(172, 172, 172);
+  border-radius: 5px;
+}
+
+.ok {
+  background-color: rgb(105, 183, 247);
+  border: none;
+}
+
+.ok:hover {
+  cursor: pointer;
+}
+
+.cancel:hover {
+  background-color: rgb(213, 243, 255);
+  cursor: pointer;
+  color:rgb(105, 183, 247);
+}
+
+.pointer {
+  cursor: pointer;
+}

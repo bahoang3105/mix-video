@@ -90,3 +90,17 @@
   border-radius: 4px;
   padding: 5px;
 }
+
+.right-field {
+  padding: 10px;
+  border-bottom: 1px dashed rgb(194, 194, 194);
+}
+
+.right-field-name {
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.input-range {
+  width: 90%;
+}

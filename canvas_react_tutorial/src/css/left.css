@@ -92,9 +92,13 @@
   padding: 10px 0 5px 0;
 }
 
-.select-layer {
+.hover-layer {
   border: 1px solid rgb(129, 129, 129);
   margin: -1px -1px;
+}
+
+.selected-layer {
+  background-color: rgb(238, 253, 255);
 }
 
 .name-layer {
@@ -108,7 +112,7 @@
 }
 
 #buttons-layer {
-  opacity: 70%;
+  opacity: 80%;
   position: absolute;
   left: 185px;
   display: flex;
@@ -119,7 +123,7 @@
 }
 
 .flex {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
 }
 
 .none {
@@ -192,4 +196,11 @@
   left: 150px;
   margin-top: -2px;
   font-size: 20px;
+}
+
+.click-layer {
+  position: absolute;
+  width: 182px;
+  height: 36px;
+  margin-top: -10px;
 }

@@ -6,6 +6,8 @@ export const getLayerState = store => store.listLayer;
 
 export const getListLayer = store => getLayerState(store).layers;
 
+export const getCurLayer = store => getLayerState(store).curLayer;
+
 export const getSceneState = store => store.listScene;
 
 export const getListScene = store => getSceneState(store).scenes;

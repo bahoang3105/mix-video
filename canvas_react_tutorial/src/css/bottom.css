@@ -15,6 +15,7 @@
   border-radius: 8px;
   border: 1px solid rgb(202, 202, 202);
   margin-left: 920px;
+  width: 100px;
 }
 
 .bottom-active {
@@ -48,7 +49,7 @@
 .name-scene-view {
   color: white;
   display: grid;
-  margin-top: 54px;
+  margin-top: 83px;
   padding-left: 5px;
   background-color: rgb(58, 58, 58);
   border-bottom-left-radius: 6px;
@@ -64,11 +65,14 @@
   grid-template-columns: 20px 20px 20px;
   margin: 0 4px 0 70px;
   font-size: 18px;
+  position: absolute;
+  width: 95px;
 }
 
 .button-scene-view {
   padding-left: 8px;
   padding-top: 5px;
+  cursor: pointer;
 }
 
 .list-scene {
@@ -77,4 +81,79 @@
 
 .over-mouse {
   color: black
+}
+
+.modal-video-add {
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.video-add {
+  position: absolute;
+}
+
+.choose-add-video {
+  display: grid;
+  grid-template-columns: 150px 150px 150px;
+  column-gap: 25px;
+  margin-top: 25px;
+}
+
+.add-video-buttons {
+  text-align: center;
+  border: 1px solid rgb(212, 212, 212);
+  padding: 35px 5px 25px 5px;
+  border-radius: 5px;
+}
+
+.name-button-add-video {
+  font-size: 13px;
+  margin-top: 10px;
+  color: rgb(94, 94, 94);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.add-video-buttons:hover {
+  border-color: rgb(253, 76, 76);
+  border-width: 2px;
+  margin: -1px
+}
+
+.close-video {
+  left: 535px;
+  margin-top: -22px;
+}
+
+.close-layer-delete {
+  left: 435px;
+  margin-top: -22px;
+}
+
+.modal-button-delete {
+  left: 280px;
+  margin-top: 40px;
+}
+
+.border-modal-delete {
+  width: 400px;
+  height: 100px;
+}
+
+.click-scene-1 {
+  position: absolute;
+  width: 68px;
+  height: 33px;
+  margin-top: -5px;
+}
+
+.click-scene-2 {
+  position: absolute;
+  width: 170px;
+  height: 55px;
+  margin-top: 28px;
+}
+
+.inactive-true {
+  cursor: not-allowed;
+  color: rgb(141, 141, 141);
 }

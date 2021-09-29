@@ -1,11 +1,10 @@
 import SceneView from './SceneView';
 import { connect, useDispatch } from 'react-redux';
 import { getScenes } from '../../../redux/actions';
-import { getListScene } from '../../../redux/selectors';
-import { useEffect, useState } from 'react';
+import { getCurScene, getListScene } from '../../../redux/selectors';
+import { useEffect } from 'react';
 
-const Scenes = ({ scenes }) => {
-  const [sceneSelect, setSceneSelect] = useState(null);
+const Scenes = ({ scenes, curScene }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if(!scenes) {
@@ -13,16 +12,21 @@ const Scenes = ({ scenes }) => {
     };
   });
   
-  const changeSceneCss = scene => {
-    setSceneSelect(scene);
-  }
-  
   const renderScenes = scenes => {
     if(!scenes) return;
-    if(!sceneSelect) setSceneSelect(scenes[0].name);
+    const inactiveDelete = (scenes.length < 2) ? true : false
     let listScene = [];
     for(let i = 0; i< scenes.length; i++) {
-      listScene.push(<SceneView key={`${scenes[i].id}-view`} nameScene={scenes[i].name} img={scenes[i].img} changeSceneCss={changeSceneCss} onSelect={sceneSelect} id={scenes[i].num}/>);
+      listScene.push(
+        <SceneView
+          key={`${scenes[i].num}-view`} 
+          nameScene={scenes[i].name} 
+          img={scenes[i].img} 
+          onSelect={curScene} 
+          id={scenes[i].num} 
+          inactiveDelete={inactiveDelete}
+        />
+      );
     }
     return listScene;
   }
@@ -35,7 +39,8 @@ const Scenes = ({ scenes }) => {
 };
 
 const mapStateToProps = (state) => ({
-  scenes: getListScene(state)
+  scenes: getListScene(state),
+  curScene: getCurScene(state),
 });
 
 export default connect(mapStateToProps)(Scenes);

@@ -1,3 +1,4 @@
+import layers from '../../views/leftSidebar/layers';
 import {
   ADD_LAYER,
   DEL_LAYER,
@@ -15,6 +16,7 @@ import {
 const initialState = {
   layers: null,
   num: null,
+  curLayer: [],
 };
 
 const listLayer = (state = initialState, action) => {
@@ -39,17 +41,20 @@ const listLayer = (state = initialState, action) => {
         default:
           newLayer = {}
       }
+      const curLayer = (state.curLayer.length === 0) ? newLayer : state.curLayer;
       if(!state.layers) {
         return {
           ...state,
           layers: [newLayer],
           num: 2,
+          curLayer: curLayer,
         }
       }
       return {
         ...state,
         layers: [...state.layers, newLayer],
         num: state.num + 1,
+        curLayer: state.curLayer,
       };
     }
     case ADD_TO_SCENE: {
@@ -57,8 +62,19 @@ const listLayer = (state = initialState, action) => {
       return;
     }
     case DEL_LAYER: {
-
-      return;
+      const { layer } = action.payload;
+      const place = state.layers.findIndex(Layer => Layer.num === parseInt(layer));
+      console.log(state.curLayer)
+      const curLayer = (state.curLayer.length === 0) ? [] : (state.curLayer.num === layers[place].num) ? [] : state.curLayer;
+      return {
+        ...state,
+        layers: [
+          ...state.layers.slice(0, place),
+          ...state.layers.slice(place+1)
+        ],
+        curLayer: curLayer,
+        num: state.num,
+      }
     }
     case DUPLICATE_LAYER: {
 
@@ -69,6 +85,7 @@ const listLayer = (state = initialState, action) => {
         ...state,
         layers: action.payload.layers,
         num: action.payload.num,
+        curLayer: state.curLayer,
       };
     }
     case LOCK_LAYER: {
@@ -84,8 +101,13 @@ const listLayer = (state = initialState, action) => {
       return;
     }
     case CHANGE_CUR_LAYER: {
-      
-      return;
+      const curLayer = state.layers.find(Layer => Layer.num === action.payload.layer);
+      return {
+        ...state,
+        layers: state.layers,
+        num: state.num,
+        curLayer: curLayer,
+      }
     }
     case ZOOMIN_LAYER: {
 

@@ -11,28 +11,28 @@ import {
 } from '../../../redux/actions';
 
 const SceneView = (props) => {
-
   const [camera, setCamera] = useState('');
   const [copy, setCopy] = useState('');
   const [del, setDel] = useState('');
 
   const delScene = () => {
-    props.delScene(props.nameScene);
+    if(!props.inactiveDelete) {
+      props.delScene(props.nameScene);
+    }
   };
 
   const changeScene = () => {
-    props.changeSceneCss(props.nameScene);
     props.changeCurScene(props.id, props.nameScene);
   }
 
-  const color = (props.nameScene === props.onSelect) ? ' bottom-active' : '';
+  const color = (props.id === props.onSelect) ? ' bottom-active' : '';
 
   return(
     <div
       className={`scene-view${color}`}
       style={{ backgroundImage: `url(${props.img})` }}
-      onClick={changeScene}
     >
+      <div className='click-scene-1' onClick={changeScene}/>
       <div className='buttons-scene-view'>
         <div
           className={`button-scene-view${camera}`}
@@ -50,7 +50,7 @@ const SceneView = (props) => {
           <BiCopy />
         </div>
         <div
-          className={`button-scene-view${del}`}
+          className={`button-scene-view${del}${props.inactiveDelete ? ' inactive-true' : ''}`}
           onMouseOver={() => setDel(' over-mouse')}
           onMouseOut={() => setDel('')}
           onClick={delScene}
@@ -58,6 +58,7 @@ const SceneView = (props) => {
           <AiOutlineDelete />
         </div>
       </div>
+      <div className='click-scene-2' onClick={changeScene}/>
       <span className='name-scene-view' onDoubleClick={() => console.log('hahah')}>
         {props.nameScene}
       </span>

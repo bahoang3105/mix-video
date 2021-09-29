@@ -19,11 +19,13 @@ const listScene = (state = initialState, action) => {
   switch(action.type) {
     case ADD_SCENE: {
       const newName = 'Scene ' + state.num;
-      const newScene = {"id": state.num, "name": newName, "img": img, "num": state.num};
+      const newScene = {"num": state.num, "name": newName, "img": img};
       return {
         ...state,
         scenes: [...state.scenes, newScene],
-        num: state.num + 1, 
+        num: state.num + 1,
+        curScene: state.curScene,
+        curSceneName: state.curSceneName,
       };
     }
     case GET_SCENES: {
@@ -48,19 +50,19 @@ const listScene = (state = initialState, action) => {
     }
     case DEL_SCENE: {
       const { scene } = action.payload;
-      let place;
-      for(let i = 0; i < state.scenes.length; i++) {
-        if(scene === state.scenes[i].name) {
-          place = i;
-          break;
-        }
-      }
+      const place = state.scenes.findIndex(Scene => Scene.name === scene);
+      const curScene = (state.curScene === state.scenes[place].num) ? ((place === 0) ? state.scenes[1].num : state.scenes[0].num) : state.curScene;
+      const curSceneName = state.scenes.find(Scene => Scene.num === curScene).name;
+      
       return {
         ...state,
         scenes: [
           ...state.scenes.slice(0, place),
           ...state.scenes.slice(place+1)
-        ]
+        ],
+        num: state.num,
+        curScene: curScene,
+        curSceneName: curSceneName,
       };
     }
     case CHANGE_CUR_SCENE: {
