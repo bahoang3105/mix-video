@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Background = (props) => {
-  const initColor = (props.data === 'none') ? '#000000' : props.data;
+  const initColor = (props.data === 'none') ? '#ffffff' : props.data;
+  
   const [color, setColor] = useState(initColor);
+  useEffect(() => {
+    setColor(initColor);
+  }, [initColor]);
   return (
     <div className='right-field'>
       <div className='input-color'>

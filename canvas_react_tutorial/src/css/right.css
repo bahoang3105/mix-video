@@ -149,3 +149,56 @@
 .textarea-right:hover {
   border-color: rgb(175, 175, 175);
 }
+
+.input-corner {
+  position: absolute;
+  display: flex;
+  border: 1px solid rgb(185, 185, 185);
+  border-radius: 10px;
+  margin: -7px 0 0 55px;
+  height: 28px;
+}
+
+#input-value-corner {
+  border: none;
+  outline: none;
+  height: 18px;
+  padding-top: 5px;
+}
+
+.plus-minus {
+  margin: 0;
+  padding: 5px 5px 0 5px;
+  cursor: pointer;
+}
+
+.plus-minus:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.plus-minus:active {
+  background-color: rgb(226, 226, 226);
+}
+
+#icon-input-corner {
+  padding: 0 15px 0 10px;
+  padding-top: 5px;
+}
+
+#plus {
+  border-right: 1px solid rgb(185, 185, 185);
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+#minus {
+  padding-right: 8px;
+  border-left: 1px solid rgb(185, 185, 185);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+#corner-unit {
+  position: absolute;
+  margin: -34px 0 0 190px;
+}

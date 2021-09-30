@@ -1,0 +1,10 @@
+.canvas-logo {
+  position: absolute;
+  left: 1350px;
+  margin-top: -80px;
+  z-index: 500;
+}
+
+.canvas {
+  position: relative;
+}

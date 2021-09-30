@@ -8,6 +8,7 @@ import {
   duplicateScene,
   createThumbnail,
   changeCurScene,
+  changeCurLayer,
 } from '../../../redux/actions';
 
 const SceneView = (props) => {
@@ -23,6 +24,7 @@ const SceneView = (props) => {
 
   const changeScene = () => {
     props.changeCurScene(props.id, props.nameScene);
+    props.changeCurLayer(null);
   }
 
   const color = (props.id === props.onSelect) ? ' bottom-active' : '';
@@ -68,5 +70,5 @@ const SceneView = (props) => {
 
 export default connect(
   null,
-  { delScene, createThumbnail, duplicateScene, changeNameScene, changeCurScene }
+  { delScene, createThumbnail, duplicateScene, changeNameScene, changeCurScene, changeCurLayer }
 )(SceneView);

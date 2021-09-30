@@ -1,11 +1,14 @@
 import '../../css/content.css';
-import MainCanvas from './MainCanvas';
+import Logo from './logo/Logo';
+import Main from './Main';
+
 
 const Content = () => {
   return(
-    <div>
-      <MainCanvas />
-    </div>
+    <>
+      <Logo />
+      <Main />
+    </>
   );
 };
 

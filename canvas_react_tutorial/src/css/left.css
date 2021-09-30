@@ -157,6 +157,7 @@
   margin-top: -35px;
   border: 1px solid rgb(190, 190, 190);
   width: 170px;
+  z-index: 500;
 }
 
 .show-button-1 {

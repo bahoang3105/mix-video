@@ -32,20 +32,71 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
-            w: 100,
-            h: 100,
+            width: 100,
+            height: 100,
+            textAlign: 'left',
             background: 'none',
             text: 'Some text',
-            transparency: '100',
-            fontFamily: 'Courier New',
+            opacity: '100',
+            fontFamily: 'Arial',
             fontSize: 20,
             fontStyle: 'none',
-            fontColor: '#fff',
+            fontColor: '#ffffff',
             animation: 'none',
             direction: 'left',
             speed: '0.5',
             dropShadow: 'none',
             shadowColor: '#000',
+          }
+          break;
+        }
+        case 'rectangle': {
+          newLayer = {
+            name: 'Rectangle ' + state.num,
+            type: 'rectangle',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: 100,
+            height: 100,
+            fill: '#ffffff',
+            cornerRadius: 0,
+            opacity: 1,
+          }
+          break;
+        }
+        case 'circle': {
+          newLayer = {
+            name: 'Circle ' + state.num,
+            type: 'circle',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 50,
+            y: 50,
+            g: 0,
+            width: 100,
+            height: 100,
+            fill: '#ffffff',
+            opacity: 1,
+          }
+          break;
+        }
+        case 'triangle': {
+          newLayer = {
+            name: 'Triangle ' + state.num,
+            type: 'triangle',
+            scene: action.payload.curScene,
+            num: state.num,
+            sides: 3,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: 100,
+            height: 100,
+            fill: '#ffffff',
+            opacity: 1,
           }
           break;
         }
@@ -137,12 +188,12 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                x: action.payload.value
+                x: parseInt(action.payload.value)
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              x: action.payload.value
+              x: parseInt(action.payload.value)
             }
           }
         }
@@ -153,12 +204,12 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                y: action.payload.value
+                y: parseInt(action.payload.value)
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              y: action.payload.value
+              y: parseInt(action.payload.value)
             }
           }
         }
@@ -169,12 +220,12 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                g: action.payload.value
+                g: parseInt(action.payload.value)
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              g: action.payload.value
+              g: parseInt(action.payload.value)
             }
           }
         }
@@ -185,12 +236,12 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                w: action.payload.value
+                width: parseInt(action.payload.value)
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              w: action.payload.value
+              width: parseInt(action.payload.value)
             }
           }
         }
@@ -201,12 +252,12 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                h: action.payload.value
+                height: parseInt(action.payload.value)
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              h: action.payload.value
+              height: parseInt(action.payload.value)
             }
           }
         }
@@ -217,17 +268,16 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                transparency: action.payload.value
+                opacity: parseInt(action.payload.value) / 100
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              transparency: action.payload.value
+              opacity: parseInt(action.payload.value) / 100
             }
           }
         }
         case 'background': {
-          console.log(action.payload.value)
           const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
           return {
             ...state,
@@ -243,12 +293,45 @@ const listLayer = (state = initialState, action) => {
             }
           }
         }
+        case 'fill': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          const value = (action.payload.value === 'none') ? '' : action.payload.value;
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                fill: value
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              fill: value
+            }
+          }
+        }
+        case 'corner': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                cornerRadius: parseInt(action.payload.value)
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              cornerRadius: parseInt(action.payload.value)
+            }
+          }
+        }
         default:
           return state;
       }
     }
     case CHANGE_CUR_LAYER: {
-      const curLayer = state.layers.find(Layer => Layer.num === action.payload.layer);
+      const curLayer = (action.payload.layer === null) ? [] : state.layers.find(Layer => Layer.num === action.payload.layer);
       return {
         ...state,
         curLayer: curLayer,

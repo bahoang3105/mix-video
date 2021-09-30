@@ -3,7 +3,7 @@ import FullScreenExit from "./FullSreenExit";
 import InputField from "./InputField";
 import Transparency from "./Transparency";
 
-const Genaral = (props) => {
+const General = (props) => {
   return(
     <>
       <div className='field'>
@@ -13,17 +13,17 @@ const Genaral = (props) => {
           <InputField nameField='G' value={props.data.g} setValue={props.setValue} />
         </div>
         <div className='row-field'>
-          <InputField nameField="W" value={props.data.w} setValue={props.setValue} />
-          <InputField nameField='H' value={props.data.h} setValue={props.setValue} />
+          <InputField nameField="W" value={props.data.width} setValue={props.setValue} />
+          <InputField nameField='H' value={props.data.height} setValue={props.setValue} />
           <div className='full-screen'>
             <FullScreenExit />
             <FullScreen />
           </div>
         </div>
       </div>
-      <Transparency value={props.data.transparency} setValue={props.setValue}/>
+      <Transparency value={props.data.opacity * 100} setValue={props.setValue}/>
     </>
   );
 };
 
-export default Genaral;
+export default General;

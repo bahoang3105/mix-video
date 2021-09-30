@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getCurLayer } from "../../../redux/selectors";
+import Circle from "./Circle";
+import Rectangle from "./Rectangle";
 import Text from './Text';
+import Triangle from "./Triangle";
 
 const Settings = ({ curLayer }) => {
   const dispatch = useDispatch();
@@ -13,10 +16,29 @@ const Settings = ({ curLayer }) => {
 
   const renderSettings = curLayer => {
     if(curLayer.length === 0) return;
-    if(curLayer.type === 'text') {
-      return (
-        <Text data={curLayer} />
-      );
+    switch(curLayer.type) {
+      case 'text': {
+        return (
+          <Text data={curLayer} />
+        );
+      }
+      case 'rectangle': {
+        return (
+          <Rectangle data={curLayer} />
+        );
+      }
+      case 'circle': {
+        return (
+          <Circle data={curLayer} />
+        );
+      }
+      case 'triangle': {
+        return(
+          <Triangle data={curLayer} />
+        );
+      }
+      default:
+        return;
     }
   }
   return(

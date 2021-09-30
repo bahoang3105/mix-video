@@ -15,10 +15,12 @@ const Layers = ({ curScene, layers, curLayer }) => {
 
   const renderLayers = (layers, curScene, curLayer) => {
     if(!layers) return;
-    let listLayer = [];
+    const listLayer = [];
+    const checkCurLayer = (curLayer === []);
+    const num = checkCurLayer ? null : curLayer.num;
     for(let i = 0; i < layers.length; i++) {
       if(layers[i].scene === curScene) {
-        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} id={layers[i].num} selectedLayer={curLayer.num}/>);
+        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} id={layers[i].num} selectedLayer={num}/>);
       };
     };
     return listLayer;

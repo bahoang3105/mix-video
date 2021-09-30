@@ -39,7 +39,7 @@ const Icon = (props) => {
         return <BiImageAlt />;
       case 'circle':
         return <AiFillDribbbleCircle />;
-      case 'rentangle':
+      case 'rectangle':
         return <BsSquareFill />;
       case 'triangle':
         return <BsFillTriangleFill />;
