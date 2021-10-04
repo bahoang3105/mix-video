@@ -1,31 +1,76 @@
-import Canvas from "../logo/Canvas";
+import { Fragment, useEffect, useRef } from "react";
+import { Text, Rect, Transformer } from 'react-konva';
 
-const TextCanvas = ({ layer }) => {
-  const draw = (ctx) => {
-    ctx.canvas.height = (layer.h + layer.y > 690) ? 690 - layer.y : (layer.h + layer.y > 0) ? layer.h + layer.y : 0;
-    ctx.canvas.width = (layer.w + layer.x > 1260) ? 1260 - layer.x : (layer.w + layer.x > 0) ? layer.w + layer.x : 0;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.rotate(layer.g * Math.PI / 180);
-    if(layer.background !== 'none') {
-      ctx.fillStyle = layer.background;
-      ctx.fillRect(0, 0, layer.w, layer.h);
+const TextCanvas = (props) => {
+  const shapeRef = useRef();
+  const trRef = useRef();
+
+  useEffect(() => {
+    if (props.isSelected) {
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
     }
-    ctx.font = layer.fontSize + 'px ' + layer.fontFamily;
-    ctx.textAlign = layer.textAlign;
-    ctx.fillStyle = layer.fontColor;
-    ctx.fillText(layer.text, 0, 20);
+  }, [props.isSelected]);
+
+  const onMove = (x, y) => {
+    props.changeLayer('X', x);
+    props.changeLayer('Y', y);
   }
 
-  const options = {'context': '2d'};
-  
+  const onChange = (w, h, g) => {
+    if(g === props.shapeProps.g) {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    } else {
+      props.changeLayer('G', g);
+    }
+  }
+
+  const fontStyle = (props.shapeProps.style.length === 0) ? 'normal' : props.shapeProps.style.toString().replaceAll(',', ' ');
+
   return (
-    <Canvas
-      draw={draw} 
-      options={options} 
-      className='canvas' 
-      style={{position: 'absolute', left: (layer.x < 0) ? 293 : layer.x + 293, top: (layer.y < 0) ? 74 : layer.y + 74}}
-    />
+    <Fragment>
+      <Rect
+        ref={shapeRef}
+        fill={props.shapeProps.background}
+        {...props.shapeProps}
+        rotation={props.shapeProps.g}
+      />
+      <Text
+        onClick={props.onSelect}
+        ref={shapeRef}
+        fill={props.shapeProps.fontColor}
+        rotation={props.shapeProps.g}
+        fontStyle={fontStyle}
+        {...props.shapeProps}
+        shadowEnabled={props.shapeProps.dropShadow}
+        shadowOffsetX={props.shapeProps.fontSize / 10}
+        shadowOffsetY={props.shapeProps.fontSize / 10}
+        draggable={props.isSelected}
+        onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
+        onTransformEnd={() => {
+          const node = shapeRef.current;
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          node.scaleX(1);
+          node.scaleY(1);
+          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
+        }}
+      />
+      {props.isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
+    </Fragment>
   );
-}
+};
 
 export default TextCanvas;

@@ -17,7 +17,7 @@ const ShowAdd = (props) => {
   return (
     <div className={`show-add-button${props.display}`}>
       <TextButton curScene={props.curScene} addLayer={addLayer} />
-      <ImageButton curScene={props.curScene} addLayer={addLayer} />
+      <ImageButton curScene={props.curScene} setShow={props.setShowImage} />
       <ShapeButton curScene={props.curScene} addLayer={addLayer} />
       <hr />
       <VideoButton curScene={props.curScene} addLayer={addLayer} />

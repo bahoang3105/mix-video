@@ -6,7 +6,7 @@ import Transparency from "./Transparency";
 const General = (props) => {
   return(
     <>
-      <div className='field'>
+      <div className='right-field'>
         <div className='row-field'>
           <InputField nameField='X' value={props.data.x} setValue={props.setValue} />
           <InputField nameField='Y' value={props.data.y} setValue={props.setValue} />

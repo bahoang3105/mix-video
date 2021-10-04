@@ -11,7 +11,7 @@ const Scenes = ({ scenes, curScene }) => {
       dispatch(getScenes());
     };
   });
-  
+
   const renderScenes = scenes => {
     if(!scenes) return;
     const inactiveDelete = (scenes.length < 2) ? true : false

@@ -134,12 +134,12 @@
   position: absolute;
   display: flex;
   font-size: 13px;
-  left: 100px;
+  left: 87px;
   bottom: 1.8px;
   background-color: white;
   padding: 7px;
-  padding-right: 100px;
   border-radius: 8px;
+  z-index: 500;
 }
 
 .on-select-duplicate {
@@ -204,4 +204,31 @@
   width: 182px;
   height: 36px;
   margin-top: -10px;
+  cursor: text;
+}
+
+.close-add-image {
+  left: 540px;
+  margin-top: -22px;
+}
+
+.info-add-image {
+  font-size: 15px;
+  margin: 15px 0;
+}
+
+.input-url {
+  width: 480px;
+  padding: 6px;
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 8px;
+  outline: none;
+}
+
+.input-url:hover {
+  border-color: rgb(146, 146, 146);
+}
+
+.input-url:focus {
+  border-color: rgb(240, 0, 140);
 }

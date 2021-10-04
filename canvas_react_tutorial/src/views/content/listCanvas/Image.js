@@ -1,10 +1,15 @@
 import { Fragment, useEffect, useRef } from "react";
-import { Ellipse, Transformer } from 'react-konva';
+import { Image, Transformer } from 'react-konva';
+import useImage from 'use-image';
 
-const CircleCanvas = (props) => {
+const ImageCanvas = (props) => {
   const shapeRef = useRef();
   const trRef = useRef();
 
+  const flipX = props.shapeProps.flip ? -props.shapeProps.scaleX : props.shapeProps.scaleX;
+  const flipY = props.shapeProps.scaleY;
+
+  const offsetX = props.shapeProps.flip ? props.shapeProps.width * props.shapeProps.scaleX : 0;
   useEffect(() => {
     if (props.isSelected) {
       trRef.current.nodes([shapeRef.current]);
@@ -17,36 +22,34 @@ const CircleCanvas = (props) => {
     props.changeLayer('Y', y);
   }
 
-  const onChange = (w, h, g) => {
-    if(g === props.shapeProps.g) {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
-    } else {
-      props.changeLayer('G', g);
-    }
+  const onChange = (scaleX, scaleY, g) => {
+    props.changeLayer('scaleX', scaleX);
+    props.changeLayer('scaleY', scaleY);
+    props.changeLayer('G', g);
   }
 
+  const [img] = useImage(props.shapeProps.src);
 
   return (
     <Fragment>
-      <Ellipse
+      <Image
         onClick={props.onSelect}
         ref={shapeRef}
         fill={props.shapeProps.background}
         rotation={props.shapeProps.g}
-        radiusX={props.shapeProps.width}
-        radiusY={props.shapeProps.height}
         {...props.shapeProps}
+        image={img}
+        width={props.shapeProps.width * Math.abs(props.shapeProps.scaleX)}
+        height={props.shapeProps.height * Math.abs(props.shapeProps.scaleY)}
+        scaleX={flipX}
+        scaleY={flipY}
+        offsetX={offsetX}
         draggable={props.isSelected}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
-        onTransformEnd={(e) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
+          console.log(node.attrs)
+          onChange(node.scaleX(), node.scaleY(), node.rotation());
         }}
       />
       {props.isSelected && (
@@ -64,4 +67,4 @@ const CircleCanvas = (props) => {
   );
 };
 
-export default CircleCanvas;
+export default ImageCanvas;

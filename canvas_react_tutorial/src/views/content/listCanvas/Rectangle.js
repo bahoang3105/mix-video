@@ -18,9 +18,12 @@ const Rectangle = (props) => {
   }
 
   const onChange = (w, h, g) => {
-    props.changeLayer('W', w);
-    props.changeLayer('H', h);
-    props.changeLayer('G', g);
+    if(g === props.shapeProps.g) {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    } else {
+      props.changeLayer('G', g);
+    }
   }
 
   return (
@@ -28,9 +31,10 @@ const Rectangle = (props) => {
       <Rect
         onClick={props.onSelect}
         ref={shapeRef}
+        fill={props.shapeProps.background}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
-        draggable
+        draggable={props.isSelected}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;

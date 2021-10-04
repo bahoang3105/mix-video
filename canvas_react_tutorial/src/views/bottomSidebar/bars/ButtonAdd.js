@@ -49,7 +49,7 @@ const ButtonAdd = (props) => {
       show={show}
       onHide={() =>setShow(false)}
       backdrop={true}
-      className='modal modal-video-add'
+      className='modal'
     >
       <div className='border-modal'>
         <Modal.Header>
@@ -57,9 +57,9 @@ const ButtonAdd = (props) => {
           <Modal.Title>Add Video</Modal.Title>
         </Modal.Header>
         <Modal.Body className='choose-add-video'>
-          <Camera />
-          <Screen />
-          <Invite />
+          <Camera setShow={setShow}/>
+          <Screen setShow={setShow}/>
+          <Invite setShow={setShow}/>
         </Modal.Body>
       </div>
     </Modal>

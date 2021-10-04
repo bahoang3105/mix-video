@@ -18,21 +18,26 @@ const Triangle = (props) => {
   }
 
   const onChange = (w, h, g) => {
-    props.changeLayer('W', w);
-    props.changeLayer('H', h);
-    props.changeLayer('G', g);
+    if(g === props.shapeProps.g) {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    } else {
+      props.changeLayer('G', g);
+    }
   }
+
 
   return (
     <Fragment>
       <Line
         onClick={props.onSelect}
         ref={shapeRef}
+        fill={props.shapeProps.background}
         points={[props.shapeProps.width/2, 0, 0, props.shapeProps.height, props.shapeProps.width, props.shapeProps.height]}
         closed={true}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
-        draggable
+        draggable={props.isSelected}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;

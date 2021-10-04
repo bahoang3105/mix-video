@@ -10,11 +10,13 @@ import {
   changeCurScene,
   changeCurLayer,
 } from '../../../redux/actions';
+import RenameModal from "../../RenameModal";
 
 const SceneView = (props) => {
   const [camera, setCamera] = useState('');
   const [copy, setCopy] = useState('');
   const [del, setDel] = useState('');
+  const [show, setShow] = useState(false);
 
   const delScene = () => {
     if(!props.inactiveDelete) {
@@ -25,6 +27,10 @@ const SceneView = (props) => {
   const changeScene = () => {
     props.changeCurScene(props.id, props.nameScene);
     props.changeCurLayer(null);
+  }
+
+  const rename = newName => {
+    props.changeNameScene(newName, props.id);
   }
 
   const color = (props.id === props.onSelect) ? ' bottom-active' : '';
@@ -40,7 +46,6 @@ const SceneView = (props) => {
           className={`button-scene-view${camera}`}
           onMouseOver={() => setCamera(' over-mouse')}
           onMouseOut={() => setCamera('')}
-          // onClick
         >
           <AiOutlineCamera />
         </div>
@@ -61,9 +66,10 @@ const SceneView = (props) => {
         </div>
       </div>
       <div className='click-scene-2' onClick={changeScene}/>
-      <span className='name-scene-view' onDoubleClick={() => console.log('hahah')}>
+      <span className='name-scene-view' onDoubleClick={() => setShow(true)}>
         {props.nameScene}
       </span>
+      <RenameModal show={show} setShow={setShow} name={props.nameScene} rename={rename} />
     </div>
   );
 };

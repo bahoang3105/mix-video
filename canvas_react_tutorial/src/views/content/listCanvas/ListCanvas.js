@@ -1,6 +1,9 @@
 import CircleCanvas from './Circle';
 import Rectangle from './Rectangle';
+import TextCanvas from './TextCanvas';
 import Triangle from './Triangle';
+import ImageCanvas from './Image';
+
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
   const renderCanvas = (layers, curLayer, curScene) => {
@@ -36,6 +39,30 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
           case 'triangle': {
             listCanvas.push(
               <Triangle
+                key={`triangle-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
+          case 'text': {
+            listCanvas.push(
+              <TextCanvas
+                key={`triangle-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
+          case 'image': {
+            listCanvas.push(
+              <ImageCanvas
                 key={`triangle-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}

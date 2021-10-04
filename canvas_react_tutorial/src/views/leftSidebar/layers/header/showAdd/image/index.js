@@ -2,7 +2,7 @@ import Image from './Image';
 
 const ImageButton = (props) => {
   return (
-    <div onClick={() => props.addLayer('image')}>
+    <div onClick={() => props.setShow(true)}>
       <Image name='Image' />
     </div>
   );

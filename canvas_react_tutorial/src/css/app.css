@@ -38,11 +38,13 @@ html {
   bottom: auto;  
   transform: translate(-50%, -50%);
   position: fixed;
-  width: 190vh;
+  width: 100vw;
   height: 100vh;
   padding-top: 80vh;
   background-color: rgb(219, 219, 219);
   opacity: 85%;
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .border-modal {
@@ -98,4 +100,56 @@ html {
 
 .pointer {
   cursor: pointer;
+}
+
+.title-rename {
+  font-size: 15px;
+  margin: 15px 258px 15px 0;
+}
+
+.input-rename {
+  width: 460px;
+  padding: 6px 15px;
+  font-size: 15px;
+  border: 1px solid rgb(194, 194, 194);
+  border-radius: 10px;
+  outline: none;
+}
+
+.input-rename:hover {
+  border-color: rgb(168, 168, 168);
+}
+
+.input-rename:focus {
+  border-color: rgb(240, 0, 140);
+}
+
+.modal-button-ok-cancel {
+  display: flex;
+  margin: 30px 0 0 370px;
+  font-size: 15px;
+}
+
+.modal-ok {
+  margin-right: 8px;
+  border-radius: 8px;
+  padding: 6px 13px 3px 12px;
+  background-color: rgb(32, 166, 255);
+  color: white;
+}
+
+.modal-ok:hover {
+  background-color: rgb(135, 206, 253);
+}
+
+.modal-cancel {
+  border: 1px solid rgb(207, 207, 207);
+  border-radius: 8px;
+  padding: 5px 10px 3px 10px;
+  color: black;
+}
+
+.modal-cancel:hover {
+  background-color: rgb(231, 245, 255);
+  color:rgb(0, 153, 255)
 }

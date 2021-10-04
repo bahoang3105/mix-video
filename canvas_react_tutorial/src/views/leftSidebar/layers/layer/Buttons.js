@@ -52,7 +52,6 @@ const Buttons = (props) => {
           onClick={props.duplicate}
         >
           <BiCopy />
-          &nbsp;&nbsp;Duplicate
         </div>
       </div>
     </div>

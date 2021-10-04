@@ -82,13 +82,15 @@
 
 .scene-name {
   padding: 14px 15px;
-  margin-right: 170px;
+  position: relative;
 }
 
 .scene-tick {
+  position: absolute;
   border: 1.5px solid rgb(192, 192, 192);
   border-radius: 4px;
   padding: 5px;
+  margin: -15px 0 0 230px;
 }
 
 .right-field {
@@ -166,6 +168,13 @@
   padding-top: 5px;
 }
 
+#input-value-speed {
+  border: none;
+  outline: none;
+  height: 18px;
+  padding-top: 5px;
+}
+
 .plus-minus {
   margin: 0;
   padding: 5px 5px 0 5px;
@@ -185,13 +194,13 @@
   padding-top: 5px;
 }
 
-#plus {
+.plus {
   border-right: 1px solid rgb(185, 185, 185);
   border-bottom-left-radius: 8px;
   border-top-left-radius: 8px;
 }
 
-#minus {
+.minus {
   padding-right: 8px;
   border-left: 1px solid rgb(185, 185, 185);
   border-top-right-radius: 8px;
@@ -201,4 +210,186 @@
 #corner-unit {
   position: absolute;
   margin: -34px 0 0 190px;
+}
+
+#align {
+  display: flex;
+  margin: -10px 0 0 85px;
+  font-size: 22px;
+}
+
+.button-align {
+  margin-left: 2px;
+  padding: 4px 4px 0 4px;
+  border-radius: 5px;
+}
+
+.on-select-align {
+  background-color: rgb(207, 207, 207);
+}
+
+.row-font {
+  display: flex;
+}
+
+.font-family {
+  padding: 6px 15px 7px 7px;
+  border-radius: 8px;
+  background-color: white;
+  outline: none;
+  border: 1px solid rgb(214, 214, 214);
+}
+
+.font-family:hover {
+  border-color: rgb(201, 201, 201);
+}
+
+.font-family:active {
+  border-color: tomato;
+}
+
+#input-size {
+  margin: 1px 0 0 110px
+}
+
+#font-input-color {
+  position: relative !important;
+  margin: 10px 15px 0 0;
+}
+
+#button-color-font {
+  margin: 20px 0 0 185px;
+}
+
+#font-style {
+  display: flex;
+  font-size: 18px;
+  margin: 15px 3px 0 0;
+}
+
+.font-style {
+  padding: 3px 2px 0 2px;
+  margin: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.switch {
+  position: absolute;
+  margin: -17px 0 0 220px;
+  display: inline-block;
+  width: 30px;
+  height: 14px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 1px;
+  bottom: 1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.animation-name {
+  font-size: 15px;
+  color: rgb(116, 116, 116);
+}
+
+#setting-speed {
+  display: flex;
+  margin: 15px 0 0 -4px;
+}
+
+.crease-speed {
+  padding: 5px 10px 1px 10px;
+  border: 1px solid rgb(179, 179, 179);
+  border-radius: 9px;
+  margin-left: 5px;
+}
+
+#icon-input-speed {
+  font-size: 13px;
+  color: rgb(180, 180, 180);
+  padding: 6px 18px 0 10px;
+}
+
+#input-speed {
+  margin: -2px 0 0 110px;
+}
+
+.hidden-effect {
+  display: none;
+}
+
+#drop-shadow {
+  margin-top: 15px;
+}
+
+.input-button {
+  font-size: 13px;
+  color: rgb(180, 180, 180);
+  padding: 6px 18px 0 10px;
+}
+
+#shadow-input-color {
+  position: relative !important;
+  margin: 15px 0 13px 0;
+  width: 120px;
+}
+
+.input-color-grid {
+  border: none;
+  outline: none;
+  background-color: white;
+  margin: 0 15px 0 25px;
+}
+
+.shadow-button {
+  margin: -19px 0 0 160px;
+  color: black !important;
 }

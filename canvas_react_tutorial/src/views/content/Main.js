@@ -27,7 +27,7 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer }) => {
     <Stage
       width={1270}
       height={700}
-      style={{ backgroundColor: '#969ca5' }}
+      style={{ backgroundColor: '#969ca5', zIndex: 800 }}
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
     >

@@ -5,6 +5,7 @@ import {
   DUPLICATE_SCENE,
   CREATE_THUMBNAIL,
   CHANGE_CUR_SCENE,
+  CHANGE_NAME_SCENE,
 } from '../actionTypes';
 
 const initialState = {
@@ -69,6 +70,22 @@ const listScene = (state = initialState, action) => {
         ...state,
         curScene: action.payload.scene,
         curSceneName: action.payload.sceneName,
+      }
+    }
+    case CHANGE_NAME_SCENE: {
+      const place = state.scenes.findIndex(Scene => Scene.num === action.payload.scene);
+      const curSceneName = (state.curScene === action.payload.scene) ? action.payload.newName : state.curSceneName;
+      return {
+        ...state,
+        scenes: [
+          ...state.scenes.slice(0, place),
+          {
+            ...state.scenes[place],
+            name: action.payload.newName
+          },
+          ...state.scenes.slice(place+1)
+        ],
+        curSceneName: curSceneName,
       }
     }
     case DUPLICATE_SCENE: {

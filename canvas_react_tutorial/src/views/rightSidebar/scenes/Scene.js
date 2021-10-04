@@ -1,10 +1,10 @@
 const Scene = (props) => {
   return(
     <div className='scene-card'>
-      <span className='scene-name'>
+      <div className='scene-name'>
         {props.name}
-      </span>
-      <p className='scene-tick'></p>
+        <p className='scene-tick'></p>
+      </div>
     </div>
   );
 };

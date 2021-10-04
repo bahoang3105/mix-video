@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getCurLayer } from "../../../redux/selectors";
 import Circle from "./Circle";
+import Image from "./Image";
 import Rectangle from "./Rectangle";
 import Text from './Text';
 import Triangle from "./Triangle";
@@ -35,6 +36,11 @@ const Settings = ({ curLayer }) => {
       case 'triangle': {
         return(
           <Triangle data={curLayer} />
+        );
+      }
+      case 'image': {
+        return(
+          <Image data={curLayer} />
         );
       }
       default:
