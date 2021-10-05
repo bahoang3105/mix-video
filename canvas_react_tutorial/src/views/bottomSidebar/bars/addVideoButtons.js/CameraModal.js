@@ -42,7 +42,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
       dispatch(getMicroDevices());
     }
     if(cameraDevices && microDevices) {
-      setCamera(cameraDevices[0].deviceId);
+      setCamera(cameraDevices[0].deviceId, false);
     }
   }, [cameraDevices, microDevices, dispatch]);
 
