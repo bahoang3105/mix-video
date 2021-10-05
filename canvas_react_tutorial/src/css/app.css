@@ -60,15 +60,14 @@ html {
   position: absolute;
   color:rgb(151, 151, 151);
   font-size: 18px;
+  border-radius: 15px;
+  padding: 0 5px 0 5px;
 }
 
 .x-close:hover {
   background-color: rgb(202, 202, 202);
-  border-radius: 15px;
   color: rgb(158, 158, 158);
   cursor: pointer;
-  padding: 0 5px 0 5px;
-  margin-left: -5px;
 }
 
 .modal-buttons {

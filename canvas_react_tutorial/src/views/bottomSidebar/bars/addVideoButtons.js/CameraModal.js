@@ -4,14 +4,14 @@ import { connect, useDispatch } from 'react-redux';
 import { getMicroDevices, getCameraDevices } from '../../../../redux/actions';
 import { getListCamera, getListMicro } from '../../../../redux/selectors';
 
-const getUserMedia = async (cameraId, audioId) => {
+const getUserMedia = async (cameraId, microId) => {
   try {
-    const constraints = (audioId !== 'false') ? {
+    const constraints = (microId !== false && microId !== 'false') ? {
       video: {
         deviceId: cameraId,
       },
       audio: {
-        deviceId: audioId,
+        deviceId: microId,
         echoCancellation: true,
       }
     } : {
@@ -41,8 +41,8 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
     if(!microDevices) {
       dispatch(getMicroDevices());
     }
-    if(cameraDevices && microDevices) {
-      setCamera(cameraDevices[0].deviceId, false);
+    if(cameraDevices !== null) {
+      setCamera(cameraDevices[0].deviceId);
     }
   }, [cameraDevices, microDevices, dispatch]);
 

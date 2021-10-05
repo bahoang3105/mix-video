@@ -197,7 +197,6 @@ export const getMicroDevices = () => {
 export const getCameraDevices = () => {
   return async (dispatch) => {
     try {
-      console.log(1);
       const devices = await navigator.mediaDevices.enumerateDevices();
       const listCamera = devices.filter(device => device.kind === 'videoinput');
       dispatch({

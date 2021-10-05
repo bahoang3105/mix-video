@@ -34,7 +34,6 @@ const listVideo = (state = initialState, action) => {
       return;
     }
     case GET_CAMERA_DEVICES: {
-      console.log('huhu')
       return {
         ...state,
         cameraDevices: action.payload,
