@@ -48,7 +48,6 @@ const ImageCanvas = (props) => {
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;
-          console.log(node.attrs)
           onChange(node.scaleX(), node.scaleY(), node.rotation());
         }}
       />

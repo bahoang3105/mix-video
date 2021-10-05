@@ -12,3 +12,32 @@
 .close-camera {
   margin: -20px 0 0 450px;
 }
+
+.select-devices {
+  font-size: 18px;
+  margin: 15px 0 2px 0;
+}
+
+.select-video-audio {
+  width: 60%;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 5px;
+  outline: none;
+  padding: 0 10px 2px 5px;
+}
+
+.apply-video {
+  border-radius: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: black;
+  font-weight: 500;
+  font-size: 15px;
+  background-color: #ff0059;
+  padding: 8px 8px 8px 145px;
+  margin: 20px 15px 0 15px;
+}
+
+.apply-video:hover {
+  background-color: #c50447;
+}

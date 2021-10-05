@@ -11,13 +11,23 @@ const initialState = {
   videos: [],
   cameraDevices: null,
   microDevices: null,
+  num: 1,
 };
 
 const listVideo = (state = initialState, action) => {
   switch(action.type) {
     case ADD_VIDEO: {
-
-      return;
+      const newVideo = {
+        ...action.payload,
+        num: state.num,
+        name: action.payload.name,
+        info: action.payload.info,
+      };
+      return {
+        ...state,
+        videos: [...state.videos, newVideo],
+        num: state.num + 1,
+      }
     }
     case GET_VIDEOS: {
       return {

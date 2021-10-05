@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getVideos } from "../../../redux/actions";
 import { getListVideo } from "../../../redux/selectors";
+import VideoView from "./VideoView";
 
 const Videos = ({ videos }) => {
   const dispatch = useDispatch();
@@ -12,12 +13,22 @@ const Videos = ({ videos }) => {
   });
 
   const renderVideos = videos => {
-    if(!videos) return 'hah';
-    return 'hihihi';
+    if(!videos) return;
+    const listVideo = [];
+    for(let i = 0; i < videos.length; i++) {
+      listVideo.push(
+        <VideoView
+          key={`video-${videos[i].num}`}
+          name={videos[i].name}
+          info={videos[i].info}
+        />
+      );
+    }
+    return listVideo;
   };
 
   return(
-    <div className='list-video'>
+    <div className='list-bottom'>
       {renderVideos(videos)}
     </div>
   );

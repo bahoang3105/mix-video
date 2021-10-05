@@ -32,7 +32,7 @@ const Scenes = ({ scenes, curScene }) => {
   }
 
   return(
-    <div className='list-scene'>
+    <div className='list-bottom'>
       {renderScenes(scenes)}
     </div>
   );

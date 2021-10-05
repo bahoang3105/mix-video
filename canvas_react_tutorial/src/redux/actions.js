@@ -40,10 +40,12 @@ export const addScene = () => ({
   type: ADD_SCENE,
 });
 
-export const addVideo = type => ({
+export const addVideo = (type, name, info) => ({
   type: ADD_VIDEO,
   payload: {
     type,
+    name,
+    info,
   }
 });
 

@@ -76,7 +76,7 @@
   cursor: pointer;
 }
 
-.list-scene {
+.list-bottom {
   display: flex;
 }
 
@@ -152,4 +152,38 @@
 .inactive-true {
   cursor: not-allowed;
   color: rgb(141, 141, 141);
+}
+
+.video-view {
+  border: none;
+  height: 120px !important;
+}
+
+.black-background {
+  background-color: black;
+}
+
+.video-content {
+  position: absolute;
+  margin: -4px 0 0 0px;
+  border-radius: 30px;
+  height: 110px;
+  width: 170px;
+}
+
+.video-content.video {
+  position: absolute;
+}
+
+.name-video-view {
+  position: absolute;
+  width: 165px;
+  font-size: 12px;
+  color: white;
+  display: grid;
+  margin-top: 106px;
+  padding-left: 5px;
+  background-color: rgb(58, 58, 58);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }

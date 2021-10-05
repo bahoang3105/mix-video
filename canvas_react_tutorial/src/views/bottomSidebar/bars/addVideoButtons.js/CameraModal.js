@@ -1,37 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { connect, useDispatch } from 'react-redux';
-import { getMicroDevices, getCameraDevices } from '../../../../redux/actions';
+import { getMicroDevices, getCameraDevices, addVideo } from '../../../../redux/actions';
 import { getListCamera, getListMicro } from '../../../../redux/selectors';
+import getUserMedia from '../../videos/getUserMedia';
 
-const getUserMedia = async (cameraId, microId) => {
-  try {
-    const constraints = (microId !== false && microId !== 'false') ? {
-      video: {
-        deviceId: cameraId,
-      },
-      audio: {
-        deviceId: microId,
-        echoCancellation: true,
-      }
-    } : {
-      video: {
-        deviceId: cameraId,
-      },
-      audio: false,
-    };
-    return await navigator.mediaDevices.getUserMedia(constraints);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
+const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo }) => {
   const videoRef = useRef(null);
 
 
   const [camera, setCamera] = useState(null);
   const [micro, setMicro] = useState(false);
+  const [label, setLabel] = useState('');
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -43,6 +23,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
     }
     if(cameraDevices !== null) {
       setCamera(cameraDevices[0].deviceId);
+      setLabel(cameraDevices[0].label);
     }
   }, [cameraDevices, microDevices, dispatch]);
 
@@ -62,7 +43,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
       return list;
     };
     for(let i = 0; i < microDevices.length; i++) {
-      list.push(<option value={microDevices[i].deviceId} key={microDevices[i].deviceId}>{microDevices[i].label}</option>);
+      list.push(<option value={microDevices[i].label} key={microDevices[i].deviceId}>{microDevices[i].label}</option>);
     }
     list.push(<option value={false} key='mute'>No microphone</option>);
     return list;
@@ -76,6 +57,16 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
 
   if(cameraDevices !== null && microDevices !== null) {
     getVideo(camera, micro);
+  }
+
+  const addCamera = () => {
+    addVideo('camera', label, {camera, micro});
+    setShow(false);
+  }
+
+  const changeCamera = e => {
+    setCamera(e.target.key);
+    setLabel(e.target.value);
   }
 
   return (
@@ -96,13 +87,12 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
           <div className='info-add-image'>
             <video width={450} height={300} ref={videoRef} autoPlay></video>
           </div>
-          <div className='select-divices'>
+          <div className='select-devices'>
             Add Camera
           </div>
           <select
             className='select-video-audio'
-            defaultValue={false}
-            onChange={e => setCamera(e.target.value)}
+            onChange={e => changeCamera(e)}
           >
             {renderListVideo()}
           </select>
@@ -110,14 +100,15 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices }) => {
             Microphone
           </div>
           <select 
-            className='select-video-audio'  
-            onChange={e => setMicro(e.target.value)}
+            className='select-video-audio'
+            defaultValue={false}
+            onChange={e => setMicro(e.target.key)}
           >
             {renderListAudio()}
           </select>
         </Modal.Body>
         <Modal.Footer>
-          <div className='apply-video'>
+          <div className='apply-video' onClick={addCamera}>
             Apply for this scene
           </div>
         </Modal.Footer>
@@ -131,4 +122,7 @@ const mapStateToProps = state => ({
   microDevices: getListMicro(state),
 });
 
-export default connect(mapStateToProps)(CameraModal);
+export default connect(
+  mapStateToProps,
+  { addVideo }
+)(CameraModal);
