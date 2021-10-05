@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Camera from "./addVideoButtons.js/Camera";
 import Invite from "./addVideoButtons.js/Invite";
 import Screen from "./addVideoButtons.js/Screen";
+import CameraModal from "./addVideoButtons.js/CameraModal";
 
 const ButtonAdd = (props) => {
   const [color, setColor] = useState('bottom-inactive');
@@ -17,6 +18,7 @@ const ButtonAdd = (props) => {
     }
   }
   const [show, setShow] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
   if(props.name === 'scene') {
     return(
       <div
@@ -32,6 +34,15 @@ const ButtonAdd = (props) => {
       </div>
     );
   }
+
+  const renderCamera = () => {
+    if(showCamera) {
+      return (
+        <CameraModal show={showCamera} setShow={setShowCamera} />
+      );
+    }
+  }
+
   return(
     <>
     <div
@@ -57,12 +68,13 @@ const ButtonAdd = (props) => {
           <Modal.Title>Add Video</Modal.Title>
         </Modal.Header>
         <Modal.Body className='choose-add-video'>
-          <Camera setShow={setShow}/>
+          <Camera setShow={setShow} setShowCamera={setShowCamera} />
           <Screen setShow={setShow}/>
           <Invite setShow={setShow}/>
         </Modal.Body>
       </div>
     </Modal>
+    {renderCamera()}
     </>
   );
 };

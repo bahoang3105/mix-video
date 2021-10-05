@@ -17,6 +17,8 @@ import {
   GET_LAYERS,
   GET_SCENES,
   GET_VIDEOS,
+  GET_AUDIO_DEVICES,
+  GET_CAMERA_DEVICES,
   HIDE_LAYER,
   LOCK_LAYER,
   STOP_VIDEO,
@@ -176,6 +178,37 @@ export const getScenes = () => {
     });
   };
 };
+
+export const getMicroDevices = () => {
+  return async (dispatch) => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const listMicro = devices.filter(device => device.kind === 'audioinput');
+      dispatch({
+        type: GET_AUDIO_DEVICES,
+        payload: listMicro,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+export const getCameraDevices = () => {
+  return async (dispatch) => {
+    try {
+      console.log(1);
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const listCamera = devices.filter(device => device.kind === 'videoinput');
+      dispatch({
+        type: GET_CAMERA_DEVICES,
+        payload: listCamera,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
 
 export const hideLayer = layer => ({
   type: HIDE_LAYER,

@@ -12,6 +12,8 @@ export const ADD_TO_SCENE = 'ADD_TO_SCENE';
 export const STOP_VIDEO = 'STOP_VIDEO';
 export const GET_VIDEOS = 'GET_VIDEOS';
 export const CHANGE_NAME_VIDEO = 'CHANGE_NAME_VIDEO';
+export const GET_CAMERA_DEVICES = 'GET_CAMERA_DEVICES';
+export const GET_AUDIO_DEVICES = 'GET_AUDIO_DEVICES';
 
 export const ADD_LAYER = 'ADD_LAYER';
 export const HIDE_LAYER = 'HIDE_LAYER';
