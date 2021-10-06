@@ -7,6 +7,8 @@ const getUserMedia = async (cameraId, microId) => {
       audio: {
         deviceId: microId,
         echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44100
       }
     } : {
       video: {

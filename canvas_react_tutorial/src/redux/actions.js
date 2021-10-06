@@ -1,7 +1,6 @@
 import {
   ADD_LAYER,
   ADD_SCENE,
-  ADD_TO_SCENE,
   ADD_VIDEO,
   CHANGE_NAME_LAYER,
   CHANGE_NAME_SCENE,
@@ -12,13 +11,11 @@ import {
   DEL_LAYER,
   DEL_SCENE,
   DEL_VIDEO,
+  DEL_VIDEO_LAYER,
   DUPLICATE_LAYER,
   DUPLICATE_SCENE,
   GET_LAYERS,
   GET_SCENES,
-  GET_VIDEOS,
-  GET_AUDIO_DEVICES,
-  GET_CAMERA_DEVICES,
   HIDE_LAYER,
   LOCK_LAYER,
   STOP_VIDEO,
@@ -40,20 +37,12 @@ export const addScene = () => ({
   type: ADD_SCENE,
 });
 
-export const addVideo = (type, name, info) => ({
+export const addVideo = (type, name, src) => ({
   type: ADD_VIDEO,
   payload: {
     type,
     name,
-    info,
-  }
-});
-
-export const addToScene = (video, scene) => ({
-  type: ADD_TO_SCENE,
-  payload: {
-    video,
-    scene,
+    src,
   }
 });
 
@@ -127,6 +116,13 @@ export const delVideo = video => ({
   }
 });
 
+export const delVideoLayer = videoSrc => ({
+  type: DEL_VIDEO_LAYER,
+  payload: {
+    videoSrc,
+  }
+});
+
 export const duplicateLayer = layer => ({
   type: DUPLICATE_LAYER,
   payload: {
@@ -155,18 +151,6 @@ export const getLayers = () => {
   };
 };
 
-export const getVideos = () => {
-  return (dispatch) => {
-    const videos = JSON.parse(localStorage.getItem('videos'));
-    dispatch({
-      type: GET_VIDEOS,
-      payload: {
-        videos,
-      }
-    });
-  };
-};
-
 export const getScenes = () => {
   return (dispatch) => {
     const scenes = JSON.parse(localStorage.getItem('scenes'));
@@ -180,36 +164,6 @@ export const getScenes = () => {
     });
   };
 };
-
-export const getMicroDevices = () => {
-  return async (dispatch) => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const listMicro = devices.filter(device => device.kind === 'audioinput');
-      dispatch({
-        type: GET_AUDIO_DEVICES,
-        payload: listMicro,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
-
-export const getCameraDevices = () => {
-  return async (dispatch) => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const listCamera = devices.filter(device => device.kind === 'videoinput');
-      dispatch({
-        type: GET_CAMERA_DEVICES,
-        payload: listCamera,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-}
 
 export const hideLayer = layer => ({
   type: HIDE_LAYER,

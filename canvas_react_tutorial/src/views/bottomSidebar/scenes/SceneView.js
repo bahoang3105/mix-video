@@ -13,9 +13,6 @@ import {
 import RenameModal from "../../RenameModal";
 
 const SceneView = (props) => {
-  const [camera, setCamera] = useState('');
-  const [copy, setCopy] = useState('');
-  const [del, setDel] = useState('');
   const [show, setShow] = useState(false);
 
   const delScene = () => {
@@ -42,26 +39,13 @@ const SceneView = (props) => {
     >
       <div className='click-scene-1' onClick={changeScene}/>
       <div className='buttons-scene-view'>
-        <div
-          className={`button-scene-view${camera}`}
-          onMouseOver={() => setCamera(' over-mouse')}
-          onMouseOut={() => setCamera('')}
-        >
+        <div className='button-scene-view hover'>
           <AiOutlineCamera />
         </div>
-        <div
-          className={`button-scene-view${copy}`}
-          onMouseOver={() => setCopy(' over-mouse')}
-          onMouseOut={() => setCopy('')}
-        >
+        <div className='button-scene-view hover'>
           <BiCopy />
         </div>
-        <div
-          className={`button-scene-view${del}${props.inactiveDelete ? ' inactive-true' : ''}`}
-          onMouseOver={() => setDel(' over-mouse')}
-          onMouseOut={() => setDel('')}
-          onClick={delScene}
-        >
+        <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={delScene}>
           <AiOutlineDelete />
         </div>
       </div>

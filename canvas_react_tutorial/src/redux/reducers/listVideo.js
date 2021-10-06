@@ -1,16 +1,11 @@
 import {
   ADD_VIDEO,
-  GET_VIDEOS,
   DEL_VIDEO,
   STOP_VIDEO,
-  GET_AUDIO_DEVICES,
-  GET_CAMERA_DEVICES,
 } from '../actionTypes';
 
 const initialState = {
   videos: [],
-  cameraDevices: null,
-  microDevices: null,
   num: 1,
 };
 
@@ -21,7 +16,7 @@ const listVideo = (state = initialState, action) => {
         ...action.payload,
         num: state.num,
         name: action.payload.name,
-        info: action.payload.info,
+        src: action.payload.src,
       };
       return {
         ...state,
@@ -29,31 +24,19 @@ const listVideo = (state = initialState, action) => {
         num: state.num + 1,
       }
     }
-    case GET_VIDEOS: {
+    case DEL_VIDEO: {
+      const place = state.videos.findIndex(video => video.num === action.payload.video);
       return {
         ...state,
-        videos: action.payload.videos
-      };
-    }
-    case DEL_VIDEO: {
-
-      return;
+        videos: [
+          ...state.videos.slice(0, place),
+          ...state.videos.slice(place+1)
+        ]
+      }
     }
     case STOP_VIDEO: {
 
       return;
-    }
-    case GET_CAMERA_DEVICES: {
-      return {
-        ...state,
-        cameraDevices: action.payload,
-      }
-    }
-    case GET_AUDIO_DEVICES: {
-      return {
-        ...state,
-        microDevices: action.payload,
-      }
     }
     default:
       return state;

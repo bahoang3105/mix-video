@@ -1,31 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { connect, useDispatch } from 'react-redux';
-import { getMicroDevices, getCameraDevices, addVideo } from '../../../../redux/actions';
-import { getListCamera, getListMicro } from '../../../../redux/selectors';
+import { connect } from 'react-redux';
+import { addLayer, addVideo } from '../../../../redux/actions';
 import getUserMedia from '../../videos/getUserMedia';
+import stopStream from '../../videos/stopStream';
 
-const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo }) => {
+const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, addLayer, ...props }) => {
   const videoRef = useRef(null);
 
-
-  const [camera, setCamera] = useState(null);
+  const [camera, setCamera] = useState(cameraDevices[0].deviceId);
   const [micro, setMicro] = useState(false);
-  const [label, setLabel] = useState('');
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if(!cameraDevices) {
-      dispatch(getCameraDevices());
-    }
-    if(!microDevices) {
-      dispatch(getMicroDevices());
-    }
-    if(cameraDevices !== null) {
-      setCamera(cameraDevices[0].deviceId);
-      setLabel(cameraDevices[0].label);
-    }
-  }, [cameraDevices, microDevices, dispatch]);
+  const [label, setLabel] = useState(cameraDevices[0].label);
 
   const renderListVideo = () => {
     if(!cameraDevices) return;
@@ -60,8 +45,16 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo }) =
   }
 
   const addCamera = () => {
-    addVideo('camera', label, {camera, micro});
+    addVideo('camera', label, videoRef.current.srcObject);
     setShow(false);
+    if(props.curScene) {
+      addLayer('camera', props.curScene, {name: label, type: 'camera', src: videoRef.current.srcObject});
+    }
+  }
+
+  const closeStream = () => {
+    setShow(false);
+    stopStream(videoRef.current.srcObject);
   }
 
   const changeCamera = e => {
@@ -72,13 +65,13 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo }) =
   return (
     <Modal
       show={show}
-      onHide={() => setShow(false)}
+      onHide={closeStream}
       backdrop={true}
       className='modal'
     >
       <div className='border-modal'>
         <Modal.Header>
-          <span className='x-close close-camera' onClick={() => setShow(false)}>x</span>
+          <span className='x-close close-camera' onClick={closeStream}>x</span>
           <Modal.Title>
             Webcam
           </Modal.Title>
@@ -117,12 +110,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo }) =
   );
 }
 
-const mapStateToProps = state => ({
-  cameraDevices: getListCamera(state),
-  microDevices: getListMicro(state),
-});
-
 export default connect(
-  mapStateToProps,
-  { addVideo }
+  null,
+  { addVideo, addLayer }
 )(CameraModal);

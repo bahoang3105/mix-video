@@ -1,17 +1,8 @@
-import { useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
-import { getVideos } from "../../../redux/actions";
+import { connect } from "react-redux";
 import { getListVideo } from "../../../redux/selectors";
 import VideoView from "./VideoView";
 
 const Videos = ({ videos }) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if(!videos) {
-      dispatch(getVideos());
-    };
-  });
-
   const renderVideos = videos => {
     if(!videos) return;
     const listVideo = [];
@@ -19,8 +10,10 @@ const Videos = ({ videos }) => {
       listVideo.push(
         <VideoView
           key={`video-${videos[i].num}`}
+          type={videos[i].type}
           name={videos[i].name}
-          info={videos[i].info}
+          src={videos[i].src}
+          id={videos[i].num}
         />
       );
     }

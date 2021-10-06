@@ -1,48 +1,54 @@
-import { useRef, useState } from "react";
-import { AiOutlineCamera, AiOutlineDelete } from "react-icons/ai";
-import { BiCopy } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react";
+import { AiOutlineCamera, AiOutlineDelete, AiFillFolderAdd } from "react-icons/ai";
+import { BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import RenameModal from "../../RenameModal";
-import getUserMedia from "./getUserMedia";
+import { addLayer, delVideoLayer, delVideo } from '../../../redux/actions';
+import { connect } from 'react-redux';
+import { getCurScene } from "../../../redux/selectors";
+import stopStream from './stopStream';
 
-const VideoView = (props) => {
+const VideoView = ({ curScene, addLayer, delVideo, delVideoLayer, ...props}) => {
   const [show, setShow] = useState(false);
-  const [camera, setCamera] = useState(false);
   const videoRef = useRef(null);
 
-  const getVideo = async (camera, microphone) => {
-    const stream = await getUserMedia(camera, microphone);
-    videoRef.current.srcObject = stream;
+  useEffect(() => {
+    videoRef.current.srcObject = props.src;
+  });
+
+  const deleteVideo = () => {
+    stopStream(props.src);
+    delVideoLayer(props.src);
+    delVideo(props.id);
   }
 
-  getVideo(props.info.camera, props.info.micro);
-
   return (
-    <div className={`scene-view video-view${camera ? '' : ' black-background'}`}>
-      <div  className='video-content'>
+    <div className='scene-view video-view'>
+      <div  className={`video-content${!props.camera ? '' : ' display-none'}`}>
         <video width="170" height="110" className='video' ref={videoRef} type="video/mp4" autoPlay muted>
           Your browser does not support the video tag.
         </video>
       </div>
-      <div className='buttons-scene-view'>
+      <div className='buttons-video-view'>
         <div
-          className={`button-scene-view`}
-          // onMouseOver={() => setCamera(' over-mouse')}
-          // onMouseOut={() => setCamera('')}
+          className='button-scene-view hover'
+        >
+          <BsMicFill className={props.micro ? '' : 'display-none'}/>
+          <BsMicMuteFill className={props.micro ? 'display-none' : ''} />
+        </div>
+        <div
+          className='button-scene-view hover'
         >
           <AiOutlineCamera />
         </div>
         <div
-          className={`button-scene-view`}
-          // onMouseOver={() => setCopy(' over-mouse')}
-          // onMouseOut={() => setCopy('')}
+          className='button-scene-view hover'
+          onClick={() => addLayer(props.type, curScene, props)}
         >
-          <BiCopy />
+          <AiFillFolderAdd />
         </div>
         <div
-          className={`button-scene-view`}
-          // onMouseOver={() => setDel(' over-mouse')}
-          // onMouseOut={() => setDel('')}
-          // onClick={delScene}
+          className='button-scene-view hover'
+          onClick={deleteVideo}
         >
           <AiOutlineDelete />
         </div>
@@ -55,4 +61,11 @@ const VideoView = (props) => {
   );
 }
 
-export default VideoView;
+const mapStateToProps = state => ({
+  curScene: getCurScene(state),
+});
+
+export default connect(
+  mapStateToProps,
+  { addLayer, delVideo, delVideoLayer }
+)(VideoView);

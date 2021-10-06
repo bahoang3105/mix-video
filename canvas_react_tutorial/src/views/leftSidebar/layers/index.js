@@ -12,7 +12,7 @@ const Layers = ({ curScene, layers, curLayer }) => {
       dispatch(getLayers());
     };
   });
-
+  
   const renderLayers = (layers, curScene, curLayer) => {
     if(!layers) return;
     const listLayer = [];

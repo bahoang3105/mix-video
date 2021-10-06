@@ -17,7 +17,7 @@ const VideoButton = (props) => {
       <Video name='Video' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayVideo}`}>
-        <div onClick={() => props.addLayer('camera')}>
+        <div onClick={() => props.setShowCamera(true)}>
           <Camera name='Camera' />
         </div>
         <div onClick={() => props.addLayer('libraryVideo')}>

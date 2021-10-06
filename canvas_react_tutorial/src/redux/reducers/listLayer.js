@@ -1,6 +1,7 @@
 import {
   ADD_LAYER,
   DEL_LAYER,
+  DEL_VIDEO_LAYER,
   DUPLICATE_LAYER,
   GET_LAYERS,
   LOCK_LAYER,
@@ -10,7 +11,6 @@ import {
   CHANGE_CUR_LAYER,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
-  ADD_TO_SCENE,
 } from '../actionTypes';
 
 const initialState = {
@@ -122,6 +122,23 @@ const listLayer = (state = initialState, action) => {
           }
           break;
         }
+        case 'camera': {
+          const { name, src } = action.payload.details;
+          newLayer = {
+            name: name,
+            type: 'camera',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: 540,
+            height: 300,
+            opacity: 1,
+            src: src,
+          }
+          break;
+        }
         default:
           newLayer = {}
       }
@@ -140,10 +157,6 @@ const listLayer = (state = initialState, action) => {
         num: state.num + 1,
       };
     }
-    case ADD_TO_SCENE: {
-
-      return;
-    }
     case DEL_LAYER: {
       const { layer } = action.payload;
       const place = state.layers.findIndex(Layer => Layer.num === parseInt(layer));
@@ -155,6 +168,14 @@ const listLayer = (state = initialState, action) => {
           ...state.layers.slice(place+1)
         ],
         curLayer: curLayer,
+      }
+    }
+    case DEL_VIDEO_LAYER: {
+      const src = action.payload.videoSrc;
+      const layers = (state.layers !== null) ? state.layers.filter(layer => ((layer.type !== 'camera' && layer.type !== 'screen') || layer.src !== src)) : null;
+      return {
+        ...state,
+        layers: layers,
       }
     }
     case DUPLICATE_LAYER: {

@@ -157,6 +157,7 @@
 .video-view {
   border: none;
   height: 120px !important;
+  background-color: black;
 }
 
 .black-background {
@@ -186,4 +187,17 @@
   background-color: rgb(58, 58, 58);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+}
+
+.buttons-video-view {
+  color:rgb(107, 107, 107);
+  background-color: rgb(202, 202, 202);
+  display: grid;
+  column-gap: 10px;
+  border-radius: 5px;
+  grid-template-columns: 20px 20px 20px 20px;
+  margin: 0 4px 0 45px;
+  font-size: 18px;
+  position: absolute;
+  width: 120px;
 }

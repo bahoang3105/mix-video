@@ -152,3 +152,11 @@ html {
   background-color: rgb(231, 245, 255);
   color:rgb(0, 153, 255)
 }
+
+.display-none {
+  display: none;
+}
+
+.hover:hover {
+  color: black;
+}

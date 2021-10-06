@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { addScene, addVideo } from '../../../redux/actions';
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
-import Camera from "./addVideoButtons.js/Camera";
-import Invite from "./addVideoButtons.js/Invite";
-import Screen from "./addVideoButtons.js/Screen";
-import CameraModal from "./addVideoButtons.js/CameraModal";
+import Camera from "./addVideoButtons/Camera";
+import Invite from "./addVideoButtons/Invite";
+import Screen from "./addVideoButtons/Screen";
+import CameraModal from "./addVideoButtons/CameraModal";
 
 const ButtonAdd = (props) => {
   const [color, setColor] = useState('bottom-inactive');
+  const [devices, setDevices] = useState(null);
+  useEffect(() => {
+    if(!devices) {
+      getDevices();
+    }
+  });
+
+  const getDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    setDevices(devices);
+  }
+
   const addEvent = () => {
     if(props.name === 'scene') {
       props.addScene();
@@ -35,10 +47,16 @@ const ButtonAdd = (props) => {
     );
   }
 
+
   const renderCamera = () => {
-    if(showCamera) {
+    if(showCamera && devices !== null) {
       return (
-        <CameraModal show={showCamera} setShow={setShowCamera} />
+        <CameraModal
+          show={showCamera}
+          setShow={setShowCamera}
+          cameraDevices={devices.filter(device => device.kind === 'videoinput')}
+          microDevices={devices.filter(device => device.kind === 'audioinput')}
+        />
       );
     }
   }
@@ -69,8 +87,8 @@ const ButtonAdd = (props) => {
         </Modal.Header>
         <Modal.Body className='choose-add-video'>
           <Camera setShow={setShow} setShowCamera={setShowCamera} />
-          <Screen setShow={setShow}/>
-          <Invite setShow={setShow}/>
+          <Screen setShow={setShow} />
+          <Invite setShow={setShow} />
         </Modal.Body>
       </div>
     </Modal>
