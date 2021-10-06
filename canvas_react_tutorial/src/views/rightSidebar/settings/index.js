@@ -6,6 +6,7 @@ import Image from "./Image";
 import Rectangle from "./Rectangle";
 import Text from './Text';
 import Triangle from "./Triangle";
+import Video from "./Video";
 
 const Settings = ({ curLayer }) => {
   const dispatch = useDispatch();
@@ -41,6 +42,16 @@ const Settings = ({ curLayer }) => {
       case 'image': {
         return(
           <Image data={curLayer} />
+        );
+      }
+      case 'camera': {
+        return(
+          <Video data={curLayer} />
+        );
+      }
+      case 'screen': {
+        return(
+          <Video data={curLayer} />
         );
       }
       default:

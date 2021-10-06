@@ -160,3 +160,7 @@ html {
 .hover:hover {
   color: black;
 }
+
+.not-allowed {
+  cursor: not-allowed;
+}

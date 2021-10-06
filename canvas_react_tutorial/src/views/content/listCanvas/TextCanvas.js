@@ -31,7 +31,6 @@ const TextCanvas = (props) => {
   return (
     <Fragment>
       <Rect
-        ref={shapeRef}
         fill={props.shapeProps.background}
         {...props.shapeProps}
         rotation={props.shapeProps.g}

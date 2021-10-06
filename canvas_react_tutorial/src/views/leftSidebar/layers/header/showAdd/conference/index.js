@@ -2,7 +2,7 @@ import Conference from './Conference';
 
 const ConferenceButton = (props) => {
   return (
-    <div onClick={() => props.addLayer('conference')}>
+    <div className='not-allowed' >
       <Conference name='Conference' />
     </div>
   );

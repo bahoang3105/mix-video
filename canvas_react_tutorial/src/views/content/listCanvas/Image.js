@@ -22,9 +22,9 @@ const ImageCanvas = (props) => {
     props.changeLayer('Y', y);
   }
 
-  const onChange = (scaleX, scaleY, g) => {
-    props.changeLayer('scaleX', scaleX);
-    props.changeLayer('scaleY', scaleY);
+  const onChange = (w, h, g) => {
+    props.changeLayer('W', w);
+    props.changeLayer('H', h);
     props.changeLayer('G', g);
   }
 
@@ -39,8 +39,6 @@ const ImageCanvas = (props) => {
         rotation={props.shapeProps.g}
         {...props.shapeProps}
         image={img}
-        width={props.shapeProps.width * Math.abs(props.shapeProps.scaleX)}
-        height={props.shapeProps.height * Math.abs(props.shapeProps.scaleY)}
         scaleX={flipX}
         scaleY={flipY}
         offsetX={offsetX}
@@ -48,7 +46,12 @@ const ImageCanvas = (props) => {
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;
-          onChange(node.scaleX(), node.scaleY(), node.rotation());
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          node.scaleX(1);
+          node.scaleY(1);
+          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
       />
       {props.isSelected && (

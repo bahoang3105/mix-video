@@ -5,7 +5,7 @@ const Pin = (props) => {
   const [isSelect, setIsSelect] = useState('');
   return (
     <div
-      className={`button-layer left-add-buttons${isSelect}`}
+      className={`button-layer left-add-buttons not-allowed${isSelect}`}
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
     >

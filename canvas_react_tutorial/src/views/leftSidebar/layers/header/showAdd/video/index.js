@@ -6,9 +6,19 @@ import Screen from './Screen';
 import Website from './Website';
 import Youtube from './Youtube';
 import { useState } from 'react';
+import getDisplayMedia from '../../../../../bottomSidebar/videos/getDisplayMedia';
+import { connect } from 'react-redux';
+import { addLayer, addVideo } from '../../../../../../redux/actions';
 
 const VideoButton = (props) => {
   const [displayVideo, setDisplayVideo] = useState(' none');
+
+  const addScreen = async () => {
+    const stream = await getDisplayMedia();
+    props.addVideo('screen', 'Screen sharing', stream);
+    props.addLayer('screen', props.curScene, {name: 'Screen sharing', src: stream});
+  }
+
   return (
     <div
       onMouseOver={() => setDisplayVideo('')}
@@ -26,13 +36,13 @@ const VideoButton = (props) => {
         <div onClick={() => props.addLayer('youtube')}>
           <Youtube name='Video from YouTube' />
         </div>
-        <div onClick={() => props.addLayer('screen')}>
+        <div onClick={addScreen}>
           <Screen name='Screen Sharing' />
         </div>
-        <div onClick={() => props.addLayer('website')}>
+        <div className='not-allowed'>
           <Website name='Website' />
         </div>
-        <div>
+        <div className='not-allowed'>
           <Invite name='Invite guests to join' />
         </div> 
       </div>
@@ -40,4 +50,7 @@ const VideoButton = (props) => {
   );
 }
 
-export default VideoButton;
+export default connect(
+  null,
+  { addLayer, addVideo }
+)(VideoButton);

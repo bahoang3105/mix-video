@@ -14,6 +14,8 @@ const Videos = ({ videos }) => {
           name={videos[i].name}
           src={videos[i].src}
           id={videos[i].num}
+          mute={videos[i].mute}
+          onCamera={videos[i].onCamera}
         />
       );
     }

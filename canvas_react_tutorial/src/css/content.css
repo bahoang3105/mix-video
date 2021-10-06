@@ -41,3 +41,12 @@
 .apply-video:hover {
   background-color: #c50447;
 }
+
+.content-videos {
+  position: absolute;
+  left: 293px;
+}
+
+#on-select-layer {
+  border: 2px dashed rgb(122, 122, 122);
+}

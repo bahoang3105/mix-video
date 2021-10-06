@@ -2,7 +2,7 @@ import GroupOfLayers from './GroupOfLayers';
 
 const Group = (props) => {
   return(
-    <div onClick={() => props.addLayer('group')}>
+    <div className='not-allowed'>
       <GroupOfLayers name='Group of layers' />
     </div>
   );

@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { AiOutlineCamera, AiOutlineDelete, AiFillFolderAdd } from "react-icons/ai";
+import { AiOutlineDelete, AiFillFolderAdd } from "react-icons/ai";
 import { BsMicFill, BsMicMuteFill } from 'react-icons/bs';
+import { RiCameraFill, RiCameraOffFill } from 'react-icons/ri';
 import RenameModal from "../../RenameModal";
-import { addLayer, delVideoLayer, delVideo } from '../../../redux/actions';
+import { addLayer, delVideoLayer, delVideo, muteMic, switchVideo, changeNameVideo } from '../../../redux/actions';
 import { connect } from 'react-redux';
 import { getCurScene } from "../../../redux/selectors";
 import stopStream from './stopStream';
 
-const VideoView = ({ curScene, addLayer, delVideo, delVideoLayer, ...props}) => {
+const VideoView = ({ curScene, ...props}) => {
   const [show, setShow] = useState(false);
   const videoRef = useRef(null);
 
@@ -17,13 +18,17 @@ const VideoView = ({ curScene, addLayer, delVideo, delVideoLayer, ...props}) => 
 
   const deleteVideo = () => {
     stopStream(props.src);
-    delVideoLayer(props.src);
-    delVideo(props.id);
+    props.delVideoLayer(props.src);
+    props.delVideo(props.id);
+  }
+
+  const rename = newName => {
+    props.changeNameVideo(newName, props.id)
   }
 
   return (
     <div className='scene-view video-view'>
-      <div  className={`video-content${!props.camera ? '' : ' display-none'}`}>
+      <div  className={`video-content${props.onCamera ? '' : ' display-none'}`}>
         <video width="170" height="110" className='video' ref={videoRef} type="video/mp4" autoPlay muted>
           Your browser does not support the video tag.
         </video>
@@ -31,18 +36,21 @@ const VideoView = ({ curScene, addLayer, delVideo, delVideoLayer, ...props}) => 
       <div className='buttons-video-view'>
         <div
           className='button-scene-view hover'
+          onClick={() => props.muteMic(props.id)}
         >
-          <BsMicFill className={props.micro ? '' : 'display-none'}/>
-          <BsMicMuteFill className={props.micro ? 'display-none' : ''} />
+          <BsMicFill className={props.mute ? '' : 'display-none'} />
+          <BsMicMuteFill className={props.mute ? 'display-none' : ''} />
         </div>
         <div
           className='button-scene-view hover'
+          onClick={() => props.switchVideo(props.id)}
         >
-          <AiOutlineCamera />
+          <RiCameraFill className={props.onCamera ? '' : 'display-none'} />
+          <RiCameraOffFill className={props.onCamera ? 'display-none' : ''} />
         </div>
         <div
           className='button-scene-view hover'
-          onClick={() => addLayer(props.type, curScene, props)}
+          onClick={() => props.addLayer(props.type, curScene, props)}
         >
           <AiFillFolderAdd />
         </div>
@@ -56,7 +64,7 @@ const VideoView = ({ curScene, addLayer, delVideo, delVideoLayer, ...props}) => 
       <span className='name-video-view' onDoubleClick={() => setShow(true)}>
         {props.name}
       </span>
-      <RenameModal show={show} setShow={setShow} name={props.name} />
+      <RenameModal show={show} setShow={setShow} name={props.name} rename={rename} />
     </div>
   );
 }
@@ -67,5 +75,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addLayer, delVideo, delVideoLayer }
+  { addLayer, delVideo, delVideoLayer, muteMic, switchVideo, changeNameVideo }
 )(VideoView);

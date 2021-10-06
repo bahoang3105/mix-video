@@ -132,6 +132,23 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
+            width: 400,
+            height: 300,
+            opacity: 1,
+            src: src,
+          }
+          break;
+        }
+        case 'screen': {
+          const { name, src } = action.payload.details;
+          newLayer = {
+            name: name,
+            type: 'screen',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
             width: 540,
             height: 300,
             opacity: 1,

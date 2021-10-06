@@ -8,7 +8,8 @@ export const CHANGE_CUR_SCENE = 'CHANGE_CUR_SCENE';
 
 export const ADD_VIDEO = 'ADD_VIDEO';
 export const DEL_VIDEO = 'DEL_VIDEO';
-export const STOP_VIDEO = 'STOP_VIDEO';
+export const SWITCH_VIDEO = 'SWITCH_VIDEO';
+export const MUTE_MIC = 'MUTE_MIC';
 export const CHANGE_NAME_VIDEO = 'CHANGE_NAME_VIDEO';
 
 export const ADD_LAYER = 'ADD_LAYER';

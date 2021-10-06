@@ -18,7 +18,8 @@ import {
   GET_SCENES,
   HIDE_LAYER,
   LOCK_LAYER,
-  STOP_VIDEO,
+  SWITCH_VIDEO,
+  MUTE_MIC,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
   CHANGE_CUR_SCENE,
@@ -179,12 +180,19 @@ export const lockLayer = layer => ({
   }
 });
 
-export const stopVideo = video => ({
-  type: STOP_VIDEO,
+export const switchVideo = video => ({
+  type: SWITCH_VIDEO,
   payload: {
     video,
   }
 });
+
+export const muteMic = video => ({
+  type: MUTE_MIC,
+  payload: {
+    video,
+  }
+})
 
 export const zoominLayer = layer => ({
   type: ZOOMIN_LAYER,

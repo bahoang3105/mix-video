@@ -12,23 +12,24 @@ const CommentButton = (props) => {
     <div
       onMouseOver={() => setDisplayComment('')}
       onMouseOut={() => setDisplayComment(' none')}
+      className='not-allowed'
     >
       <Comment name='Comment' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayComment}`}>
-        <div onClick={() => props.addLayer('pin')}>
+        <div className='not-allowed'>
           <Pin name='Pin comment' />
         </div>
-        <div onClick={() => props.addLayer('chain')}>
+        <div className='not-allowed'>
           <Chain name='Comment chain' />
         </div>
-        <div onClick={() => props.addLayer('count')}>
+        <div className='not-allowed'>
           <Count name='Count comments' />
         </div>
-        <div onClick={() => props.addLayer('filter')}>
+        <div className='not-allowed'>
           <Filter name='Filter comments' />
         </div>
-        <div onClick={() => props.addLayer('filterUser')}>
+        <div className='not-allowed'>
           <FilterUser name='Filter users' />
         </div>
       </div>
