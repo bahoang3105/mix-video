@@ -15,14 +15,14 @@ const BottomSidebar = () => {
   };
   if(select) {
     return(
-      <div>
+      <div className='bottom'>
         <Bars className='bars bottom-bars' onSelect={onSelect}/>
         <Scenes />
       </div>
     );
   }
   return(
-    <div>
+    <div className='bottom'>
       <Bars className='bars bottom-bars' onSelect={onSelect}/>
       <Videos />
     </div>

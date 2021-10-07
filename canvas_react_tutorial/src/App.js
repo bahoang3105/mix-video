@@ -14,10 +14,12 @@ function App() {
         <div className='left-sidebar'>
           <LeftSidebar />
         </div>
+        <div id='bonus-space-left' />
         <div className='scenes'>
           <Content />
           <BottomSidebar />
         </div>
+        <div id='bonus-space-right' />
         <div className='right-sidebar'>
           <RightSidebar />
         </div>

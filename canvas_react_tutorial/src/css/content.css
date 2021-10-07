@@ -42,11 +42,10 @@
   background-color: #c50447;
 }
 
-.content-videos {
-  position: absolute;
-  left: 293px;
+.content-video {
+  z-index: 200;
 }
 
-#on-select-layer {
+.on-select-layer {
   border: 2px dashed rgb(122, 122, 122);
 }

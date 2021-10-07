@@ -6,7 +6,8 @@ import Corner from "./rightField/Corner";
 
 const Rectangle = (props) => {
   const setValue = (type, value) => {
-    props.changeLayer(type, value, props.data.num);
+    const checkValue = (value) ? value : 0;
+    props.changeLayer(type, checkValue, props.data.num);
   }
   return (
     <div>

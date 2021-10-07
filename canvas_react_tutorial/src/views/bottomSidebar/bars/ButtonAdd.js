@@ -19,7 +19,6 @@ const ButtonAdd = (props) => {
 
   const getDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices)
     setDevices(devices);
   }
 

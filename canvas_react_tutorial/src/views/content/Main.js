@@ -3,7 +3,6 @@ import { connect, useDispatch } from "react-redux";
 import { changeLayer, getLayers, changeCurLayer } from "../../redux/actions";
 import { getCurLayer, getCurScene, getListLayer } from "../../redux/selectors";
 import ListCanvas from "./listCanvas/ListCanvas";
-import Videos from "./videos/Videos";
 
 const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer }) => {
   const dispatch = useDispatch();
@@ -24,31 +23,25 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer }) => {
   const onSelect = layer => {
     changeCurLayer(layer);
   }
+
   return (
-    <>
-      <Videos
-        layers={layers} 
-        curLayer={curLayer} 
-        curScene={curScene} 
-      />
-      <Stage
-        width={1270}
-        height={700}
-        style={{ backgroundColor: '#969ca5', zIndex: 800 }}
-        onMouseDown={checkDeselect}
-        onTouchStart={checkDeselect}
-      >
-        <Layer>
-          <ListCanvas 
-            layers={layers} 
-            curLayer={curLayer} 
-            curScene={curScene} 
-            changeLayer={changeLayerCanvas}
-            onSelect={onSelect}
-          />
-        </Layer>
-      </Stage>
-    </>
+    <Stage
+      width={1270}
+      height={700}
+      style={{ backgroundColor: '#969ca5' }}
+      onMouseDown={checkDeselect}
+      onTouchStart={checkDeselect}
+    >
+      <Layer>
+        <ListCanvas 
+          layers={layers} 
+          curLayer={curLayer} 
+          curScene={curScene} 
+          changeLayer={changeLayerCanvas}
+          onSelect={onSelect}
+        />
+      </Layer>
+    </Stage>
   );
 }
 

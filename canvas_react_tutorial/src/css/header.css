@@ -4,6 +4,7 @@
   margin: -10px -8px -10px -10px;
   background-color: rgba(242,243,248,255);
   align-items: center;
+  z-index: 4000;
 }
 
 .main-logo {

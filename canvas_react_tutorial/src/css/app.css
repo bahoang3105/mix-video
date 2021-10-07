@@ -5,19 +5,20 @@ html {
 .grid-container {
   margin-top: 15px;
   display: grid;
-  grid-template-columns: 270px auto 270px;
-  gap: 15px;
+  grid-template-columns: 270px 15px auto 15px 270px;
   min-height: 90vh;
 }
 
 .right-sidebar {
   background-color: rgba(255,255,255,255);
   box-shadow: -0.75px -0.75px rgb(235, 234, 234);
+  z-index: 2000;
 }
 
 .left-sidebar {
   background-color: rgba(255,255,255,255);
   box-shadow: -0.75px -0.75px rgb(235, 234, 234);
+  z-index: 2000;
 }
 
 .scenes {
@@ -45,6 +46,7 @@ html {
   opacity: 85%;
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
+  z-index: 1000;
 }
 
 .border-modal {
@@ -163,4 +165,14 @@ html {
 
 .not-allowed {
   cursor: not-allowed;
+}
+
+#bonus-space-left {
+  z-index: 1000;
+  background-color: white;
+}
+
+#bonus-space-right {
+  z-index: 1000;
+  background-color: white;
 }

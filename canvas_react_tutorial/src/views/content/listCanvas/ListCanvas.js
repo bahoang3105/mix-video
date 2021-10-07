@@ -3,6 +3,8 @@ import Rectangle from './Rectangle';
 import TextCanvas from './TextCanvas';
 import Triangle from './Triangle';
 import ImageCanvas from './Image';
+import Video from './Video';
+import Youtube from './Youtube';
 
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
@@ -51,7 +53,7 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
           case 'text': {
             listCanvas.push(
               <TextCanvas
-                key={`triangle-${i}`}
+                key={`text-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
@@ -63,7 +65,31 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
           case 'image': {
             listCanvas.push(
               <ImageCanvas
-                key={`triangle-${i}`}
+                key={`image-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
+          case 'camera': {
+            listCanvas.push(
+              <Video
+                key={`camera-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
+          case 'screen': {
+            listCanvas.push(
+              <Video
+                key={`screen-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}

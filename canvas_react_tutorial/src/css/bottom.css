@@ -1,3 +1,7 @@
+.bottom {
+  z-index: 3000;
+}
+
 .bottom-bars {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: rgb(107, 107, 107);

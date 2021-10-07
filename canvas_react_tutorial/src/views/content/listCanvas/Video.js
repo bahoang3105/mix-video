@@ -1,21 +1,24 @@
+import { Animation } from "konva/lib/Animation";
 import { Fragment, useEffect, useRef } from "react";
-import { Image, Transformer } from 'react-konva';
-import useImage from 'use-image';
+import { Image, Transformer } from "react-konva";
+import useVideo from "./useVideo";
 
-const ImageCanvas = (props) => {
+const Video = (props) => {
+  const video = useVideo(props.shapeProps.src);
   const shapeRef = useRef();
   const trRef = useRef();
 
-  const flipX = props.shapeProps.flip ? -props.shapeProps.scaleX : props.shapeProps.scaleX;
-  const flipY = props.shapeProps.scaleY;
-
-  const offsetX = props.shapeProps.flip ? props.shapeProps.width * props.shapeProps.scaleX : 0;
   useEffect(() => {
     if (props.isSelected) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [props.isSelected]);
+    const anim = new Animation(() => {
+      // do nothing in animation, it will just automatically redraw a layer
+    }, [shapeRef.current.getLayer()]);
+    anim.start();
+    return () => anim.stop();
+  }, [video, props.isSelected]);
 
   const onMove = (x, y) => {
     props.changeLayer('X', x);
@@ -23,24 +26,24 @@ const ImageCanvas = (props) => {
   }
 
   const onChange = (w, h, g) => {
-    props.changeLayer('W', w);
-    props.changeLayer('H', h);
-    props.changeLayer('G', g);
+    if(g === props.shapeProps.g) {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    } else {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+      props.changeLayer('G', g);
+    }
   }
-
-  const [img] = useImage(props.shapeProps.src);
 
   return (
     <Fragment>
       <Image
         onClick={props.onSelect}
         ref={shapeRef}
+        image={video}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
-        image={img}
-        scaleX={flipX}
-        scaleY={flipY}
-        offsetX={offsetX}
         draggable={props.isSelected}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
@@ -68,4 +71,4 @@ const ImageCanvas = (props) => {
   );
 };
 
-export default ImageCanvas;
+export default Video;
