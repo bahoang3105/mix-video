@@ -3,12 +3,14 @@ import ShowAdd from './showAdd';
 import { useEffect, useState } from 'react';
 import ImageAdd from "../modal/ImageAdd";
 import CameraModal from '../../../bottomSidebar/bars/addVideoButtons/CameraModal';
+import YoutubeModal from "./YoutubeModal";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
   const [showImage, setShowImage] = useState(false);
   const [devices, setDevices] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
+  const [showYoutube, setShowYoutube] = useState(false);
 
   useEffect(() => {
     if(!devices) {
@@ -30,11 +32,23 @@ const ButtonAdd = (props) => {
           cameraDevices={devices.filter(device => device.kind === 'videoinput')}
           microDevices={devices.filter(device => device.kind === 'audioinput')}
           curScene={props.curScene}
-          
         />
       );
     }
   }
+
+  const renderYoutube = () => {
+    if(showYoutube) {
+      return (
+        <YoutubeModal
+          show={showYoutube}
+          setShow={setShowYoutube}
+          curScene={props.curScene}
+        />
+      );
+    }
+  }
+
   return(
     <>
       <div
@@ -50,10 +64,12 @@ const ButtonAdd = (props) => {
           curScene={props.curScene} 
           setShowImage={setShowImage}
           setShowCamera={setShowCamera}
+          setShowYoutube={setShowYoutube}
         />
       </div>
       <ImageAdd curScene={props.curScene} show={showImage} setShow={setShowImage} />
       {renderCamera()}
+      {renderYoutube()}
     </>
   );
 };

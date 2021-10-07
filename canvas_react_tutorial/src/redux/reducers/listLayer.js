@@ -156,6 +156,23 @@ const listLayer = (state = initialState, action) => {
           }
           break;
         }
+        case 'youtube': {
+          const { name, src } = action.payload.details;
+          newLayer = {
+            name: name + state.num,
+            type: 'youtube',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: 540,
+            height: 315,
+            opacity: 1,
+            src: src,
+          }
+          break;
+        }
         default:
           newLayer = {}
       }

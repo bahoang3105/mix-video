@@ -33,7 +33,7 @@ const VideoButton = (props) => {
         <div onClick={() => props.addLayer('libraryVideo')}>
           <Library name='Library of video' />
         </div>
-        <div onClick={() => props.addLayer('youtube')}>
+        <div onClick={() => props.setShowYoutube(true)}>
           <Youtube name='Video from YouTube' />
         </div>
         <div onClick={addScreen}>

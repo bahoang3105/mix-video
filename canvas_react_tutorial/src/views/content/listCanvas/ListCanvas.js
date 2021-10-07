@@ -98,6 +98,18 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
             );
             break;
           }
+          case 'youtube': {
+            listCanvas.push(
+              <Youtube
+              key={`screen-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
           default:
             break;
         }

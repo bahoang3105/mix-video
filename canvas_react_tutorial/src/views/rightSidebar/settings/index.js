@@ -7,6 +7,7 @@ import Rectangle from "./Rectangle";
 import Text from './Text';
 import Triangle from "./Triangle";
 import Video from "./Video";
+import Youtube from "./Youtube";
 
 const Settings = ({ curLayer }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,11 @@ const Settings = ({ curLayer }) => {
       case 'screen': {
         return(
           <Video data={curLayer} />
+        );
+      }
+      case 'youtube': {
+        return(
+          <Youtube data={curLayer} />
         );
       }
       default:
