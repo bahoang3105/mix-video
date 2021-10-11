@@ -1,9 +1,10 @@
-import { AiOutlineDown } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineRight } from "react-icons/ai";
 
-const Dropdown = () => {
+const Dropdown = (props) => {
   return (
     <div id='right-dropdown'>
-      <AiOutlineDown />
+      <AiOutlineDown style={{ display: props.display ? '' : 'none'}} />
+      <AiOutlineRight style={{ display: props.display ? 'none' : '' }} />
     </div>
   );
 };

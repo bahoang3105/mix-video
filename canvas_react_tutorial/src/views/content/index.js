@@ -4,11 +4,16 @@ import Main from './Main';
 
 
 const Content = ({ size }) => {
-  return(
-    <>
-      <Logo />
-      <Main size={size} />
-    </>
+  if(size.width !== 0) {
+    return(
+      <>
+        <Logo size={size} />
+        <Main size={size} />
+      </>
+    );
+  }
+  return (
+    <div></div>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   changeCurLayer,
   duplicateLayer,
   changeNameLayer,
+  changeLayer,
 } from "../../../../redux/actions";
 import { connect } from "react-redux";
 import RenameModal from "../../../RenameModal";
@@ -32,6 +33,10 @@ const Layer = (props) => {
     props.changeNameLayer(newName, props.id);
   }
 
+  const setValue = type => {
+    props.changeLayer(type, null, props.id);
+  }
+
   return(
     <div
       className={`layer${hoverLayer}${selectedLayer}`}
@@ -52,6 +57,9 @@ const Layer = (props) => {
         showDelete={showDelete}
         onClickDeleteOK={onClickDeleteOK}
         duplicate={() => props.duplicateLayer(props.id)}
+        setValue={setValue}
+        hidden={props.hidden}
+        lock={props.lock}
       />
       <RenameModal show={show} setShow={setShow} name={props.nameLayer} rename={rename} />
     </div>
@@ -60,5 +68,5 @@ const Layer = (props) => {
 
 export default connect(
   null,
-  { delLayer, changeCurLayer, duplicateLayer, changeNameLayer }
+  { delLayer, changeCurLayer, duplicateLayer, changeNameLayer, changeLayer }
 )(Layer);

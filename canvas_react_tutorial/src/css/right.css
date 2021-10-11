@@ -453,3 +453,7 @@ input:checked + .slider:before {
   margin: 0 0 0 80px;
   width: 160px;
 }
+
+.dropdown-display {
+  cursor: pointer;
+}

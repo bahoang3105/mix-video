@@ -13,10 +13,10 @@ const AudioButtons = (props) => {
       <Audio name='Audio' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayAudio}`}>
-        <div onClick={() => props.addLayer('libraryAudio')}>
+        <div onClick={() => props.addLayer('libraryAudio')} style={{ cursor: 'pointer' }}>
           <Library name='Audio Library' />
         </div>
-        <div onClick={() => props.addLayer('micro')}>
+        <div onClick={() => props.addLayer('micro')} style={{ cursor: 'pointer' }}>
           <Micro name='Microphone' />
         </div>
       </div>

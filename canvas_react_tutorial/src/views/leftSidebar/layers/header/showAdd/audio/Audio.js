@@ -8,6 +8,7 @@ const Audio = (props) => {
       className={`button-layer left-add-buttons${isSelect} flex`}
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
+      style={{ cursor: 'default' }}
     >
       <BsMusicNoteBeamed />
       <span className='space'/>

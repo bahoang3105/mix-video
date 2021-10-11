@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getScenes } from '../../../redux/actions';
 import { getListScene } from '../../../redux/selectors';
 
-const Scenes = ({ scenes }) => {
+const Scenes = ({ scenes, display }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if(!scenes) {
@@ -22,7 +22,7 @@ const Scenes = ({ scenes }) => {
   }
 
   return(
-    <div>
+    <div style={{ display: display ? 'block' : 'none' }}>
       <label className='select-all'>
         Select All
       </label>

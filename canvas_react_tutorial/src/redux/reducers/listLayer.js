@@ -11,9 +11,11 @@ import {
   CHANGE_CUR_LAYER,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
+  DEL_SCENE,
 } from '../actionTypes';
 
 const initialState = {
+  history: [],
   layers: null,
   num: null,
   curLayer: [],
@@ -36,7 +38,7 @@ const listLayer = (state = initialState, action) => {
             width: 100,
             height: 100,
             align: 'left',
-            background: '',
+            background: null,
             text: 'Some text',
             opacity: 1,
             fontFamily: 'Arial',
@@ -49,6 +51,8 @@ const listLayer = (state = initialState, action) => {
             speed: 0.5,
             dropShadow: false,
             shadowColor: '#000000',
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -66,6 +70,8 @@ const listLayer = (state = initialState, action) => {
             background: '#ffffff',
             cornerRadius: 0,
             opacity: 1,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -82,6 +88,8 @@ const listLayer = (state = initialState, action) => {
             height: 100,
             background: '#ffffff',
             opacity: 1,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -99,6 +107,8 @@ const listLayer = (state = initialState, action) => {
             height: 100,
             background: '#ffffff',
             opacity: 1,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -119,6 +129,8 @@ const listLayer = (state = initialState, action) => {
             flip: false,
             scaleX: 1.0,
             scaleY: 1.0,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -136,6 +148,8 @@ const listLayer = (state = initialState, action) => {
             height: 300,
             opacity: 1,
             src: src,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -153,6 +167,8 @@ const listLayer = (state = initialState, action) => {
             height: 315,
             opacity: 1,
             src: src,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -173,9 +189,11 @@ const listLayer = (state = initialState, action) => {
             opacity: 1,
             src: src,
             start: false,
-            pause: false,
+            pause: true,
             mute: false,
             volume: 100,
+            hidden: false,
+            lock: false,
           }
           break;
         }
@@ -189,12 +207,28 @@ const listLayer = (state = initialState, action) => {
           layers: [newLayer],
           num: 2,
           curLayer: curLayer,
+          history: [
+            ...state.history,
+            {
+              layers: [newLayer],
+              num: 2,
+              curLayer: curLayer,
+            },
+          ]
         }
       }
       return {
         ...state,
         layers: [...state.layers, newLayer],
         num: state.num + 1,
+        history: [
+          ...state.history,
+          {
+            layers: [...state.layers, newLayer],
+            num: state.num + 1,
+            curLayer: state.curLayer,
+          },
+        ]
       };
     }
     case DEL_LAYER: {
@@ -208,14 +242,36 @@ const listLayer = (state = initialState, action) => {
           ...state.layers.slice(place+1)
         ],
         curLayer: curLayer,
+        history: [
+          ...state.history,
+          {
+            layers: [
+              ...state.layers.slice(0, place),
+              ...state.layers.slice(place+1)
+            ],
+            num: state.num,
+            curLayer: curLayer,
+          },
+        ]
       }
     }
     case DEL_VIDEO_LAYER: {
       const src = action.payload.videoSrc;
-      const layers = (state.layers !== null) ? state.layers.filter(layer => ((layer.type !== 'camera' && layer.type !== 'screen') || layer.src !== src)) : null;
+      const layers = (state.layers !== null) ? state.layers.filter(layer => ((layer.type !== 'camera' && layer.type !== 'screen') || layer.src !== src)) : [];
+      const place = layers.findIndex(layer => layer.num === state.curLayer.num);
+      const curLayer = place >= 0 ? layers[place] : [];
       return {
         ...state,
         layers: layers,
+        curLayer: curLayer,
+        history: [
+          ...state.history,
+          {
+            layers: layers,
+            num: state.num,
+            curLayer: curLayer,
+          },
+        ],
       }
     }
     case DUPLICATE_LAYER: {
@@ -229,6 +285,14 @@ const listLayer = (state = initialState, action) => {
         ...state,
         layers: [...state.layers, dupLayer],
         num: state.num + 1,
+        history: [
+          ...state.history,
+          {
+            layers: [...state.layers, dupLayer],
+            num: state.num + 1,
+            curLayer: state.curLayer,
+          },
+        ]
       }
     }
     case GET_LAYERS: {
@@ -632,12 +696,14 @@ const listLayer = (state = initialState, action) => {
             layers: state.layers.map(
               (layer, i) => i === place ? {
                 ...layer,
-                start: action.payload.value
+                start: action.payload.value,
+                pause: false,
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
-              start: action.payload.value
+              start: action.payload.value,
+              pause: false,
             }
           }
         }
@@ -665,13 +731,15 @@ const listLayer = (state = initialState, action) => {
               (layer, i) => i === place ? {
                 ...layer,
                 autoplay: !state.layers[place].autoplay,
-                start: true,
+                start: state.layers[place].autoplay ? state.layers[place].start : true,
+                pause: state.layers[place].autoplay ? state.layers[place].pause : false,
               } : layer
             ),
             curLayer: {
               ...state.curLayer,
               autoplay: !state.layers[place].autoplay,
-              start:true,
+              start: state.layers[place].autoplay ? state.layers[place].start : true,
+              pause: state.layers[place].autoplay ? state.layers[place].pause : false,
             }
           }
         }
@@ -723,6 +791,38 @@ const listLayer = (state = initialState, action) => {
             }
           }
         }
+        case 'lock': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                lock: !state.layers[place].lock,
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              lock: !state.layers[place].lock,
+            }
+          }
+        }
+        case 'hidden': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                hidden: !state.layers[place].hidden,
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              hidden: !state.layers[place].hidden,
+            }
+          }
+        }
         default:
           return state;
       }
@@ -749,7 +849,24 @@ const listLayer = (state = initialState, action) => {
         curLayer: {
           ...state.curLayer,
           name: action.payload.newName,
-        }
+        },
+        history: [
+          ...state.history,
+          {
+            layers: [
+              ...state.layers.slice(0, place),
+              {
+                ...state.layers[place],
+                name: action.payload.newName,
+              },
+              ...state.layers.slice(place+1),
+            ],
+            curLayer: {
+              ...state.curLayer,
+              name: action.payload.newName,
+            },
+          },
+        ]
       }
     }
     case ZOOMIN_LAYER: {
@@ -759,6 +876,12 @@ const listLayer = (state = initialState, action) => {
     case ZOOMOUT_LAYER: {
 
       return;
+    }
+    case DEL_SCENE: {
+      return {
+        ...state,
+        layers: state.layers.filter(layer => layer.scene !== action.payload.scene),
+      }
     }
     default:
       return state;

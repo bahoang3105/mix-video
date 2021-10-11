@@ -6,24 +6,24 @@ const YoutubeCanvas = (props) => {
   const trRef = useRef();
 
   useEffect(() => {
-    if (props.isSelected) {
+    if (props.isSelected && !props.shapeProps.lock) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [props.isSelected]);
+  }, [props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
     props.changeLayer('X', x);
     props.changeLayer('Y', y);
   }
 
-  const onChange = (w, h) => {
+  const onChange = (x, y, w, h) => {
     props.changeLayer('G', 0);
     props.changeLayer('W', w);
     props.changeLayer('H', h);
+    props.changeLayer('X', x);
+    props.changeLayer('Y', y);
   }
-
-
 
   return (
     <Fragment>
@@ -32,8 +32,9 @@ const YoutubeCanvas = (props) => {
         ref={shapeRef}
         fill={props.shapeProps.background}
         rotation={props.shapeProps.g}
+        visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected}
+        draggable={props.isSelected  && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;
@@ -42,10 +43,10 @@ const YoutubeCanvas = (props) => {
 
           node.scaleX(1);
           node.scaleY(1);
-          onChange(node.width() * scaleX, node.height() * scaleY);
+          onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY);
         }}
       />
-      {props.isSelected && (
+      {props.isSelected && !props.shapeProps.lock && (
         <Transformer
         rotateEnabled={false}
           ref={trRef}

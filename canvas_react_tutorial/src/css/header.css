@@ -8,6 +8,7 @@
   position: absolute;
   width: 100%;
   margin-top: -71px;
+  height: 65px;
 }
 
 .main-logo {
@@ -29,7 +30,6 @@
   -webkit-box-orient: vertical;
   padding-bottom: 0!important;
   -webkit-line-clamp: 1;
-  max-width: calc(100% - 16px);
   margin-right: 12px;
 }
 
@@ -44,6 +44,9 @@
   font-family: SVN-Gilroy!important;
   border: 1px solid #00a6fd!important;
   height: 18px;
+  outline: none;
+  padding: 3px;
+  border-radius: 5px;
 }
 
 .input-name:focus {
@@ -91,4 +94,8 @@
 
 .space {
   margin-left: 7.5px;
+}
+
+#name-stream {
+margin-top: 17px;
 }

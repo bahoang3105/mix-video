@@ -137,9 +137,10 @@
   left: 87px;
   bottom: 1.8px;
   background-color: white;
-  padding: 7px;
+  padding: 7px 50px 7px 7px;
   border-radius: 8px;
   z-index: 2200;
+  cursor: pointer;
 }
 
 .on-select-duplicate {

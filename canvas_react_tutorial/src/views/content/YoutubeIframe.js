@@ -1,13 +1,21 @@
 import YouTube from '@u-wave/react-youtube';
 import logo from './youtube-logo-1539744426.jpg';
 
+export const keyYoutube = url => {
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[7].length === 11) ? match[7] : false;
+}
+
 const YoutubeIframe = (props) => {
+  const zIndex = (props.curLayer === props.data.num) ? 10 : 0;
+  const key = keyYoutube(props.data.src);
   const render = () => {
-    if(props.data.start || props.data.autoplay) {
+    if(props.data.start) {
       return (
-        <div style={{ opacity: props.data.opacity, zIndex: -1}} >
+        <div style={{ opacity: props.data.opacity, zIndex: -1, display: props.data.hidden ? 'none' : '' }} >
           <YouTube
-            video="rw7PpYMO7Vo"
+            video={key}
             autoplay={true}
             muted={props.data.mute}
             paused={props.data.pause}
@@ -24,7 +32,7 @@ const YoutubeIframe = (props) => {
       );
     } else {
       return (
-        <div style={{ opacity: props.data.opacity, zIndex: -1 }} >
+        <div style={{ opacity: props.data.opacity, zIndex: -1, display: props.data.hidden ? 'none' : '' }} >
           <img src={logo} height={props.data.height} alt='youtube-logo' width={props.data.width} />
         </div>
       );
@@ -37,7 +45,7 @@ const YoutubeIframe = (props) => {
         position: 'absolute',
         marginLeft: props.data.x + 'px',
         marginTop: props.data.y + 'px',
-        zIndex: 0,
+        zIndex: zIndex,
       }}
     >
       {render()}
@@ -45,4 +53,4 @@ const YoutubeIframe = (props) => {
   );
 }
 
-export default (YoutubeIframe);
+export default YoutubeIframe;

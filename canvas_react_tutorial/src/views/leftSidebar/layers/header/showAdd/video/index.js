@@ -27,16 +27,16 @@ const VideoButton = (props) => {
       <Video name='Video' />
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayVideo}`}>
-        <div onClick={() => props.setShowCamera(true)}>
+        <div onClick={() => props.setShowCamera(true)} style={{ cursor: 'pointer' }}>
           <Camera name='Camera' />
         </div>
-        <div onClick={() => props.addLayer('libraryVideo')}>
+        <div className='not-allowed'>
           <Library name='Library of video' />
         </div>
-        <div onClick={() => props.setShowYoutube(true)}>
+        <div onClick={() => props.setShowYoutube(true)} style={{ cursor: 'pointer' }}>
           <Youtube name='Video from YouTube' />
         </div>
-        <div onClick={addScreen}>
+        <div onClick={addScreen} style={{ cursor: 'pointer' }}>
           <Screen name='Screen Sharing' />
         </div>
         <div className='not-allowed'>

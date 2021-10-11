@@ -2,7 +2,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 
 const Settings = () => {
   return (
-    <div>
+    <div className='not-allowed'>
       <AiOutlineSetting />
     </div>
   );

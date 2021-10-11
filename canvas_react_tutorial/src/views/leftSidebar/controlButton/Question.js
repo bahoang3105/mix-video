@@ -2,7 +2,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 const Question = () => {
   return (
-    <div>
+    <div className='not-allowed'>
       <AiOutlineQuestionCircle />
     </div>
   );

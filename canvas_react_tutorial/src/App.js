@@ -10,7 +10,10 @@ function App() {
   const scenesRef = useRef(null);
   const [size, setSize] = useState({width: 0, height: 0});
   useEffect(() => {
-    setSize({width: scenesRef.current.clientWidth, height: scenesRef.current.clientHeight});
+    setSize({
+      width: scenesRef.current.clientWidth < 1260 ? 1260 : scenesRef.current.clientWidth, 
+      height: scenesRef.current.clientHeight < 883 ? 883 : scenesRef.current.clientHeight,
+    });
   }, [setSize])
   return (
     <div>

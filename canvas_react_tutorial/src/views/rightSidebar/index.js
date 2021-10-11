@@ -9,18 +9,19 @@ const RightSidebar = () => {
   const renderScenes = isScenes => {
     setSelect(isScenes);
   };
+  const [display, setDisplay] = useState(true);
   if(select) {
     return(
       <div className='right'>
-        <Bars isSelectScenes={renderScenes}/>
-        <Scenes />
+        <Bars isSelectScenes={renderScenes} setDisplay={setDisplay} display={display} />
+        <Scenes display={display} />
       </div>
     );
   }
   return(
     <div className='right'>
-      <Bars isSelectScenes={renderScenes}/>
-      <Settings />
+      <Bars isSelectScenes={renderScenes} setDisplay={setDisplay} display={display} />
+      <Settings display={display} />
     </div>
   );
 };

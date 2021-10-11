@@ -1,11 +1,46 @@
 import { AiOutlineSave } from "react-icons/ai";
+import { connect } from "react-redux";
+import {
+  getListLayer,
+  getListScene,
+  getNumLayer,
+  getNumScene,
+} from '../../../redux/selectors';
 
-const Save = () => {
+const Save = ({ layers, scenes, numLayer, numScene, }) => {
+  const save = () => {
+    const saveLayer = [];
+    for(let i = 0; i < layers.length; i++) {
+      if(layers[i].type !== 'camera' && layers[i].type !== 'screen') {
+        if(layers[i].type === 'youtube') {
+          saveLayer.push({
+            ...layers[i],
+            start: false,
+            pause: true,
+          });
+        } else {
+          saveLayer.push(layers[i]);
+        }
+      }
+    }
+    localStorage.setItem('layers', JSON.stringify(saveLayer));
+    localStorage.setItem('scenes', JSON.stringify(scenes));
+    localStorage.setItem('numLayer', numLayer);
+    localStorage.setItem('numScene', numScene);
+  }
+
   return (
-    <div>
+    <div onClick={save} className='control-button'>
       <AiOutlineSave />
     </div>
   );
 };
 
-export default Save;
+const mapStateToProps = state => ({
+  layers: getListLayer(state),
+  scenes: getListScene(state),
+  numLayer: getNumLayer(state),
+  numScene: getNumScene(state),
+});
+
+export default connect(mapStateToProps)(Save);

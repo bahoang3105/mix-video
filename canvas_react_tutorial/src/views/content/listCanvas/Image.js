@@ -10,22 +10,30 @@ const ImageCanvas = (props) => {
   const flipY = props.shapeProps.scaleY;
 
   const offsetX = props.shapeProps.flip ? props.shapeProps.width * props.shapeProps.scaleX : 0;
+
   useEffect(() => {
-    if (props.isSelected) {
+    if (props.isSelected && !props.shapeProps.lock) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [props.isSelected]);
+  }, [props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
     props.changeLayer('X', x);
     props.changeLayer('Y', y);
   }
 
-  const onChange = (w, h, g) => {
-    props.changeLayer('W', w);
-    props.changeLayer('H', h);
-    props.changeLayer('G', g);
+  const onChange = (x, y, w, h, g) => {
+    props.changeLayer('X', x);
+    props.changeLayer('Y', y);
+    if(g === props.shapeProps.g) {
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    } else {
+      props.changeLayer('G', g);
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
+    }
   }
 
   const [img] = useImage(props.shapeProps.src);
@@ -41,7 +49,8 @@ const ImageCanvas = (props) => {
         scaleX={flipX}
         scaleY={flipY}
         offsetX={offsetX}
-        draggable={props.isSelected}
+        visible={!props.shapeProps.hidden}
+        draggable={props.isSelected  && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;
@@ -50,10 +59,10 @@ const ImageCanvas = (props) => {
 
           node.scaleX(1);
           node.scaleY(1);
-          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
+          onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
       />
-      {props.isSelected && (
+      {props.isSelected && !props.shapeProps.lock && (
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {

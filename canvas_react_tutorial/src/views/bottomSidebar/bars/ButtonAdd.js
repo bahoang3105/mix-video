@@ -68,6 +68,7 @@ const ButtonAdd = (props) => {
       className={`${props.className} ${color}`}
       onMouseOver={() => setColor('bottom-active')}
       onMouseOut={() => setColor('bottom-inactive')}
+      style={{ marginLeft: props.margin }}
       onClick={() => setShow(true)}
     >
       <AiOutlinePlusCircle />

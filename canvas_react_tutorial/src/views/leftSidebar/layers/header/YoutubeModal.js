@@ -2,12 +2,17 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { connect } from 'react-redux';
 import { addLayer } from '../../../../redux/actions';
-
+import { keyYoutube } from '../../../content/YoutubeIframe';
 const YoutubeModal = (props) => {
   const [src, setSrc] = useState('');
   const addYoutubeLayer = () => {
-    props.addLayer('youtube', props.curScene, { name: 'Video from Youtube ', src: src });
-    props.setShow(false);
+    const check = keyYoutube(src);
+    if(check !== false) {
+      props.addLayer('youtube', props.curScene, { name: 'Video from Youtube ', src: src });
+      props.setShow(false);
+    } else {
+      alert("It's not a youtube link!");
+    }
   }
   return (
     <Modal

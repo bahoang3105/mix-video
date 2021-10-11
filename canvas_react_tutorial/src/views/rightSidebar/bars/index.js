@@ -16,7 +16,9 @@ const Bars = (props) => {
   }
   return (
     <div className='bars' id='right-bar'>
-      <Dropdown />
+      <div className='dropdown-display' onClick={() => props.setDisplay(!props.display)}>  
+        <Dropdown display={props.display} />
+      </div>
       <div className='cards'>
         <Card name='Settings' color={colorSettings} onClick={onClickSettings} />
         <Card name='Scenes' color={colorScenes} onClick={onClickScenes} />

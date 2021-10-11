@@ -10,14 +10,16 @@ import {
   changeCurScene,
   changeCurLayer,
 } from '../../../redux/actions';
+import DeleteModal from "../../DeleteModal";
 import RenameModal from "../../RenameModal";
 
 const SceneView = (props) => {
   const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
-  const delScene = () => {
+  const onClickDeleteOK = () => {
     if(!props.inactiveDelete) {
-      props.delScene(props.nameScene);
+      props.delScene(props.id);
     }
   };
 
@@ -45,9 +47,10 @@ const SceneView = (props) => {
         <div className='button-scene-view hover'>
           <BiCopy />
         </div>
-        <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={delScene}>
+        <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={() => setShowDelete(true)}>
           <AiOutlineDelete />
         </div>
+        <DeleteModal setShowDelete={setShowDelete} showDelete={showDelete} onClickDeleteOK={onClickDeleteOK} />
       </div>
       <div className='click-scene-2' onClick={changeScene}/>
       <span className='name-scene-view' onDoubleClick={() => setShow(true)}>

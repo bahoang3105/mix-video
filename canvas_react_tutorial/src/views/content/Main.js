@@ -41,7 +41,7 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
       {renderYoutube()}
       <Stage
         width={size.width}
-        height={size.height - 150 }
+        height={size.height - 160 }
         style={{ backgroundColor: '#969ca5' }}
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}

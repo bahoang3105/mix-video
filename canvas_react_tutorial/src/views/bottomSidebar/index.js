@@ -17,14 +17,14 @@ const BottomSidebar = ({ size }) => {
     return(
       <div className='bottom'>
         <Bars className='bars bottom-bars' onSelect={onSelect} size={size} />
-        <Scenes size={size} />
+        <Scenes />
       </div>
     );
   }
   return(
     <div className='bottom'>
       <Bars className='bars bottom-bars' onSelect={onSelect} size={size} />
-      <Videos size={size} />
+      <Videos />
     </div>
   );
 };

@@ -11,7 +11,7 @@ import Align from './rightField/Align';
 
 const Text = (props) => {
   const setValue = (type, value) => {
-    const checkValue = (value) ? value : 0;
+    const checkValue = (type === 'background') ? value : ((value) ? value : 0);
     props.changeLayer(type, checkValue, props.data.num);
   }
   return (

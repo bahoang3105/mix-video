@@ -20,7 +20,17 @@ const Layers = ({ curScene, layers, curLayer }) => {
     const num = checkCurLayer ? null : curLayer.num;
     for(let i = 0; i < layers.length; i++) {
       if(layers[i].scene === curScene) {
-        listLayer.push(<Layer key={`layer-${layers[i].num}`} nameLayer={layers[i].name} type={layers[i].type} id={layers[i].num} selectedLayer={num}/>);
+        listLayer.push(
+          <Layer 
+            key={`layer-${layers[i].num}`} 
+            nameLayer={layers[i].name} 
+            type={layers[i].type} 
+            id={layers[i].num} 
+            selectedLayer={num}
+            hidden={layers[i].hidden}
+            lock={layers[i].lock}
+          />
+        );
       };
     };
     return listLayer;

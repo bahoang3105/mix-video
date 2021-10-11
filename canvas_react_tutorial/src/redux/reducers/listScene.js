@@ -51,7 +51,7 @@ const listScene = (state = initialState, action) => {
     }
     case DEL_SCENE: {
       const { scene } = action.payload;
-      const place = state.scenes.findIndex(Scene => Scene.name === scene);
+      const place = state.scenes.findIndex(Scene => Scene.num === scene);
       const curScene = (state.curScene === state.scenes[place].num) ? ((place === 0) ? state.scenes[1].num : state.scenes[0].num) : state.curScene;
       const curSceneName = state.scenes.find(Scene => Scene.num === curScene).name;
       

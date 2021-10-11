@@ -60,6 +60,7 @@
   background-color: rgb(58, 58, 58);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+  cursor: text;
 }
 
 .buttons-scene-view {

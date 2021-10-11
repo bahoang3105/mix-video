@@ -24,7 +24,7 @@ const NameStream = (props) => {
   return (
     <div>
       <div className={props.className} style={{ display: display ? 'flex' : 'none' }}>
-        <p>{name}</p>
+        <span id='name-stream'>{name}</span>
         <span className='space' />
         <p className='button-change-name' onClick={() => setDisplay(!display)}>
           <AiFillEdit />

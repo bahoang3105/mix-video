@@ -6,23 +6,27 @@ const CircleCanvas = (props) => {
   const trRef = useRef();
 
   useEffect(() => {
-    if (props.isSelected) {
+    if (props.isSelected && !props.shapeProps.lock) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [props.isSelected]);
+  }, [props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
     props.changeLayer('X', x);
     props.changeLayer('Y', y);
   }
 
-  const onChange = (w, h, g) => {
+  const onChange = (x, y, w, h, g) => {
+    props.changeLayer('X', x);
+    props.changeLayer('Y', y);
     if(g === props.shapeProps.g) {
       props.changeLayer('W', w);
       props.changeLayer('H', h);
     } else {
       props.changeLayer('G', g);
+      props.changeLayer('W', w);
+      props.changeLayer('H', h);
     }
   }
 
@@ -36,8 +40,9 @@ const CircleCanvas = (props) => {
         rotation={props.shapeProps.g}
         radiusX={props.shapeProps.width}
         radiusY={props.shapeProps.height}
+        visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected}
+        draggable={props.isSelected  && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;
@@ -46,10 +51,10 @@ const CircleCanvas = (props) => {
 
           node.scaleX(1);
           node.scaleY(1);
-          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
+          onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
       />
-      {props.isSelected && (
+      {props.isSelected  && !props.shapeProps.lock && (
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {

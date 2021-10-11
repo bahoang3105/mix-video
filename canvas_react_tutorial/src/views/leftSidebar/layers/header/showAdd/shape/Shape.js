@@ -9,6 +9,7 @@ const Shape = (props) => {
       className={`button-layer left-add-buttons flex${isSelect}`}
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
+      style={{ cursor: 'default' }}
     >
       <BiShapePolygon />
       <span className='space' />

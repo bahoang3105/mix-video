@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const Background = (props) => {
-  const initColor = (props.data === 'none') ? '#ffffff' : props.data;
+  const initColor = (props.data === null) ? '#ffffff' : props.data;
   
   const [color, setColor] = useState(initColor);
   useEffect(() => {
@@ -18,7 +18,7 @@ const Background = (props) => {
       </div>
       <div className='button-right-background'>
         <span className='button-input-color' onClick={() => props.setValue('background', color)}>OK</span>
-        <span className='button-input-color' onClick={() => props.setValue('background', 'none')}>Clear</span>
+        <span className='button-input-color' onClick={() => props.setValue('background', null)}>Clear</span>
       </div>
     </div>
   );

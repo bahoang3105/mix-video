@@ -1,6 +1,6 @@
 import Canvas from "./Canvas";
 
-const Logo = () => {
+const Logo = ({ size }) => {
   const draw = (ctx, frameCount) => {
     ctx.canvas.height = 200;
     ctx.canvas.width = 200;
@@ -13,7 +13,15 @@ const Logo = () => {
 
   const options = {'context': '2d'};
   return (
-    <Canvas draw={draw} options={options} className='canvas-logo'/>
+    <Canvas 
+      draw={draw} 
+      options={options} 
+      style={{
+        position: 'absolute',
+        margin: `-80px 0 0 ${size.width - 210}px`,
+        zIndex: 5000,
+      }}
+    />
   );
 }
 

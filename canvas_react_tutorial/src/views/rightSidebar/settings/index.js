@@ -9,7 +9,7 @@ import Triangle from "./Triangle";
 import Video from "./Video";
 import Youtube from "./Youtube";
 
-const Settings = ({ curLayer }) => {
+const Settings = ({ curLayer, display }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if(curLayer === null) {
@@ -65,7 +65,7 @@ const Settings = ({ curLayer }) => {
     }
   }
   return(
-    <div>
+    <div style={{ display: display ? 'block' : 'none'}}>
       {renderSettings(curLayer)}
     </div>
   );
