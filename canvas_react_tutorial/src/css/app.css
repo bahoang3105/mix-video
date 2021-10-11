@@ -7,6 +7,9 @@ html {
   display: grid;
   grid-template-columns: 270px 15px auto 15px 270px;
   min-height: 90vh;
+  z-index: 1000;
+  margin: 71px 0 0 -7px;
+  width: 99vw !important;
 }
 
 .right-sidebar {
@@ -24,6 +27,7 @@ html {
 .scenes {
   background-color: rgba(255,255,255,255);
   box-shadow: -0.75px -0.75px rgb(235, 234, 234);
+  width: 100%;
 }
 
 .bars {

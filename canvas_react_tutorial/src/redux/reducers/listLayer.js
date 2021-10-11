@@ -149,8 +149,8 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
-            width: 540,
-            height: 300,
+            width: 560,
+            height: 315,
             opacity: 1,
             src: src,
           }
@@ -166,10 +166,16 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
+            autoplay: false,
+            loop: false,
             width: 540,
             height: 315,
             opacity: 1,
             src: src,
+            start: false,
+            pause: false,
+            mute: false,
+            volume: 100,
           }
           break;
         }
@@ -616,6 +622,104 @@ const listLayer = (state = initialState, action) => {
             curLayer: {
               ...state.curLayer,
               scaleY: action.payload.value
+            }
+          }
+        }
+        case 'start': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                start: action.payload.value
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              start: action.payload.value
+            }
+          }
+        }
+        case 'pause': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                pause: action.payload.value
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              pause: action.payload.value
+            }
+          }
+        }
+        case 'autoplay': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                autoplay: !state.layers[place].autoplay,
+                start: true,
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              autoplay: !state.layers[place].autoplay,
+              start:true,
+            }
+          }
+        }
+        case 'loop': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                loop: !state.layers[place].loop
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              loop: !state.layers[place].loop
+            }
+          }
+        }
+        case 'mute': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                mute: !state.layers[place].mute
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              mute: !state.layers[place].mute
+            }
+          }
+        }
+        case 'volume': {
+          const place = state.layers.findIndex(Layer => Layer.num === action.payload.layer);
+          return {
+            ...state,
+            layers: state.layers.map(
+              (layer, i) => i === place ? {
+                ...layer,
+                volume: action.payload.value
+              } : layer
+            ),
+            curLayer: {
+              ...state.curLayer,
+              volume: action.payload.value
             }
           }
         }

@@ -4,7 +4,7 @@ import Scenes from "./scenes";
 import { useState } from "react";
 import Videos from "./videos";
 
-const BottomSidebar = () => {
+const BottomSidebar = ({ size }) => {
   const [select, setSelect] = useState(true);
   const onSelect = card => {
     if(card === 'video') {
@@ -16,15 +16,15 @@ const BottomSidebar = () => {
   if(select) {
     return(
       <div className='bottom'>
-        <Bars className='bars bottom-bars' onSelect={onSelect}/>
-        <Scenes />
+        <Bars className='bars bottom-bars' onSelect={onSelect} size={size} />
+        <Scenes size={size} />
       </div>
     );
   }
   return(
     <div className='bottom'>
-      <Bars className='bars bottom-bars' onSelect={onSelect}/>
-      <Videos />
+      <Bars className='bars bottom-bars' onSelect={onSelect} size={size} />
+      <Videos size={size} />
     </div>
   );
 };

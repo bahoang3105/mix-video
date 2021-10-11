@@ -4,7 +4,7 @@ import TextCanvas from './TextCanvas';
 import Triangle from './Triangle';
 import ImageCanvas from './Image';
 import Video from './Video';
-import Youtube from './Youtube';
+import YoutubeCanvas from './YoutubeCanvas';
 
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
@@ -100,8 +100,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
           }
           case 'youtube': {
             listCanvas.push(
-              <Youtube
-              key={`screen-${i}`}
+              <YoutubeCanvas
+              key={`youtube-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}

@@ -4,7 +4,10 @@
   margin: -10px -8px -10px -10px;
   background-color: rgba(242,243,248,255);
   align-items: center;
-  z-index: 4000;
+  z-index: 1001;
+  position: absolute;
+  width: 100%;
+  margin-top: -71px;
 }
 
 .main-logo {
@@ -51,11 +54,13 @@
   height: 2.1%;
   width: 2.1%;
   padding: 1.8px 0 0 3px;
+  cursor: pointer;
 }
 
 .button-change-name {
   padding-top: 3px;
   margin-right: 45px;
+  cursor: pointer;
 }
 
 .start-live-button {

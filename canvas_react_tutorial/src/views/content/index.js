@@ -3,11 +3,11 @@ import Logo from './logo/Logo';
 import Main from './Main';
 
 
-const Content = () => {
+const Content = ({ size }) => {
   return(
     <>
       <Logo />
-      <Main />
+      <Main size={size} />
     </>
   );
 };

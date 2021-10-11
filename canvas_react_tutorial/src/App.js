@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from './views/headers';
 import './css/app.css';
 import LeftSidebar from './views/leftSidebar';
@@ -7,6 +7,11 @@ import BottomSidebar from './views/bottomSidebar';
 import RightSidebar from './views/rightSidebar';
 
 function App() {
+  const scenesRef = useRef(null);
+  const [size, setSize] = useState({width: 0, height: 0});
+  useEffect(() => {
+    setSize({width: scenesRef.current.clientWidth, height: scenesRef.current.clientHeight});
+  }, [setSize])
   return (
     <div>
       <Header/>
@@ -15,9 +20,9 @@ function App() {
           <LeftSidebar />
         </div>
         <div id='bonus-space-left' />
-        <div className='scenes'>
-          <Content />
-          <BottomSidebar />
+        <div className='scenes' ref={scenesRef}>
+          <Content size={size}/>
+          <BottomSidebar size={size} />
         </div>
         <div id='bonus-space-right' />
         <div className='right-sidebar'>

@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useRef } from "react";
-import { Group, Rect, Transformer } from "react-konva";
-import { Html } from 'react-konva-utils';
+import { Rect, Transformer } from "react-konva";
 
-const Youtube = (props) => {
+const YoutubeCanvas = (props) => {
   const shapeRef = useRef();
   const trRef = useRef();
 
@@ -18,25 +17,17 @@ const Youtube = (props) => {
     props.changeLayer('Y', y);
   }
 
-  const onChange = (w, h, g) => {
-    if(g === props.shapeProps.g) {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
-    } else {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
-      props.changeLayer('G', g);
-    }
+  const onChange = (w, h) => {
+    props.changeLayer('G', 0);
+    props.changeLayer('W', w);
+    props.changeLayer('H', h);
   }
-  const src = props.shapeProps.src.replace('watch?v=', 'embed/') + '?autoplay=1?controls=0';
 
-  const iframeTag = document.querySelector("iframe");
-  const win = iframeTag.contentWindow;
-  console.log(win)
+
 
   return (
     <Fragment>
-      <Group
+      <Rect
         onClick={props.onSelect}
         ref={shapeRef}
         fill={props.shapeProps.background}
@@ -44,28 +35,19 @@ const Youtube = (props) => {
         {...props.shapeProps}
         draggable={props.isSelected}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
-        onTransformEnd={(e) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
 
           node.scaleX(1);
           node.scaleY(1);
-          onChange(node.width() * scaleX, node.height() * scaleY, node.rotation());
+          onChange(node.width() * scaleX, node.height() * scaleY);
         }}
-      >
-        <Rect
-          width={props.shapeProps.width}
-          height={props.shapeProps.height}
-          x={0}
-          y={0}
-        />
-        <Html>
-          <iframe width={props.shapeProps.width} height={props.shapeProps.height} src={src} title="YouTube video player" frameBorder="0"></iframe>
-        </Html>
-      </Group>
+      />
       {props.isSelected && (
         <Transformer
+        rotateEnabled={false}
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
             if (newBox.width < 5 || newBox.height < 5) {
@@ -79,4 +61,4 @@ const Youtube = (props) => {
   );
 };
 
-export default Youtube;
+export default YoutubeCanvas;

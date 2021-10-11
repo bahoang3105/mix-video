@@ -23,7 +23,7 @@ const Bars = (props) => {
     <div className={props.className}>
       <Scene className={`scene-video-card${selectScene}`} onClick={() => onClickScene()}/>
       <Video className={`scene-video-card${selectVideo}`} onClick={() => onClickVideo()}/>
-      <ButtonAdd className='button-add' name={nameAdd}/>
+      <ButtonAdd className='button-add' name={nameAdd} margin={props.size.width - 250} />
     </div>
   );
 };

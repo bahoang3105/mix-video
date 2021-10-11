@@ -1,5 +1,7 @@
 .bottom {
-  z-index: 3000;
+  z-index: 1000;
+  background-color: white;
+  position: absolute;
 }
 
 .bottom-bars {
@@ -19,7 +21,6 @@
   display: flex;
   border-radius: 8px;
   border: 1px solid rgb(202, 202, 202);
-  right: 300px;
   width: 100px;
 }
 
@@ -82,6 +83,7 @@
 
 .list-bottom {
   display: flex;
+  width: 100%;
 }
 
 .over-mouse {
