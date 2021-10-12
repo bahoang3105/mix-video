@@ -23,6 +23,7 @@ import {
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
   CHANGE_CUR_SCENE,
+  SWITCH_STATE_VIDEO,
 } from './actionTypes';
 
 export const addLayer = (type, curScene, details) => ({
@@ -212,5 +213,12 @@ export const changeCurLayer = layer => ({
   type: CHANGE_CUR_LAYER,
   payload: {
     layer,
+  }
+});
+
+export const switchStateVideo = src => ({
+  type: SWITCH_STATE_VIDEO,
+  payload: {
+    src,
   }
 });

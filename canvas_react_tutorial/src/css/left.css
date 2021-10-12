@@ -233,3 +233,23 @@
 .input-url:focus {
   border-color: rgb(240, 0, 140);
 }
+
+#lock-left {
+  margin: -35px 0 0 -135px;
+  width: 150px;
+}
+
+.layer-visible {
+  margin: -35px 0 0 -17px;
+  width: 30px;
+}
+
+.layer-lock {
+  margin: -35px 0 0 -1px;
+  width: 38px;
+}
+
+.layer-delete {
+  margin: -35px 0 0 20px;
+  width: 40px;
+}

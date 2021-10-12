@@ -3,7 +3,7 @@ import { AiOutlineDelete, AiFillFolderAdd } from "react-icons/ai";
 import { BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import { RiCameraFill, RiCameraOffFill } from 'react-icons/ri';
 import RenameModal from "../../RenameModal";
-import { addLayer, delVideoLayer, delVideo, muteMic, switchVideo, changeNameVideo } from '../../../redux/actions';
+import { addLayer, delVideoLayer, delVideo, muteMic, switchVideo, changeNameVideo, switchStateVideo } from '../../../redux/actions';
 import { connect } from 'react-redux';
 import { getCurScene } from "../../../redux/selectors";
 import stopStream from './stopStream';
@@ -26,6 +26,11 @@ const VideoView = ({ curScene, ...props}) => {
     props.changeNameVideo(newName, props.id)
   }
 
+  const switchVideo = () => {
+    props.switchVideo(props.id);
+    props.switchStateVideo(props.src);
+  }
+
   return (
     <div className='scene-view video-view'>
       <div  className={`video-content${props.onCamera ? '' : ' display-none'}`}>
@@ -43,7 +48,7 @@ const VideoView = ({ curScene, ...props}) => {
         </div>
         <div
           className='button-scene-view hover'
-          onClick={() => props.switchVideo(props.id)}
+          onClick={switchVideo}
         >
           <RiCameraFill className={props.onCamera ? '' : 'display-none'} />
           <RiCameraOffFill className={props.onCamera ? 'display-none' : ''} />
@@ -75,5 +80,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addLayer, delVideo, delVideoLayer, muteMic, switchVideo, changeNameVideo }
+  { addLayer, delVideo, delVideoLayer, muteMic, switchVideo, changeNameVideo, switchStateVideo }
 )(VideoView);

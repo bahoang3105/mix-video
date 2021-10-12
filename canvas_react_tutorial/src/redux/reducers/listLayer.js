@@ -12,6 +12,7 @@ import {
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
   DEL_SCENE,
+  SWITCH_STATE_VIDEO,
 } from '../actionTypes';
 
 const initialState = {
@@ -148,6 +149,8 @@ const listLayer = (state = initialState, action) => {
             height: 300,
             opacity: 1,
             src: src,
+            camera: true,
+            micro: true,
             hidden: false,
             lock: false,
           }
@@ -167,6 +170,8 @@ const listLayer = (state = initialState, action) => {
             height: 315,
             opacity: 1,
             src: src,
+            camera: true,
+            micro: true,
             hidden: false,
             lock: false,
           }
@@ -881,6 +886,14 @@ const listLayer = (state = initialState, action) => {
       return {
         ...state,
         layers: state.layers.filter(layer => layer.scene !== action.payload.scene),
+      }
+    }
+    case SWITCH_STATE_VIDEO: {
+      const src = action.payload.src;
+      return {
+        ...state,
+        layers: state.layers.map(
+          layer => ((layer.type === 'camera' || layer.type === 'screen') && layer.src === src) ?  {...layer, camera: !layer.camera} : layer),
       }
     }
     default:
