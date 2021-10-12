@@ -169,6 +169,7 @@ html {
 
 .not-allowed {
   cursor: not-allowed;
+  color: rgb(175, 175, 175);
 }
 
 #bonus-space-left {

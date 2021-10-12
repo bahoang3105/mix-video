@@ -125,7 +125,7 @@ export const setValue = (type, value, changeLayer, data) => {
         ...data,
         opacity: parseInt(checkValue) / 100,
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'transparency');
       break;
     }
     case 'background': {

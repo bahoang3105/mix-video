@@ -12,7 +12,7 @@ const Rectangle = (props) => {
   return (
     <div>
       <General data={props.data} setValue={setValueLayer} />
-      <Background data={props.data.fill} setValue={setValueLayer} />
+      <Background data={props.data.background} setValue={setValueLayer} />
       <Corner data={props.data.cornerRadius} setValue={setValueLayer} />
     </div>
   );

@@ -24,6 +24,12 @@ import {
   ZOOMOUT_LAYER,
   CHANGE_CUR_SCENE,
   SWITCH_STATE_VIDEO,
+  UNDO,
+  UNDO_SCENE,
+  UNDO_lAYER,
+  REDO,
+  REDO_LAYER,
+  REDO_SCENE,
 } from './actionTypes';
 
 export const addLayer = (type, curScene, details) => ({
@@ -80,11 +86,12 @@ export const changeNameVideo = (newName, video) => ({
   }
 });
 
-export const changeLayer = (layer, num) => ({
+export const changeLayer = (layer, num, type) => ({
   type: CHANGE_LAYER,
   payload: {
     layer,
     num,
+    type,
   }
 });
 
@@ -220,4 +227,28 @@ export const switchStateVideo = src => ({
   payload: {
     src,
   }
+});
+
+export const undo = () => ({
+  type: UNDO,
+});
+
+export const undoLayer = () => ({
+  type: UNDO_lAYER,
+});
+
+export const undoScene = () => ({
+  type: UNDO_SCENE,
+});
+
+export const redo = () => ({
+  type: REDO,
+});
+
+export const redoLayer = () => ({
+  type: REDO_LAYER,
+});
+
+export const redoScene = () => ({
+  type: REDO_SCENE,
 });

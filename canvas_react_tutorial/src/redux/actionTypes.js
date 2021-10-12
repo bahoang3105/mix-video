@@ -25,3 +25,10 @@ export const CHANGE_CUR_LAYER = 'CHANGE_CUR_LAYER';
 export const CHANGE_NAME_LAYER = 'CHANGE_NAME_LAYER';
 export const DEL_VIDEO_LAYER = 'DEL_VIDEO_LAYER';
 export const SWITCH_STATE_VIDEO = 'SWITCH_STATE_VIDEO';
+
+export const UNDO = 'UNDO';
+export const REDO = 'REDO';
+export const UNDO_lAYER = 'UNDO_LAYER';
+export const REDO_LAYER = 'REDO_LAYER';
+export const UNDO_SCENE = 'UNDO_SCENE';
+export const REDO_SCENE = 'REDO_SCENE';
