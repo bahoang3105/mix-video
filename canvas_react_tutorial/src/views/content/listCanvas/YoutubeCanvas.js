@@ -13,16 +13,35 @@ const YoutubeCanvas = (props) => {
   }, [props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
+    const layer = {
+      ...props.shapeProps,
+      x: parseInt(x),
+      y: parseInt(y),
+    }
+    props.changeLayer(layer);
   }
 
-  const onChange = (x, y, w, h) => {
-    props.changeLayer('G', 0);
-    props.changeLayer('W', w);
-    props.changeLayer('H', h);
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
+  const onChange = (x, y, w, h, g) => {
+    if(g === props.shapeProps.g) {
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+      }
+      props.changeLayer(layer);
+    } else {
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+        g: parseInt(g),
+      }
+      props.changeLayer(layer);
+    }
   }
 
   return (

@@ -10,6 +10,7 @@ import {
 } from "../../../../redux/actions";
 import { connect } from "react-redux";
 import RenameModal from "../../../RenameModal";
+import { setValue } from "../../../rightSidebar/settings";
 
 const Layer = (props) => {
   const name = (props.nameLayer.length < 29) ? props.nameLayer : props.nameLayer.slice(0, 29) + '...';
@@ -33,8 +34,8 @@ const Layer = (props) => {
     props.changeNameLayer(newName, props.id);
   }
 
-  const setValue = type => {
-    props.changeLayer(type, null, props.id);
+  const setValueLayer = type => {
+    setValue(type, null, props.changeLayer, props.data)
   }
 
   return(
@@ -57,7 +58,7 @@ const Layer = (props) => {
         showDelete={showDelete}
         onClickDeleteOK={onClickDeleteOK}
         duplicate={() => props.duplicateLayer(props.id)}
-        setValue={setValue}
+        setValue={setValueLayer}
         hidden={props.hidden}
         lock={props.lock}
       />

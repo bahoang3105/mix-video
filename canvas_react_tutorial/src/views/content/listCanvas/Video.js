@@ -1,6 +1,7 @@
 import { Animation } from "konva/lib/Animation";
 import { Fragment, useEffect, useRef } from "react";
 import { Image, Transformer } from "react-konva";
+import useImage from "use-image";
 import useVideo from "./useVideo";
 
 const Video = (props) => {
@@ -21,29 +22,45 @@ const Video = (props) => {
   }, [video, props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
+    const layer = {
+      ...props.shapeProps,
+      x: parseInt(x),
+      y: parseInt(y),
+    }
+    props.changeLayer(layer);
   }
 
   const onChange = (x, y, w, h, g) => {
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
     if(g === props.shapeProps.g) {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+      }
+      props.changeLayer(layer);
     } else {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
-      props.changeLayer('G', g);
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+        g: parseInt(g),
+      }
+      props.changeLayer(layer);
     }
   }
+  
+  const [img] = useImage('https://cdn1.iconfinder.com/data/icons/hospital-47/64/Stop-photo-sign-picture-prohibited-camera-512.png');
 
   return (
     <Fragment>
       <Image
         onClick={props.onSelect}
         ref={shapeRef}
-        image={video}
+        image={props.shapeProps.camera ? video : img}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
         draggable={props.isSelected  && !props.shapeProps.lock}

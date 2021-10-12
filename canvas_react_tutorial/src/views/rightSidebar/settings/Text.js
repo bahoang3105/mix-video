@@ -8,20 +8,20 @@ import {
   changeLayer,
 } from '../../../redux/actions';
 import Align from './rightField/Align';
+import { setValue } from '.';
 
 const Text = (props) => {
-  const setValue = (type, value) => {
-    const checkValue = (type === 'background') ? value : ((value) ? value : 0);
-    props.changeLayer(type, checkValue, props.data.num);
+  const setValueLayer = (type, value) => {
+    setValue(type, value, props.changeLayer, props.data);
   }
   return (
     <div>
-      <Align data={props.data.align} setValue={setValue} />
-      <General data={props.data} setValue={setValue} />
-      <Background data={props.data.background} setValue={setValue} />
-      <TextOfText data={props.data.text} setValue={setValue} />
-      <Font data={props.data} setValue={setValue} />
-      <TextEffect data={props.data} setValue={setValue} />
+      <Align data={props.data.align} setValue={setValueLayer} />
+      <General data={props.data} setValue={setValueLayer} />
+      <Background data={props.data.background} setValue={setValueLayer} />
+      <TextOfText data={props.data.text} setValue={setValueLayer} />
+      <Font data={props.data} setValue={setValueLayer} />
+      <TextEffect data={props.data} setValue={setValueLayer} />
     </div>
   );
 }

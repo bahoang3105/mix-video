@@ -18,10 +18,14 @@ const SceneView = (props) => {
   const [showDelete, setShowDelete] = useState(false);
 
   const onClickDeleteOK = () => {
-    if(!props.inactiveDelete) {
-      props.delScene(props.id);
-    }
+    props.delScene(props.id);
   };
+
+  const checkShow = () => {
+    if(!props.inactiveDelete) {
+      setShowDelete(true);
+    }
+  }
 
   const changeScene = () => {
     props.changeCurScene(props.id, props.nameScene);
@@ -47,7 +51,7 @@ const SceneView = (props) => {
         <div className='button-scene-view hover'>
           <BiCopy />
         </div>
-        <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={() => setShowDelete(true)}>
+        <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={checkShow}>
           <AiOutlineDelete />
         </div>
         <DeleteModal setShowDelete={setShowDelete} showDelete={showDelete} onClickDeleteOK={onClickDeleteOK} />

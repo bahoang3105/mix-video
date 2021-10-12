@@ -14,7 +14,7 @@ const Scenes = ({ scenes, curScene }) => {
 
   const renderScenes = scenes => {
     if(!scenes) return;
-    const inactiveDelete = (scenes.length < 2) ? true : false
+    const inactiveDelete = (scenes.length < 2) ? true : false;
     const listScene = [];
     for(let i = 0; i < scenes.length; i++) {
       listScene.push(

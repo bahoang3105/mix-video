@@ -3,17 +3,17 @@ import General from "./rightField/general";
 import { changeLayer } from "../../../redux/actions";
 import Background from './rightField/Background';
 import Corner from "./rightField/Corner";
+import { setValue } from ".";
 
 const Rectangle = (props) => {
-  const setValue = (type, value) => {
-    const checkValue = (value) ? value : 0;
-    props.changeLayer(type, checkValue, props.data.num);
+  const setValueLayer = (type, value) => {
+    setValue(type, value, props.changeLayer, props.data);
   }
   return (
     <div>
-      <General data={props.data} setValue={setValue} />
-      <Background data={props.data.fill} setValue={setValue} />
-      <Corner data={props.data.cornerRadius} setValue={setValue} />
+      <General data={props.data} setValue={setValueLayer} />
+      <Background data={props.data.fill} setValue={setValueLayer} />
+      <Corner data={props.data.cornerRadius} setValue={setValueLayer} />
     </div>
   );
 }

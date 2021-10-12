@@ -76,3 +76,250 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Settings);
+
+export const setValue = (type, value, changeLayer, data) => {
+  const checkValue = (type === 'background') ? value : ((value) ? value : 0);
+  switch (type) {
+    case 'X': {
+      const layer = {
+        ...data,
+        x: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'Y': {
+      const layer = {
+        ...data,
+        y: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'G': {
+      const layer = {
+        ...data,
+        g: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'W': {
+      const layer = {
+        ...data,
+        width: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'H': {
+      const layer = {
+        ...data,
+        height: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'transparency': {
+      const layer = {
+        ...data,
+        opacity: parseInt(checkValue) / 100,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'background': {
+      const layer = {
+        ...data,
+        background: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'flip': {
+      const layer = {
+        ...data,
+        flip: !data.flip,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'corner': {
+      const layer = {
+        ...data,
+        cornerRadius: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'align': {
+      const layer = {
+        ...data,
+        align: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'text': {
+      const layer = {
+        ...data,
+        text: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'fontFamily': {
+      const layer = {
+        ...data,
+        fontFamily: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'fontSize': {
+      const layer = {
+        ...data,
+        fontSize: parseInt(checkValue),
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'fontStyle': {
+      const style = data.style;
+      const exist =  style.findIndex(s => s === checkValue);
+      const newStyle =  (exist >= 0) ? [...style.slice(0, exist), ...style.slice(exist + 1)] : [...style, checkValue];
+      const layer = {
+        ...data,
+        style: newStyle,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'textDecoration': {
+      const newValue = (data.textDecoration === 'none') ? 'underline' : 'none';
+      const layer = {
+        ...data,
+        textDecoration: newValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'fontColor': {
+      const layer = {
+        ...data,
+        fontColor: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'animation': {
+      const layer = {
+        ...data,
+        animation: !data.animation,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'speed': {
+      const layer = {
+        ...data,
+        speed: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'dropShadow': {
+      const layer = {
+        ...data,
+        dropShadow: !data.dropShadow,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'direction': {
+      const layer = {
+        ...data,
+        direction: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'shadowColor': {
+      const layer = {
+        ...data,
+        shadowColor: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'start': {
+      const layer = {
+        ...data,
+        start: value,
+        pause: false,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'pause': {
+      const layer = {
+        ...data,
+        pause: value,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'autoplay': {
+      const layer = {
+        ...data,
+        autoplay: !data.autoplay,
+        start: data.autoplay ? data.start : true,
+        pause: data.autoplay ? data.pause : false,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'loop': {
+      const layer = {
+        ...data,
+        loop: !data.loop,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'mute': {
+      const layer = {
+        ...data,
+        mute: !data.mute,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'volume': {
+      const layer = {
+        ...data,
+        volume: checkValue,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'lock': {
+      const layer = {
+        ...data,
+        lock: !data.lock,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    case 'hidden': {
+      const layer = {
+        ...data,
+        hidden: !data.hidden,
+      }
+      changeLayer(layer, data.num);
+      break;
+    }
+    default:
+      break;
+  }
+}

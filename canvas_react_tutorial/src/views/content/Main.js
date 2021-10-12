@@ -17,8 +17,8 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
     }
   };
 
-  const changeLayerCanvas = (type, value) => {
-    changeLayer(type, value, curLayer.num);
+  const changeLayerCanvas = (layer) => {
+    changeLayer(layer, curLayer.num);
   }
 
   const onSelect = layer => {

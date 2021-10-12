@@ -13,20 +13,34 @@ const TextCanvas = (props) => {
   }, [props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
+    const layer = {
+      ...props.shapeProps,
+      x: parseInt(x),
+      y: parseInt(y),
+    }
+    props.changeLayer(layer);
   }
 
   const onChange = (x, y, w, h, g) => {
-    props.changeLayer('X', x);
-    props.changeLayer('Y', y);
     if(g === props.shapeProps.g) {
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+      }
+      props.changeLayer(layer);
     } else {
-      props.changeLayer('G', g);
-      props.changeLayer('W', w);
-      props.changeLayer('H', h);
+      const layer = {
+        ...props.shapeProps,
+        x: parseInt(x),
+        y: parseInt(y),
+        width: parseInt(w),
+        height: parseInt(h),
+        g: parseInt(g),
+      }
+      props.changeLayer(layer);
     }
   }
 

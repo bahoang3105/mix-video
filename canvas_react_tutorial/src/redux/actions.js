@@ -80,12 +80,11 @@ export const changeNameVideo = (newName, video) => ({
   }
 });
 
-export const changeLayer = (field, value, layer) => ({
+export const changeLayer = (layer, num) => ({
   type: CHANGE_LAYER,
   payload: {
-    field,
-    value,
     layer,
+    num,
   }
 });
 
