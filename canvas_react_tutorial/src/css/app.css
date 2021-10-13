@@ -46,7 +46,7 @@ html {
   width: 100vw;
   height: 100vh;
   padding-top: 80vh;
-  background-color: rgba(219, 219, 219, 0.8);
+  background-color: rgba(189, 189, 189, 0.5);
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
   z-index: 5000;
