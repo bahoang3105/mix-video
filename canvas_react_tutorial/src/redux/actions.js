@@ -16,8 +16,6 @@ import {
   DUPLICATE_SCENE,
   GET_LAYERS,
   GET_SCENES,
-  HIDE_LAYER,
-  LOCK_LAYER,
   SWITCH_VIDEO,
   MUTE_MIC,
   ZOOMIN_LAYER,
@@ -25,11 +23,9 @@ import {
   CHANGE_CUR_SCENE,
   SWITCH_STATE_VIDEO,
   UNDO,
-  UNDO_SCENE,
-  UNDO_lAYER,
   REDO,
-  REDO_LAYER,
-  REDO_SCENE,
+  CHANGE_STATE_LAYERS,
+  CHANGE_STATE_SCENES,
 } from './actionTypes';
 
 export const addLayer = (type, curScene, details) => ({
@@ -95,7 +91,7 @@ export const changeLayer = (layer, num, type) => ({
   }
 });
 
-export const createThumbnail = (scene, img) => ({
+export const createThumbnail = (img, scene) => ({
   type: CREATE_THUMBNAIL,
   payload: {
     scene,
@@ -138,22 +134,28 @@ export const duplicateLayer = layer => ({
   }
 });
 
-export const duplicateScene = scene => ({
+export const duplicateScene = (scene, numScene) => ({
   type: DUPLICATE_SCENE,
   payload: {
     scene,
+    numScene,
   }
 });
 
 export const getLayers = () => {
   return (dispatch) => {
-    const layers = JSON.parse(localStorage.getItem('layers'));
+    const layers = JSON.parse(localStorage.getItem('layers')) ? JSON.parse(localStorage.getItem('layers')) : [];
     const num = parseInt(localStorage.getItem('numLayer')) ? parseInt(localStorage.getItem('numLayer')) : 1;
     dispatch({
       type: GET_LAYERS,
       payload: {
         layers,
         num,
+        history: [{
+          layers,
+          num,
+          curLayer: [],
+        }],
       }
     });
   };
@@ -172,20 +174,6 @@ export const getScenes = () => {
     });
   };
 };
-
-export const hideLayer = layer => ({
-  type: HIDE_LAYER,
-  payload: {
-    layer,
-  }
-});
-
-export const lockLayer = layer => ({
-  type: LOCK_LAYER,
-  payload: {
-    layer,
-  }
-});
 
 export const switchVideo = video => ({
   type: SWITCH_VIDEO,
@@ -233,22 +221,20 @@ export const undo = () => ({
   type: UNDO,
 });
 
-export const undoLayer = () => ({
-  type: UNDO_lAYER,
-});
-
-export const undoScene = () => ({
-  type: UNDO_SCENE,
-});
-
 export const redo = () => ({
   type: REDO,
 });
 
-export const redoLayer = () => ({
-  type: REDO_LAYER,
+export const changeStateLayers = num => ({
+  type: CHANGE_STATE_LAYERS,
+  payload: {
+    num,
+  }
 });
 
-export const redoScene = () => ({
-  type: REDO_SCENE,
+export const changeStateScenes = num => ({
+  type: CHANGE_STATE_SCENES,
+  payload: {
+    num,
+  }
 });

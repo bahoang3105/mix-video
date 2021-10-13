@@ -4,14 +4,13 @@ import {
   CHANGE_LAYER,
   CHANGE_NAME_LAYER,
   CHANGE_NAME_SCENE,
+  CHANGE_CUR_SCENE,
   CREATE_THUMBNAIL,
   DEL_LAYER,
   DEL_SCENE,
   DEL_VIDEO_LAYER,
   DUPLICATE_LAYER,
   DUPLICATE_SCENE,
-  HIDE_LAYER,
-  LOCK_LAYER,
   MUTE_MIC,
   REDO,
   UNDO,
@@ -74,8 +73,7 @@ const listHistory = (state = initialState, action) => {
       if(length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
         return {
           history: [
-            ...state.history.slice(0, length - state.num - 1),
-            'layer ' + action.payload.type,
+            ...state.history.slice(0, length - state.num),
           ],
           num: 0,
           layer: 0,
@@ -114,6 +112,16 @@ const listHistory = (state = initialState, action) => {
         scene: 0,
       }
     }
+    case CHANGE_CUR_SCENE: {
+      return {
+        ...state,
+        history: [
+          ...state.history.slice(0, length - state.num),
+          'scene',
+          ...state.history.slice(length - state.num),
+        ],
+      }
+    }
     case CREATE_THUMBNAIL: {
       return {
         history: [
@@ -140,7 +148,7 @@ const listHistory = (state = initialState, action) => {
       return {
         history: [
           ...state.history.slice(0, length - state.num),
-          'scene',
+          'scene layer',
         ],
         num: 0,
         layer: 0,
@@ -173,29 +181,7 @@ const listHistory = (state = initialState, action) => {
       return {
         history: [
           ...state.history.slice(0, length - state.num),
-          'scene',
-        ],
-        num: 0,
-        layer: 0,
-        scene: 0,
-      }
-    }
-    case HIDE_LAYER: {
-      return {
-        history: [
-          ...state.history.slice(0, length - state.num),
-          'layer',
-        ],
-        num: 0,
-        layer: 0,
-        scene: 0,
-      }
-    }
-    case LOCK_LAYER: {
-      return {
-        history: [
-          ...state.history.slice(0, length - state.num),
-          'layer',
+          'scene layer',
         ],
         num: 0,
         layer: 0,

@@ -59,6 +59,7 @@ const TextCanvas = (props) => {
         fill={props.shapeProps.fontColor}
         rotation={props.shapeProps.g}
         visible={!props.shapeProps.hidden}
+        x={100}
         fontStyle={fontStyle}
         {...props.shapeProps}
         shadowEnabled={props.shapeProps.dropShadow}

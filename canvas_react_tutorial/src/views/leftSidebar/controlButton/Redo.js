@@ -8,6 +8,12 @@ const Redo = (props) => {
     if(props.num > 0) {
       props.redo();
     }
+    if(props.layer === 1) {
+      props.setRedoLayer(true);
+    }
+    if(props.scene === 1) {
+      props.setRedoScene(true);
+    }
   }
 
   return (

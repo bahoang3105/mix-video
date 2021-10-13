@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const Scenes = ({ scenes, curScene }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if(!scenes) {
+    if(scenes.length === 0) {
       dispatch(getScenes());
     };
   });

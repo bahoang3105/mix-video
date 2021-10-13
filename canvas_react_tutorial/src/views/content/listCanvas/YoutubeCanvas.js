@@ -22,26 +22,14 @@ const YoutubeCanvas = (props) => {
   }
 
   const onChange = (x, y, w, h, g) => {
-    if(g === props.shapeProps.g) {
-      const layer = {
-        ...props.shapeProps,
-        x: parseInt(x),
-        y: parseInt(y),
-        width: parseInt(w),
-        height: parseInt(h),
-      }
-      props.changeLayer(layer);
-    } else {
-      const layer = {
-        ...props.shapeProps,
-        x: parseInt(x),
-        y: parseInt(y),
-        width: parseInt(w),
-        height: parseInt(h),
-        g: parseInt(g),
-      }
-      props.changeLayer(layer);
+    const layer = {
+      ...props.shapeProps,
+      x: parseInt(x),
+      y: parseInt(y),
+      width: parseInt(w),
+      height: parseInt(h),
     }
+    props.changeLayer(layer);
   }
 
   return (

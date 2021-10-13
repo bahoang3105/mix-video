@@ -16,7 +16,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
     if(!cameraDevices) return;
     const list = [];
     for(let i = 0; i < cameraDevices.length; i++) {
-      list.push(<option value={cameraDevices[i].deviceId} key={cameraDevices[i].deviceId}>{cameraDevices[i].label}</option>);
+      list.push(<option value={cameraDevices[i].deviceId} key={cameraDevices[i].deviceId}>{cameraDevices[i].label ? cameraDevices[i].label : 'Camera'}</option>);
     }
     return list;
   }
@@ -28,7 +28,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
       return list;
     };
     for(let i = 0; i < microDevices.length; i++) {
-      list.push(<option value={microDevices[i].label} key={microDevices[i].deviceId}>{microDevices[i].label}</option>);
+      list.push(<option value={microDevices[i].label ? microDevices[i].label : 'Default'} key={microDevices[i].deviceId}>{microDevices[i].label ? microDevices[i].label : 'Default'}</option>);
     }
     list.push(<option value={false} key='mute'>No microphone</option>);
     return list;

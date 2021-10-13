@@ -12,14 +12,15 @@ const ButtonAdd = (props) => {
   const [color, setColor] = useState('bottom-inactive');
   const [devices, setDevices] = useState(null);
   useEffect(() => {
+    console.log(1)
     if(!devices) {
       getDevices();
     }
   });
 
   const getDevices = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    setDevices(devices);
+    const listDevice = await navigator.mediaDevices.enumerateDevices();
+    setDevices(listDevice);
   }
 
   const addEvent = () => {

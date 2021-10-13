@@ -13,9 +13,7 @@ export const MUTE_MIC = 'MUTE_MIC';
 export const CHANGE_NAME_VIDEO = 'CHANGE_NAME_VIDEO';
 
 export const ADD_LAYER = 'ADD_LAYER';
-export const HIDE_LAYER = 'HIDE_LAYER';
 export const DEL_LAYER = 'DEL_LAYER';
-export const LOCK_LAYER = 'LOCK_LAYER';
 export const DUPLICATE_LAYER = 'DUPLICATE_LAYER';
 export const CHANGE_LAYER = 'CHANGE_LAYER';
 export const ZOOMIN_LAYER = 'ZOOMIN_LAYER';
@@ -28,7 +26,5 @@ export const SWITCH_STATE_VIDEO = 'SWITCH_STATE_VIDEO';
 
 export const UNDO = 'UNDO';
 export const REDO = 'REDO';
-export const UNDO_lAYER = 'UNDO_LAYER';
-export const REDO_LAYER = 'REDO_LAYER';
-export const UNDO_SCENE = 'UNDO_SCENE';
-export const REDO_SCENE = 'REDO_SCENE';
+export const CHANGE_STATE_LAYERS = 'CHANGE_STATE_LAYERS';
+export const CHANGE_STATE_SCENES = 'CHANGE_STATE_SCENES';

@@ -18,7 +18,8 @@ const getUserMedia = async (cameraId, microId) => {
     };
     return await navigator.mediaDevices.getUserMedia(constraints);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    alert('We need your permission to use the camera and microphone!');
   }
 };
 

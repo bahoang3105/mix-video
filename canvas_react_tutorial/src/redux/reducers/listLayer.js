@@ -3,9 +3,8 @@ import {
   DEL_LAYER,
   DEL_VIDEO_LAYER,
   DUPLICATE_LAYER,
+  DUPLICATE_SCENE,
   GET_LAYERS,
-  LOCK_LAYER,
-  HIDE_LAYER,
   CHANGE_LAYER,
   CHANGE_NAME_LAYER,
   CHANGE_CUR_LAYER,
@@ -13,16 +12,20 @@ import {
   ZOOMOUT_LAYER,
   DEL_SCENE,
   SWITCH_STATE_VIDEO,
+  CHANGE_STATE_LAYERS,
 } from '../actionTypes';
 
 const initialState = {
   history: [],
+  historyState: 0,
+  historyType: 'normal',
   layers: null,
-  num: null,
+  num: 1,
   curLayer: [],
 };
 
 const listLayer = (state = initialState, action) => {
+  const length = state.history.length;
   switch(action.type) {
     case ADD_LAYER: {
       let newLayer;
@@ -213,13 +216,15 @@ const listLayer = (state = initialState, action) => {
           num: 2,
           curLayer: curLayer,
           history: [
-            ...state.history,
+            ...state.history.slice(0, length - state.historyState),
             {
               layers: [newLayer],
               num: 2,
               curLayer: curLayer,
             },
-          ]
+          ],
+          historyState: 0,
+          historyType: 'normal'
         }
       }
       return {
@@ -227,13 +232,15 @@ const listLayer = (state = initialState, action) => {
         layers: [...state.layers, newLayer],
         num: state.num + 1,
         history: [
-          ...state.history,
+          ...state.history.slice(0, length - state.historyState),
           {
             layers: [...state.layers, newLayer],
             num: state.num + 1,
             curLayer: state.curLayer,
           },
-        ]
+        ],
+        historyState: 0,
+        historyType: 'normal',
       };
     }
     case DEL_LAYER: {
@@ -248,7 +255,7 @@ const listLayer = (state = initialState, action) => {
         ],
         curLayer: curLayer,
         history: [
-          ...state.history,
+          ...state.history.slice(0, length - state.historyState),
           {
             layers: [
               ...state.layers.slice(0, place),
@@ -257,7 +264,9 @@ const listLayer = (state = initialState, action) => {
             num: state.num,
             curLayer: curLayer,
           },
-        ]
+        ],
+        historyState: 0,
+        historyType: 'normal',
       }
     }
     case DEL_VIDEO_LAYER: {
@@ -270,13 +279,15 @@ const listLayer = (state = initialState, action) => {
         layers: layers,
         curLayer: curLayer,
         history: [
-          ...state.history,
+          ...state.history.slice(0, length - state.historyState),
           {
             layers: layers,
             num: state.num,
             curLayer: curLayer,
           },
         ],
+        historyState: 0,
+        historyType: 'normal',
       }
     }
     case DUPLICATE_LAYER: {
@@ -291,13 +302,39 @@ const listLayer = (state = initialState, action) => {
         layers: [...state.layers, dupLayer],
         num: state.num + 1,
         history: [
-          ...state.history,
+          ...state.history.slice(0, length - state.historyState),
           {
             layers: [...state.layers, dupLayer],
             num: state.num + 1,
             curLayer: state.curLayer,
           },
-        ]
+        ],
+        historyState: 0,
+        historyType: 'normal',
+      }
+    }
+    case DUPLICATE_SCENE: {
+      const layersInScene = state.layers.filter(layer => layer.scene === action.payload.scene);
+      const mapLayers = layersInScene.map((layer, i) => layer = {...layer, num: state.num + i, scene: action.payload.numScene});
+      return {
+        ...state,
+        num: state.num + mapLayers.length,
+        layers: [
+          ...state.layers,
+          ...mapLayers,
+        ],
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            num: state.num + mapLayers.length,
+            layers: [
+              ...state.layers,
+              ...mapLayers,
+            ],
+            curLayer: state.curLayer,
+          },
+        ],
+        historyState: 0,
       }
     }
     case GET_LAYERS: {
@@ -305,18 +342,36 @@ const listLayer = (state = initialState, action) => {
         ...state,
         layers: action.payload.layers,
         num: action.payload.num,
+        history: action.payload.history,
       };
-    }
-    case LOCK_LAYER: {
-
-      return;
-    }
-    case HIDE_LAYER: {
-
-      return;
     }
     case CHANGE_LAYER: {
       const place = state.layers.findIndex(Layer => Layer.num === action.payload.num);
+      if(action.payload.type !== state.historyType) {
+        return {
+          ...state,
+          layers: [
+            ...state.layers.slice(0, place),
+            action.payload.layer,
+            ...state.layers.slice(place+1)
+          ],
+          curLayer: action.payload.layer,
+          history: [
+            ...state.history.slice(0, length - state.historyState),
+            {
+              layers: [
+                ...state.layers.slice(0, place),
+                action.payload.layer,
+                ...state.layers.slice(place+1)
+              ],
+              curLayer: action.payload.layer,
+              num: state.num,
+            },
+          ],
+          historyState: 0,
+          historyType: !action.payload.type ? 'normal' : action.payload.type, 
+        }
+      }
       return {
         ...state,
         layers: [
@@ -325,6 +380,20 @@ const listLayer = (state = initialState, action) => {
           ...state.layers.slice(place+1)
         ],
         curLayer: action.payload.layer,
+        history: [
+          ...state.history.slice(0, length - state.historyState - 1),
+          {
+            layers: [
+              ...state.layers.slice(0, place),
+              action.payload.layer,
+              ...state.layers.slice(place+1)
+            ],
+            curLayer: action.payload.layer,
+            num: state.num,
+          },
+        ],
+        historyState: 0,
+        historyType: !action.payload.type ? 'normal' : action.payload.type, 
       }
     }
     case CHANGE_CUR_LAYER: {
@@ -351,7 +420,7 @@ const listLayer = (state = initialState, action) => {
           name: action.payload.newName,
         },
         history: [
-          ...state.history,
+          ...state.history.slice(0, length - state.historyState),
           {
             layers: [
               ...state.layers.slice(0, place),
@@ -365,8 +434,11 @@ const listLayer = (state = initialState, action) => {
               ...state.curLayer,
               name: action.payload.newName,
             },
+            num: state.num,
           },
-        ]
+        ],
+        historyState: 0,
+        historyType: 'normal',
       }
     }
     case ZOOMIN_LAYER: {
@@ -382,6 +454,16 @@ const listLayer = (state = initialState, action) => {
         ...state,
         layers: state.layers.filter(layer => layer.scene !== action.payload.scene),
         curLayer: (state.curLayer === []) ? [] : ((state.curLayer.scene === action.payload.scene) ? [] : state.curLayer), 
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            layers: state.layers.filter(layer => layer.scene !== action.payload.scene),
+            curLayer: (state.curLayer === []) ? [] : ((state.curLayer.scene === action.payload.scene) ? [] : state.curLayer),
+            num: state.num
+          },
+        ],
+        historyState: 0,
+        historyType: 'normal',
       }
     }
     case SWITCH_STATE_VIDEO: {
@@ -390,6 +472,28 @@ const listLayer = (state = initialState, action) => {
         ...state,
         layers: state.layers.map(
           layer => ((layer.type === 'camera' || layer.type === 'screen') && layer.src === src) ?  {...layer, camera: !layer.camera} : layer),
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            layers: state.layers.map(
+              layer => ((layer.type === 'camera' || layer.type === 'screen') && layer.src === src) ?  {...layer, camera: !layer.camera} : layer),
+            curLayer: state.curLayer,
+            num: state.num,
+          },
+        ],
+        historyState: 0,
+        historyType: 'normal',
+      }
+    }
+    case CHANGE_STATE_LAYERS: {
+      const numState = action.payload.num;
+      const { curLayer, layers, num } = state.history[length - numState - 1];
+      return {
+        ...state,
+        curLayer: curLayer,
+        layers: layers,
+        num: num,
+        historyState: numState,
       }
     }
     default:

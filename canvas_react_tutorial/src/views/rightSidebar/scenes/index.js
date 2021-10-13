@@ -16,7 +16,7 @@ const Scenes = ({ scenes, display }) => {
     if(!scenes) return;
     let listScene = [];
     for(let i = 0; i < scenes.length; i++) {
-      listScene.push(<Scene key={scenes[i].name} name={scenes[i].name} />)
+      listScene.push(<Scene key={scenes[i].num} name={scenes[i].name} />)
     }
     return listScene;
   }

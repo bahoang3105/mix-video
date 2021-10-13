@@ -6,17 +6,21 @@ import {
   CREATE_THUMBNAIL,
   CHANGE_CUR_SCENE,
   CHANGE_NAME_SCENE,
+  CHANGE_STATE_SCENES,
 } from '../actionTypes';
 
 const initialState = {
+  history: [],
+  historyState: 0,
   curScene: null,
   curSceneName: null,
-  scenes: null,
+  scenes: [],
   num: 0,
 }
 
 const listScene = (state = initialState, action) => {
   const img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Solid_black.svg/1024px-Solid_black.svg.png';
+  const length = state.history.length;
   switch(action.type) {
     case ADD_SCENE: {
       const newName = 'Scene ' + state.num;
@@ -25,12 +29,20 @@ const listScene = (state = initialState, action) => {
         ...state,
         scenes: [...state.scenes, newScene],
         num: state.num + 1,
-        curScene: state.curScene,
-        curSceneName: state.curSceneName,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [...state.scenes, newScene],
+            num: state.num + 1,
+            curScene: state.curScene,
+            curSceneName: state.curSceneName,
+          }
+        ],
+        historyState: 0,
       };
     }
     case GET_SCENES: {
-      if(!action.payload.scenes) {
+      if(!action.payload.scenes || action.payload.scenes.length === 0) {
         const newName = 'Scene 1';
         const newScene = {"name": newName, "img": img, "num": 1};
         return {
@@ -39,6 +51,15 @@ const listScene = (state = initialState, action) => {
           curScene: 1,
           curSceneName: 'Scene 1',
           num: 2,
+          history: [
+            {
+              scenes: [newScene],
+              curScene: 1,
+              curSceneName: 'Scene 1',
+              num: 2,
+            }
+          ],
+          historyState: 0,
         };
       }
       return {
@@ -47,6 +68,15 @@ const listScene = (state = initialState, action) => {
         curScene: action.payload.scenes[0].num,
         curSceneName: action.payload.scenes[0].name,
         num: action.payload.num,
+        history: [
+          {
+            scenes: action.payload.scenes,
+            curScene: action.payload.scenes[0].num,
+            curSceneName: action.payload.scenes[0].name,
+            num: action.payload.num,
+          }
+        ],
+        historyState: 0,
       };
     }
     case DEL_SCENE: {
@@ -63,6 +93,19 @@ const listScene = (state = initialState, action) => {
         ],
         curScene: curScene,
         curSceneName: curSceneName,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [
+              ...state.scenes.slice(0, place),
+              ...state.scenes.slice(place+1)
+            ],
+            curScene: curScene,
+            curSceneName: curSceneName,
+            num: state.num,
+          }
+        ],
+        historyState: 0,
       };
     }
     case CHANGE_CUR_SCENE: {
@@ -70,6 +113,16 @@ const listScene = (state = initialState, action) => {
         ...state,
         curScene: action.payload.scene,
         curSceneName: action.payload.sceneName,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            curScene: action.payload.scene,
+            curSceneName: action.payload.sceneName,
+            scenes: state.scenes,
+            num: state.num,
+          },
+          ...state.history.slice(length - state.historyState),
+        ],
       }
     }
     case CHANGE_NAME_SCENE: {
@@ -86,15 +139,101 @@ const listScene = (state = initialState, action) => {
           ...state.scenes.slice(place+1)
         ],
         curSceneName: curSceneName,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [
+              ...state.scenes.slice(0, place),
+              {
+                ...state.scenes[place],
+                name: action.payload.newName
+              },
+              ...state.scenes.slice(place+1)
+            ],
+            curSceneName: curSceneName,
+            curScene: state.curScene,
+            num: state.num,
+          }
+        ],
+        historyState: 0,
       }
     }
     case DUPLICATE_SCENE: {
-
-      return;
+      const place = state.scenes.findIndex(scene => scene.num === action.payload.scene);
+      return {
+        ...state,
+        scenes: [
+          ...state.scenes.slice(0, place+1),
+          {
+            ...state.scenes[place],
+            num: state.num,
+            name: state.scenes[place].name + ' (Copy)',
+          },
+          ...state.scenes.slice(place+1),
+        ],
+        num: state.num + 1,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [
+              ...state.scenes.slice(0, place+1),
+              {
+                ...state.scenes[place],
+                num: state.num,
+                name: state.scenes[place].name + ' (Copy)',
+              },
+              ...state.scenes.slice(place+1),
+            ],
+            num: state.num + 1,
+            curScene: state.curScene,
+            curSceneName: state.curSceneName,
+          },
+        ],
+        historyState: 0,
+      }
     }
     case CREATE_THUMBNAIL: {
-
-      return;
+      const place = state.scenes.findIndex(scene => scene.num === action.payload.scene);
+      return {
+        ...state,
+        scenes: [
+          ...state.scenes.slice(0, place),
+          {
+            ...state.scenes[place],
+            img: action.payload.img,
+          },
+          ...state.scenes.slice(place+1),
+        ],
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [
+              ...state.scenes.slice(0, place),
+              {
+                ...state.scenes[place],
+                img: action.payload.img,
+              },
+              ...state.scenes.slice(place+1),
+            ],
+            curScene: state.curScene,
+            curSceneName: state.curSceneName,
+            num: state.num,
+          },
+        ],
+        historyState: 0,
+      }
+    }
+    case CHANGE_STATE_SCENES: {
+      const numState = action.payload.num;
+      const { scenes, curScene, curSceneName, num } = state.history[length - numState - 1];
+      return {
+        ...state,
+        curScene: curScene,
+        curSceneName: curSceneName,
+        num: num,
+        scenes: scenes,
+        historyState: numState,
+      } 
     }
     default:
       return state;

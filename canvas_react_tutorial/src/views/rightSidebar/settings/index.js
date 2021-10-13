@@ -149,7 +149,7 @@ export const setValue = (type, value, changeLayer, data) => {
         ...data,
         cornerRadius: parseInt(checkValue),
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'corner');
       break;
     }
     case 'align': {
@@ -163,9 +163,9 @@ export const setValue = (type, value, changeLayer, data) => {
     case 'text': {
       const layer = {
         ...data,
-        text: checkValue,
+        text: value,
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'text');
       break;
     }
     case 'fontFamily': {
@@ -181,7 +181,7 @@ export const setValue = (type, value, changeLayer, data) => {
         ...data,
         fontSize: parseInt(checkValue),
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'fontSize');
       break;
     }
     case 'fontStyle': {
@@ -225,7 +225,7 @@ export const setValue = (type, value, changeLayer, data) => {
         ...data,
         speed: checkValue,
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'speed');
       break;
     }
     case 'dropShadow': {
@@ -300,7 +300,7 @@ export const setValue = (type, value, changeLayer, data) => {
         ...data,
         volume: checkValue,
       }
-      changeLayer(layer, data.num);
+      changeLayer(layer, data.num, 'volume');
       break;
     }
     case 'lock': {

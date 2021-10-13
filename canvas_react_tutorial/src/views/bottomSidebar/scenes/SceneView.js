@@ -10,12 +10,15 @@ import {
   changeCurScene,
   changeCurLayer,
 } from '../../../redux/actions';
+import { getNumScene } from "../../../redux/selectors";
 import DeleteModal from "../../DeleteModal";
 import RenameModal from "../../RenameModal";
+import ImageModal from "./ImageModal";
 
 const SceneView = (props) => {
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showImage, setShowImage] = useState(false);
 
   const onClickDeleteOK = () => {
     props.delScene(props.id);
@@ -32,6 +35,10 @@ const SceneView = (props) => {
     props.changeCurLayer(null);
   }
 
+  const createThumbnail = url => {
+    props.createThumbnail(url, props.id);
+  }
+
   const rename = newName => {
     props.changeNameScene(newName, props.id);
   }
@@ -41,14 +48,15 @@ const SceneView = (props) => {
   return(
     <div
       className={`scene-view${color}`}
-      style={{ backgroundImage: `url(${props.img})` }}
+      style={{ backgroundImage: `url(${props.img})`, backgroundSize: 'contain' }}
     >
       <div className='click-scene-1' onClick={changeScene}/>
       <div className='buttons-scene-view'>
-        <div className='button-scene-view hover'>
+        <div className='button-scene-view hover' onClick={() => setShowImage(true)}>
           <AiOutlineCamera />
         </div>
-        <div className='button-scene-view hover'>
+        <ImageModal setShowImage={setShowImage} showImage={showImage} updateImage={createThumbnail} />
+        <div className='button-scene-view hover' onClick={() => props.duplicateScene(props.id, props.numScene)}>
           <BiCopy />
         </div>
         <div className={`button-scene-view hover${props.inactiveDelete ? ' inactive-true' : ''}`} onClick={checkShow}>
@@ -65,7 +73,11 @@ const SceneView = (props) => {
   );
 };
 
+const mapStateToProps = state => ({
+  numScene: getNumScene(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { delScene, createThumbnail, duplicateScene, changeNameScene, changeCurScene, changeCurLayer }
 )(SceneView);

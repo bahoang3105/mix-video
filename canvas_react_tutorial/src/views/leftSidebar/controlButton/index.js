@@ -6,16 +6,28 @@ import Redo from "./Redo";
 import Save from "./Save";
 import Settings from "./Settings";
 import Undo from "./Undo";
+import { changeStateLayers, changeStateScenes } from "../../../redux/actions";
+import { useEffect, useState } from "react";
 
 const ControlButton = ({history, num, layer, scene, ...props}) => {
-  console.log('history: ', history)
-  console.log('num: ', num)
-  console.log('layer: ', layer)
-  console.log('scene: ', scene)
+  const [redoLayer, setRedoLayer] = useState(false);
+  const [redoScene, setRedoScene] = useState(false);
+  useEffect(() => {
+    if(layer !== 0 || redoLayer) {
+      props.changeStateLayers(layer);
+      setRedoLayer(false);
+    }
+  
+    if(scene !== 0 || redoScene) {
+      props.changeStateScenes(scene);
+      setRedoScene(false);
+    }
+  }, [layer, redoLayer, scene, redoScene, props]);
+
   return (
     <div className={props.className}>
       <Undo history={history} num={num} layer={layer} scene={scene} />
-      <Redo history={history} num={num} layer={layer} scene={scene} />
+      <Redo history={history} num={num} layer={layer} scene={scene} setRedoLayer={setRedoLayer} setRedoScene={setRedoScene} />
       <Settings />
       <Save />
       <Link />
@@ -31,4 +43,7 @@ const mapStatetoProps = state => ({
   scene: getSceneHistory(state),
 });
 
-export default connect(mapStatetoProps)(ControlButton);
+export default connect(
+  mapStatetoProps,
+  { changeStateLayers, changeStateScenes },
+)(ControlButton);
