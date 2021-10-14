@@ -22,9 +22,9 @@ const uploadFile = ({ originalname, buffer }) => {
 export const insertFile = async (req, res, next) => {
   try {
     // get file details
-    const { size, originalname } = req.file;
+    const { originalname } = req.file;
     const myFile = originalname.split('.');
-    const fileType = myFile[myFile.length - 1];
+    const date = new Date();
 
     const fileUploaded = await uploadFile(req.file);
     const fileKey = fileUploaded.Key;
@@ -32,6 +32,7 @@ export const insertFile = async (req, res, next) => {
     const newFile = {
         fileKey,
         fileName: originalname,
+        date,
     };
 
     return res.status(201).json({ success: true, newFile })
@@ -44,6 +45,7 @@ const downloadFromS3 = (fileKey) => {
   const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileKey,
+      Expires: 86400,
   };
   return s3.getSignedUrl('getObject', params);
 };

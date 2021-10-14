@@ -4,10 +4,11 @@ import { BsFileEarmarkArrowUp } from "react-icons/bs";
 import { FcFilmReel, FcMusic, FcRemoveImage } from "react-icons/fc";
 import FileUploaded from "./FileUploaded";
 import axios from 'axios';
+import { getCurScene } from '../../../../redux/selectors';
+import { connect } from 'react-redux';
 
-const Upload = (props) => {
+const Upload = ({ curScene, ...props }) => {
   const [uploadState, setUploadState] = useState(false);
-
   const closeModal = () => {
     props.setShow(false);
   }
@@ -23,10 +24,12 @@ const Upload = (props) => {
           fileKey: uploadFile.data.newFile.fileKey,
         }
       });
+      const thumbnail = (props.type === 'image') ? url.data.url : null;
       props.setData([
         {
           ...uploadFile.data.newFile,
-          ...url.data,
+          img: thumbnail,
+          url: url.data.url,
         },
         ...props.data
       ]);
@@ -37,9 +40,28 @@ const Upload = (props) => {
     }
   }
 
-  // const uploading = () => {
-
-  // }
+  const renew = async(place) => {
+    try {
+      const url = await axios.get('http://localhost:8080/file/download', {
+        params: {
+          fileKey: props.data[place].fileKey,
+        }
+      });
+      const thumbnail = (props.type === 'image') ? url.data.url : null;
+      props.setData([
+        ...props.data.slice(0, place),
+        {
+          ...props.data[place],
+          url: url.data.url,
+          img: thumbnail,
+        },
+        ...props.data.slice(place+1),
+      ]);
+    }
+    catch(err) {
+      console.error(err);
+    }
+  }
 
   const renderList = () => {
     if(props.data.length === 0 && !uploadState) {
@@ -89,8 +111,16 @@ const Upload = (props) => {
       listUpload.push(
         <FileUploaded 
           key={props.data[i].fileKey} 
-          img={props.data[i].url}
+          img={props.data[i].img}
+          url={props.data[i].url}
           name={props.data[i].fileName} 
+          date={props.data[i].date}
+          fileKey={props.data[i].fileKey}
+          place={i}
+          renew={renew}
+          type={props.type}
+          curScene={curScene}
+          closeModal={closeModal}
         />
       );
     }
@@ -127,7 +157,7 @@ const Upload = (props) => {
               File should be {props.typeNotice}.
             </div>
           </label>
-          <input id="file-upload" type="file" onChange={e => upload(e)} />
+          <input id="file-upload" type="file" onChange={e => upload(e)} disabled={uploadState} />
         </Modal.Body>
         <Modal.Footer>
           {renderList()}
@@ -137,4 +167,8 @@ const Upload = (props) => {
   );
 }
 
-export default Upload;
+const mapStateToProps = state => ({
+  curScene: getCurScene(state),
+});
+
+export default connect(mapStateToProps)(Upload);

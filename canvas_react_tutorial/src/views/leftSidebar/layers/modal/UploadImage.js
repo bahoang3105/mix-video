@@ -12,7 +12,7 @@ const UploadImage = (props) => {
     <Upload 
       setShow={props.setShow} 
       show={props.show} 
-      type='Image'
+      type='image'
       choose='an image'
       typeNotice='jpg, png or gif'
       data={data}
