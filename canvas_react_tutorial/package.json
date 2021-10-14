@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@u-wave/react-youtube": "^0.7.2",
+    "axios": "^0.23.0",
     "konva": "^8.2.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",

@@ -2,7 +2,7 @@ import General from './rightField/general';
 import Background from './rightField/Background';
 import TextOfText from './rightField/Text';
 import Font from './rightField/Font';
-import TextEffect from './rightField/textEffect';
+// import TextEffect from './rightField/textEffect';
 import { connect } from 'react-redux';
 import {
   changeLayer,
@@ -21,7 +21,7 @@ const Text = (props) => {
       <Background data={props.data.background} setValue={setValueLayer} />
       <TextOfText data={props.data.text} setValue={setValueLayer} />
       <Font data={props.data} setValue={setValueLayer} />
-      <TextEffect data={props.data} setValue={setValueLayer} />
+      {/* <TextEffect data={props.data} setValue={setValueLayer} /> */}
     </div>
   );
 }

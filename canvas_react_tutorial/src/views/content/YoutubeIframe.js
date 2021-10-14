@@ -1,5 +1,4 @@
 import YouTube from '@u-wave/react-youtube';
-import logo from './youtube-logo-1539744426.jpg';
 
 export const keyYoutube = url => {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -33,7 +32,7 @@ const YoutubeIframe = (props) => {
     } else {
       return (
         <div style={{ opacity: props.data.opacity, zIndex: -1, display: props.data.hidden ? 'none' : '' }} >
-          <img src={logo} height={props.data.height} alt='youtube-logo' width={props.data.width} />
+          <img src={`https://img.youtube.com/vi/${key}/maxresdefault.jpg`} height={props.data.height} alt='youtube-logo' width={props.data.width} />
         </div>
       );
     }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ImageAdd from "../modal/ImageAdd";
 import CameraModal from '../../../bottomSidebar/bars/addVideoButtons/CameraModal';
 import YoutubeModal from "./YoutubeModal";
+import UploadImage from "../modal/UploadImage";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -11,6 +12,7 @@ const ButtonAdd = (props) => {
   const [devices, setDevices] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [showYoutube, setShowYoutube] = useState(false);
+  const [showUploadImage, setShowUploadImage] = useState(false);
 
   useEffect(() => {
     if(!devices) {
@@ -65,9 +67,11 @@ const ButtonAdd = (props) => {
           setShowImage={setShowImage}
           setShowCamera={setShowCamera}
           setShowYoutube={setShowYoutube}
+          setShowUploadImage={setShowUploadImage}
         />
       </div>
       <ImageAdd curScene={props.curScene} show={showImage} setShow={setShowImage} />
+      <UploadImage curScene={props.curScene} show={showUploadImage} setShow={setShowUploadImage} />
       {renderCamera()}
       {renderYoutube()}
     </>
