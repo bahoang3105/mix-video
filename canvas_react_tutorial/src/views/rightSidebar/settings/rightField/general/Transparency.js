@@ -2,7 +2,7 @@ const Transparency = (props) => {
   return (
     <div className='right-field'>
       <div className='right-field-name'>
-        Transparency
+        Transparency - {Math.round(props.value)}
       </div>
       <input
         type='range' 

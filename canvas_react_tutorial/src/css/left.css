@@ -76,6 +76,11 @@
   left: 248px;
   font-size: 21px;
   color: rgb(240, 0, 140);
+  cursor: pointer;
+}
+
+#left-add:hover {
+  color: rgb(255, 116, 197);
 }
 
 #left-lock {
@@ -84,6 +89,7 @@
   font-size: 18px;
   padding-top: 2px;
   color: #969696;
+  cursor: pointer;
 }
 
 .layer {

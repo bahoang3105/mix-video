@@ -457,3 +457,27 @@ input:checked + .slider:before {
 .dropdown-display {
   cursor: pointer;
 }
+
+.filters {
+  border: 1px solid rgb(196, 196, 196);
+  padding: 12px 10px;
+  border-radius: 8px;
+}
+
+.filter {
+  border-bottom: 1px solid rgb(214, 214, 214);
+  margin: 5px 0px;
+  padding: 5px;
+}
+
+#reset-filters {
+  position: absolute;
+  font-size: 13px;
+  margin: -31px 0 0 210px;
+  color: rgb(102, 102, 102);
+  cursor: pointer;
+}
+
+#reset-filters:hover {
+  color:violet;
+}

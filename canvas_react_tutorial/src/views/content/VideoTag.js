@@ -16,7 +16,14 @@ const VideoTag = (props) => {
 
   const render = () => {
     return (
-      <div style={{ opacity: props.data.opacity, zIndex: -1, display: props.data.hidden ? 'none' : '' }} >
+      <div 
+        style={{
+          opacity: props.data.opacity, 
+          zIndex: -1, 
+          display: props.data.hidden ? 'none' : '' , 
+          filter: `brightness(${props.data.brightness}) contrast(${props.data.contrast}) blur(${props.data.blur}px) saturate(${props.data.saturate})`,
+        }} 
+      >
         <video
           ref={videoRef}
           src={props.data.src}
