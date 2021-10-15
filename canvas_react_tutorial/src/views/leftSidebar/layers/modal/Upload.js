@@ -24,7 +24,10 @@ const Upload = ({ curScene, ...props }) => {
           fileKey: uploadFile.data.newFile.fileKey,
         }
       });
-      const thumbnail = (props.type === 'image') ? url.data.url : null;
+      const thumbnailVideo = 'https://colormedia.vn/public/upload/Blog/linh/9%20loi%20ich%20cua%20video/video-.jpg?1591950113988';
+      const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
+      const thumbnail = (props.type === 'image') ? url.data.url : ((props.type === 'video') ? thumbnailVideo : thumbnailAudio);
+
       props.setData([
         {
           ...uploadFile.data.newFile,
@@ -66,7 +69,7 @@ const Upload = ({ curScene, ...props }) => {
   const renderList = () => {
     if(props.data.length === 0 && !uploadState) {
       switch (props.type) {
-        case 'Image': {
+        case 'image': {
           return (
             <div className='empty-upload'>
               <div className='empty-upload-icon'>
@@ -78,7 +81,7 @@ const Upload = ({ curScene, ...props }) => {
             </div>
           );
         }  
-        case 'Video': {
+        case 'video': {
           return (
             <div className='empty-upload'>
               <div className='empty-upload-icon'>
@@ -90,7 +93,7 @@ const Upload = ({ curScene, ...props }) => {
             </div>
           );
         }  
-        case 'Audio': {
+        case 'audio': {
           return (
             <div className='empty-upload'>
               <div className='empty-upload-icon'>

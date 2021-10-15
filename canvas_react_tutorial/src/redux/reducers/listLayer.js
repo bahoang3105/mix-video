@@ -182,7 +182,6 @@ const listLayer = (state = initialState, action) => {
         }
         case 'youtube': {
           const { name, src } = action.payload.details;
-
           newLayer = {
             name: name + state.num,
             type: 'youtube',
@@ -204,6 +203,10 @@ const listLayer = (state = initialState, action) => {
             hidden: false,
             lock: false,
           }
+          break;
+        }
+        case 'video': {
+          
           break;
         }
         default:

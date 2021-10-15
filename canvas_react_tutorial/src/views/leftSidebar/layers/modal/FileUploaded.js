@@ -31,6 +31,14 @@ const FileUploaded = (props) => {
           }
         );
         break;
+      } 
+      case 'video': {
+        console.log('haha')
+        break;
+      }
+      case 'audio': {
+        console.log('hihi')
+        break;
       }
       default:
         break;
