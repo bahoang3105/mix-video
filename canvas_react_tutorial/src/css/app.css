@@ -21,7 +21,7 @@ html {
 .left-sidebar {
   background-color: rgba(255,255,255,255);
   box-shadow: -0.75px -0.75px rgb(235, 234, 234);
-  z-index: 2000;
+  z-index: 2001;
 }
 
 .scenes {
@@ -207,4 +207,8 @@ html {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 10px solid rgb(44, 44, 44);
+}
+
+.pointer {
+  cursor: pointer;
 }

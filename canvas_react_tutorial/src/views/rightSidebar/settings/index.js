@@ -6,7 +6,8 @@ import Image from "./Image";
 import Rectangle from "./Rectangle";
 import Text from './Text';
 import Triangle from "./Triangle";
-import Video from "./Video";
+import VideoStream from "./VideoStream";
+import VideoUploaded from "./VideoUploaded";
 import Youtube from "./Youtube";
 
 const Settings = ({ curLayer, display }) => {
@@ -47,17 +48,22 @@ const Settings = ({ curLayer, display }) => {
       }
       case 'camera': {
         return(
-          <Video data={curLayer} />
+          <VideoStream data={curLayer} />
         );
       }
       case 'screen': {
         return(
-          <Video data={curLayer} />
+          <VideoStream data={curLayer} />
         );
       }
       case 'youtube': {
         return(
           <Youtube data={curLayer} />
+        );
+      }
+      case 'video': {
+        return(
+          <VideoUploaded data={curLayer} />
         );
       }
       default:

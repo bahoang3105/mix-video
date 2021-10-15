@@ -4,6 +4,7 @@ import { changeLayer, getLayers, changeCurLayer } from "../../redux/actions";
 import { getCurLayer, getCurScene, getListLayer } from "../../redux/selectors";
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
+import VideoTag from "./VideoTag";
 
 const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size }) => {
   const dispatch = useDispatch();
@@ -30,15 +31,28 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
     const listYoutube = [];
     for(let i = 0; i < youtubeLayers.length; i++) {
       listYoutube.push(
-        <YoutubeIframe data={youtubeLayers[i]} key={`youtube-iframe-${i}`} curLayer={curLayer.num} />
+        <YoutubeIframe data={youtubeLayers[i]} key={`youtube-iframe-${youtubeLayers[i].num}`} curLayer={curLayer.num} />
       );
     }
     return listYoutube;
   }
 
+  const renderVideoUploaded = () => {
+    const videoUploadedLayers = layers ? layers.filter(layer => layer.type === 'video') : null;
+    if(!videoUploadedLayers) return;
+    const listVideo = [];
+    for(let i = 0; i < videoUploadedLayers.length; i++) {
+      listVideo.push(
+        <VideoTag data={videoUploadedLayers[i]} key={videoUploadedLayers[i].num} curLayer={curLayer.num} />
+      );
+    }
+    return listVideo;
+  }
+
   return (
     <>
       {renderYoutube()}
+      {renderVideoUploaded()}
       <Stage
         width={size.width}
         height={size.height - 160 }

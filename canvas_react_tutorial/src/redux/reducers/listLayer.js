@@ -117,9 +117,9 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'image': {
-          const {link, width, height} = action.payload.details;
+          const {name, link, width, height} = action.payload.details;
           newLayer = {
-            name: 'Image' + state.num,
+            name: name ? name : 'Image' + state.num,
             type: 'image',
             scene: action.payload.curScene,
             num: state.num,
@@ -160,17 +160,17 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'screen': {
-          const { name, src } = action.payload.details;
+          const { name, src, width, height } = action.payload.details;
           newLayer = {
-            name: name,
+            name: name + state.num,
             type: 'screen',
             scene: action.payload.curScene,
             num: state.num,
             x: 0,
             y: 0,
             g: 0,
-            width: 560,
-            height: 315,
+            width: width,
+            height: height,
             opacity: 1,
             src: src,
             camera: true,
@@ -206,7 +206,28 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'video': {
-          
+          const {name, link, width, height} = action.payload.details;
+          newLayer = {
+            name: name,
+            type: 'video',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: width,
+            height: height,
+            opacity: 1,
+            src: link,
+            hidden: false,
+            lock: false,
+            autoplay: false,
+            mute: false,
+            start: false,
+            pause: true,
+            loop: false,
+            volume: 100,
+          }
           break;
         }
         default:

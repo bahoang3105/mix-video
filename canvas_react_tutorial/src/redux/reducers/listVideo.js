@@ -14,11 +14,14 @@ const initialState = {
 const listVideo = (state = initialState, action) => {
   switch(action.type) {
     case ADD_VIDEO: {
+      const { src, width, height } = action.payload.details;
       const newVideo = {
         ...action.payload,
         num: state.num,
         name: action.payload.name,
-        src: action.payload.src,
+        src: src,
+        width: width,
+        height: height,
         mute: false,
         onCamera: true,
       };

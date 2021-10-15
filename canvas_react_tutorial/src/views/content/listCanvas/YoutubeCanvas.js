@@ -37,8 +37,6 @@ const YoutubeCanvas = (props) => {
       <Rect
         onClick={props.onSelect}
         ref={shapeRef}
-        fill={props.shapeProps.background}
-        rotation={props.shapeProps.g}
         visible={!props.shapeProps.hidden}
         {...props.shapeProps}
         draggable={props.isSelected  && !props.shapeProps.lock}

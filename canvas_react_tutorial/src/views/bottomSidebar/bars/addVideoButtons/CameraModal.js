@@ -45,10 +45,20 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
   }
 
   const addCamera = () => {
-    addVideo('camera', label, videoRef.current.srcObject);
+    addVideo('camera', label, {
+      src: videoRef.current.srcObject,
+      height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height,
+      width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width,
+    });
     setShow(false);
     if(props.curScene) {
-      addLayer('camera', props.curScene, {name: label, type: 'camera', src: videoRef.current.srcObject});
+      addLayer('camera', props.curScene, {
+        name: label, 
+        type: 'camera', 
+        src: videoRef.current.srcObject,
+        height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height,
+        width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width,
+      });
     }
   }
 

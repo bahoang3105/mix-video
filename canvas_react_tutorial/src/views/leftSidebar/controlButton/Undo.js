@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { undo } from '../../../redux/actions';
 
 const Undo = (props) => {
-  const style = (props.history.length - props.num <= 0) ? 'not-allowed' : '';
+  const style = (props.history.length - props.num <= 0) ? 'not-allowed' : 'pointer';
   const undoHistory = () => {
     if(props.history.length - props.num > 0) {
       props.undo();

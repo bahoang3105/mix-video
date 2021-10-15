@@ -8,10 +8,10 @@ import {
 
 const Sound = (props) => {
   const mute = props.data.mute ? '' : 'display-none';
-  const noSound = props.data.mute ? 'display-none' : ((props.data.volume === 0) ? '' : 'display-none');
+  const noSound = props.data.mute ? 'display-none' : ((props.data.volume <= 10) ? '' : 'display-none');
   const highSound = props.data.mute ? 'display-none' : ((props.data.volume >= 70) ? '' : 'display-none');
-  const lowSound = props.data.mute ? 'display-none' : ((props.data.volume > 0 && props.data.volume <= 30) ? '' : 'display-none');
-  const mediumSound = props.data.mute ? 'display-none' : ((props.data.volume > 30 && props.data.volume < 70) ? '' : 'display-none');
+  const lowSound = props.data.mute ? 'display-none' : ((props.data.volume > 10 && props.data.volume <= 40) ? '' : 'display-none');
+  const mediumSound = props.data.mute ? 'display-none' : ((props.data.volume > 40 && props.data.volume < 70) ? '' : 'display-none');
   
   return (
     <div className='right-field'>

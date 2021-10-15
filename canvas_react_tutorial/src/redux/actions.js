@@ -41,12 +41,12 @@ export const addScene = () => ({
   type: ADD_SCENE,
 });
 
-export const addVideo = (type, name, src) => ({
+export const addVideo = (type, name, details) => ({
   type: ADD_VIDEO,
   payload: {
     type,
     name,
-    src,
+    details,
   }
 });
 

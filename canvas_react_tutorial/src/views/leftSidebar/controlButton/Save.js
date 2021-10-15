@@ -7,7 +7,7 @@ import {
   getNumScene,
 } from '../../../redux/selectors';
 
-const Save = ({ layers, scenes, numLayer, numScene, }) => {
+const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
   const save = () => {
     const saveLayer = [];
     for(let i = 0; i < layers.length; i++) {
@@ -27,6 +27,10 @@ const Save = ({ layers, scenes, numLayer, numScene, }) => {
     localStorage.setItem('scenes', JSON.stringify(scenes));
     localStorage.setItem('numLayer', numLayer);
     localStorage.setItem('numScene', numScene);
+    setDisplayNoti(true);
+    setTimeout(() => {
+      setDisplayNoti(false);
+    }, 3000);
   }
 
   return (

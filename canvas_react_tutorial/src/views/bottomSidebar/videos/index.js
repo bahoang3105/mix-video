@@ -16,6 +16,8 @@ const Videos = ({ videos }) => {
           id={videos[i].num}
           mute={videos[i].mute}
           onCamera={videos[i].onCamera}
+          height={videos[i].height}
+          width={videos[i].width}
         />
       );
     }

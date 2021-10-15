@@ -11,7 +11,7 @@ import stopStream from './stopStream';
 const VideoView = ({ curScene, ...props}) => {
   const [show, setShow] = useState(false);
   const videoRef = useRef(null);
-
+  
   useEffect(() => {
     videoRef.current.srcObject = props.src;
   });

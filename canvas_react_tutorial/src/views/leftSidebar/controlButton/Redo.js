@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { redo } from "../../../redux/actions";
 
 const Redo = (props) => {
-  const style = (props.num === 0) ? 'not-allowed' : '';
+  const style = (props.num === 0) ? 'not-allowed' : 'pointer';
   const redoHistory = () => {
     if(props.num > 0) {
       props.redo();

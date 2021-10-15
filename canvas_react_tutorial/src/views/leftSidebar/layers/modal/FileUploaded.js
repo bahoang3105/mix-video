@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { addLayer } from '../../../../redux/actions';
 import { connect } from 'react-redux';
 
 const FileUploaded = (props) => {
+  const videoRef = useRef(null);
   const name = props.name.length >= 16 ? props.name.substring(0, 16) + '...' : props.name;
   const curDate = new Date();
   const fileDate = new Date(props.date);
@@ -27,13 +28,18 @@ const FileUploaded = (props) => {
         getDetail(
           props.url,
           (width, height) => {
-            props.addLayer('image', props.curScene, {link: props.url, width: width, height: height}); 
+            props.addLayer('image', props.curScene, {name: props.name, link: props.url, width: width/2, height: height/2}); 
           }
         );
         break;
       } 
       case 'video': {
-        console.log('haha')
+        props.addLayer('video', props.curScene, {
+          name: props.name, 
+          link: props.url, 
+          width: videoRef.current.videoWidth / 2, 
+          height: videoRef.current.videoHeight / 2,
+        });
         break;
       }
       case 'audio': {
@@ -45,6 +51,16 @@ const FileUploaded = (props) => {
     }
   }
 
+  if(props.type === 'video') {
+    return (
+      <div className='file-uploaded' onClick={addToScene}>
+        <span className='name-file-upload' id='video-name-uploaded'>
+          {name}
+        </span>
+        <video src={props.url} className='video-uploaded' controls={false} ref={videoRef} />
+      </div>
+    );
+  }
   return (
     <div 
       className='file-uploaded' 
