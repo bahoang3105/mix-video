@@ -7,6 +7,7 @@ import {
   CHANGE_NAME_VIDEO,
   CHANGE_LAYER,
   CHANGE_CUR_LAYER,
+  CHANGE_SCENE,
   CREATE_THUMBNAIL,
   DEL_LAYER,
   DEL_SCENE,
@@ -90,6 +91,15 @@ export const changeLayer = (layer, num, type) => ({
     type,
   }
 });
+
+export const changeScene = (scene, num, type) => ({
+  type: CHANGE_SCENE,
+  payload: {
+    scene,
+    num,
+    type,
+  }
+})
 
 export const createThumbnail = (img, scene) => ({
   type: CREATE_THUMBNAIL,

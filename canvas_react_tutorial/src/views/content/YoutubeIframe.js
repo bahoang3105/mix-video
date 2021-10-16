@@ -12,7 +12,14 @@ const YoutubeIframe = (props) => {
   const render = () => {
     if(props.data.start) {
       return (
-        <div style={{ opacity: props.data.opacity, zIndex: -1, display: props.data.hidden ? 'none' : '' }} >
+        <div 
+          style={{
+            opacity: props.data.opacity,
+            zIndex: -1,
+            display: props.data.hidden ? 'none' : '',
+            filter: `brightness(${props.data.brightness}) contrast(${props.data.contrast}) blur(${props.data.blur}px) saturate(${props.data.saturate})`,
+          }} 
+        >
           <YouTube
             video={key}
             autoplay={true}

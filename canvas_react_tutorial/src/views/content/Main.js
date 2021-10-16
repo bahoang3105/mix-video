@@ -1,16 +1,17 @@
 import { Stage, Layer } from "react-konva";
 import { connect, useDispatch } from "react-redux";
 import { changeLayer, getLayers, changeCurLayer } from "../../redux/actions";
-import { getCurLayer, getCurScene, getListLayer } from "../../redux/selectors";
+import { getCurLayer, getCurScene, getListLayer, getListScene } from "../../redux/selectors";
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import VideoTag from "./VideoTag";
 
-const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size }) => {
+const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
   const dispatch = useDispatch();
   if(!layers) {
     dispatch(getLayers())
   }
+
   const checkDeselect = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
@@ -25,6 +26,9 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
   const onSelect = layer => {
     changeCurLayer(layer);
   }
+  
+  const dataScene = scenes.find(scene => scene.num === curScene);
+
   const renderYoutube = () => {
     const youtubeLayers = layers ? layers.filter(layer => layer.type === 'youtube') : null;
     if(!youtubeLayers) return;
@@ -50,7 +54,12 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
   }
 
   return (
-    <>
+    <div 
+      style={{
+        filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px)`,
+        opacity: dataScene.opacity 
+      }}
+    >
       {renderYoutube()}
       {renderVideoUploaded()}
       <Stage
@@ -70,7 +79,7 @@ const Main = ({ layers, curLayer, curScene, changeLayer, changeCurLayer, size })
           />
         </Layer>
       </Stage>
-    </>
+    </div>
   );
 }
 
@@ -78,6 +87,7 @@ const mapStateToProps = state => ({
   layers: getListLayer(state),
   curScene: getCurScene(state),
   curLayer: getCurLayer(state),
+  scenes: getListScene(state),
 })
 
 export default connect(

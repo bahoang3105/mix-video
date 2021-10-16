@@ -135,11 +135,6 @@ const listLayer = (state = initialState, action) => {
             scaleY: 1.0,
             hidden: false,
             lock: false,
-            blur: 0,
-            brightness: 1,
-            contrast: 1,
-            saturate: 1,
-            grayscale: 1,
           }
           break;
         }
@@ -161,11 +156,6 @@ const listLayer = (state = initialState, action) => {
             micro: true,
             hidden: false,
             lock: false,
-            blur: 0,
-            brightness: 1,
-            contrast: 1,
-            saturate: 1,
-            grayscale: 1,
           }
           break;
         }
@@ -187,11 +177,6 @@ const listLayer = (state = initialState, action) => {
             micro: true,
             hidden: false,
             lock: false,
-            blur: 0,
-            brightness: 1,
-            contrast: 1,
-            saturate: 1,
-            grayscale: 1,
           }
           break;
         }
@@ -217,11 +202,6 @@ const listLayer = (state = initialState, action) => {
             volume: 100,
             hidden: false,
             lock: false,
-            blur: 0,
-            brightness: 1,
-            contrast: 1,
-            saturate: 1,
-            grayscale: 1,
           }
           break;
         }
@@ -247,10 +227,6 @@ const listLayer = (state = initialState, action) => {
             pause: true,
             loop: false,
             volume: 100,
-            blur: 0,
-            brightness: 1,
-            contrast: 1,
-            saturate: 1,
           }
           break;
         }

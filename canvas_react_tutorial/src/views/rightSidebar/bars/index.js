@@ -3,16 +3,16 @@ import Card from "./Card";
 import Dropdown from "./Dropdown";
 
 const Bars = (props) => {
-  const [isSelectScenes, setIsSelectScenes] = useState(true);
-  const colorScenes = isSelectScenes ? 'white' : '';
-  const colorSettings = isSelectScenes ? '' : 'white';
-  const onClickScenes = () => {
-    setIsSelectScenes(true);
-    props.isSelectScenes(true);
+  const [isSelectFilters, setIsSelectFilters] = useState(true);
+  const colorFilters = isSelectFilters ? 'white' : '';
+  const colorSettings = isSelectFilters ? '' : 'white';
+  const onClickFilters = () => {
+    setIsSelectFilters(true);
+    props.isSelectFilters(true);
   }
   const onClickSettings = () => {
-    setIsSelectScenes(false);
-    props.isSelectScenes(false);
+    setIsSelectFilters(false);
+    props.isSelectFilters(false);
   }
   return (
     <div className='bars' id='right-bar'>
@@ -21,7 +21,7 @@ const Bars = (props) => {
       </div>
       <div className='cards'>
         <Card name='Settings' color={colorSettings} onClick={onClickSettings} />
-        <Card name='Scenes' color={colorScenes} onClick={onClickScenes} />
+        <Card name='Filters' id='filters-card' color={colorFilters} onClick={onClickFilters} />
       </div>
     </div>
   );

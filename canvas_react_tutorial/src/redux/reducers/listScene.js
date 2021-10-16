@@ -7,6 +7,7 @@ import {
   CHANGE_CUR_SCENE,
   CHANGE_NAME_SCENE,
   CHANGE_STATE_SCENES,
+  CHANGE_SCENE,
 } from '../actionTypes';
 
 const initialState = {
@@ -24,7 +25,18 @@ const listScene = (state = initialState, action) => {
   switch(action.type) {
     case ADD_SCENE: {
       const newName = 'Scene ' + state.num;
-      const newScene = {"num": state.num, "name": newName, "img": img};
+      const newScene = {
+        num: state.num, 
+        name: newName, 
+        img: img,
+        blur: 0,
+        brightness: 1,
+        opacity: 1,
+        grayscale: 0,
+        saturate: 1,
+        contrast: 1,
+        template: 'none',
+      };
       return {
         ...state,
         scenes: [...state.scenes, newScene],
@@ -44,7 +56,18 @@ const listScene = (state = initialState, action) => {
     case GET_SCENES: {
       if(!action.payload.scenes || action.payload.scenes.length === 0) {
         const newName = 'Scene 1';
-        const newScene = {"name": newName, "img": img, "num": 1};
+        const newScene = {
+          "name": newName, 
+          "img": img, 
+          "num": 1,
+          blur: 0,
+          brightness: 1,
+          opacity: 1,
+          grayscale: 0,
+          saturate: 1,
+          contrast: 1,
+          template: 'none',
+        };
         return {
           ...state,
           scenes: [newScene],
@@ -151,6 +174,31 @@ const listScene = (state = initialState, action) => {
               ...state.scenes.slice(place+1)
             ],
             curSceneName: curSceneName,
+            curScene: state.curScene,
+            num: state.num,
+          }
+        ],
+        historyState: 0,
+      }
+    }
+    case CHANGE_SCENE: {
+      const place = state.scenes.findIndex(Scene => Scene.num === action.payload.num);
+      return {
+        ...state,
+        scenes: [
+          ...state.scenes.slice(0, place),
+          action.payload.scene,
+          ...state.scenes.slice(place+1),
+        ],
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            scenes: [
+              ...state.scenes.slice(0, place),
+              action.payload.scene,
+              ...state.scenes.slice(place+1),
+            ],
+            curSceneName: state.curSceneName,
             curScene: state.curScene,
             num: state.num,
           }

@@ -4,6 +4,7 @@ const Card = (props) => {
       className='card'
       style={{backgroundColor: props.color}}
       onClick={props.onClick}
+      id={props.id}
     >
       {props.name}
     </label>

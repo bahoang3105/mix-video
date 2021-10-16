@@ -5,6 +5,7 @@ export const CREATE_THUMBNAIL = 'CREATE_THUMBNAIL';
 export const GET_SCENES = 'GET_SCENES';
 export const CHANGE_NAME_SCENE = 'CHANGE_NAME_SCENE';
 export const CHANGE_CUR_SCENE = 'CHANGE_CUR_SCENE';
+export const CHANGE_SCENE = 'CHANGE_SCENE';
 
 export const ADD_VIDEO = 'ADD_VIDEO';
 export const DEL_VIDEO = 'DEL_VIDEO';

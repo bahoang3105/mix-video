@@ -325,38 +325,6 @@ export const setValue = (type, value, changeLayer, data) => {
       changeLayer(layer, data.num);
       break;
     }
-    case 'brightness': {
-      const layer = {
-        ...data,
-        brightness: value/100
-      }
-      changeLayer(layer, data.num);
-      break;
-    }
-    case 'blur': {
-      const layer = {
-        ...data,
-        blur: value
-      }
-      changeLayer(layer, data.num);
-      break;
-    }
-    case 'saturate': {
-      const layer = {
-        ...data,
-        saturate: value/100
-      }
-      changeLayer(layer, data.num);
-      break;
-    }
-    case 'contrast': {
-      const layer = {
-        ...data,
-        contrast: value/100
-      }
-      changeLayer(layer, data.num);
-      break;
-    }
     default:
       break;
   }
