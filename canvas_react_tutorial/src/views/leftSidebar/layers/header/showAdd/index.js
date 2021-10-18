@@ -21,7 +21,7 @@ const ShowAdd = (props) => {
       <ShapeButton curScene={props.curScene} addLayer={addLayer} />
       <hr />
       <VideoButton curScene={props.curScene} addLayer={addLayer} setShowCamera={props.setShowCamera} setShowYoutube={props.setShowYoutube} setShowUploadVideo={props.setShowUploadVideo} />
-      <AudioButton curScene={props.curScene} addLayer={addLayer} />
+      <AudioButton curScene={props.curScene} addLayer={addLayer} setShowMicro={props.setShowMicro} setShowUploadAudio={props.setShowUploadAudio} />
       <ConferenceButton curScene={props.curScene} addLayer={addLayer} />
       <EffectsButton curScene={props.curScene} addLayer={addLayer} />
       <CommentButton curScene={props.curScene} addLayer={addLayer} />

@@ -53,6 +53,10 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     return listVideo;
   }
 
+  const renderAudio = () => {
+    
+  }
+
   return (
     <div 
       style={{
@@ -62,6 +66,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     >
       {renderYoutube()}
       {renderVideoUploaded()}
+      {renderAudio()}
       <Stage
         width={size.width}
         height={size.height - 160 }

@@ -6,6 +6,7 @@ import ImageCanvas from './Image';
 import Video from './Video';
 import YoutubeCanvas from './YoutubeCanvas';
 import VideoUpload from './VideoUpload';
+import Audio from './Audio';
 
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
@@ -114,6 +115,18 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
           case 'video': {
             listCanvas.push(
               <VideoUpload
+                key={`video-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
+          case 'audio': {
+            listCanvas.push(
+              <Audio
                 key={`video-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}

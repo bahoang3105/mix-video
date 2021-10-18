@@ -9,7 +9,7 @@ import { ImFileVideo, ImFilter, ImSortNumericAsc } from "react-icons/im";
 const Icon = (props) => {
   const icon = (type) => {
     switch(type) {
-      case 'libraryAudio':
+      case 'audio':
         return <BsMusicNoteList />;
       case 'micro':
         return <BiMicrophone />;
@@ -49,7 +49,7 @@ const Icon = (props) => {
         return <AiOutlineCamera />;
       case 'invite':
         return <AiOutlineUserAdd />;
-      case 'libraryVideo':
+      case 'video':
         return <ImFileVideo />;
       case 'screen':
         return <GoScreenFull />;

@@ -8,6 +8,7 @@ const Library = (props) => {
       className={`button-layer left-add-buttons${isSelect}`}
       onMouseOver={() => setIsSelect(' on-select-duplicate')}
       onMouseOut={() => setIsSelect('')}
+      onClick={() => props.setShow(true)}
     >
       <BsMusicNoteList />
       <span className='space' />

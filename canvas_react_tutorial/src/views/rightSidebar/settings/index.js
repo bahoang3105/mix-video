@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getCurLayer } from "../../../redux/selectors";
+import Audio from "./Audio";
 import Circle from "./Circle";
 import Image from "./Image";
 import Rectangle from "./Rectangle";
@@ -64,6 +65,11 @@ const Settings = ({ curLayer, display }) => {
       case 'video': {
         return(
           <VideoUploaded data={curLayer} />
+        );
+      }
+      case 'audio': {
+        return (
+          <Audio data={curLayer} />
         );
       }
       default:

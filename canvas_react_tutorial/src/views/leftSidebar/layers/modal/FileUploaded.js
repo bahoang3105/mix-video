@@ -43,7 +43,10 @@ const FileUploaded = (props) => {
         break;
       }
       case 'audio': {
-        console.log('hihi')
+        props.addLayer('audio', props.curScene, {
+          name: props.name,
+          link: props.url,
+        });
         break;
       }
       default:

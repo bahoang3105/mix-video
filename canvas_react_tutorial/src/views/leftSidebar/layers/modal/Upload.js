@@ -161,7 +161,13 @@ const Upload = ({ curScene, ...props }) => {
               File should be {props.typeNotice}.
             </div>
           </label>
-          <input id="file-upload" type="file" onChange={e => upload(e)} disabled={uploadState} />
+          <input 
+            id="file-upload" 
+            type="file" 
+            onChange={e => upload(e)} 
+            disabled={uploadState} 
+            accept={(props.type === 'video') ? 'video/*' : ((props.type === 'audio') ? 'audio/*' : 'image/*')}
+          />
         </Modal.Body>
         <Modal.Footer>
           {renderList()}

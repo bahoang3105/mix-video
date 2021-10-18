@@ -6,6 +6,7 @@ import CameraModal from '../../../bottomSidebar/bars/addVideoButtons/CameraModal
 import YoutubeModal from "./YoutubeModal";
 import UploadImage from "../modal/UploadImage";
 import UploadVideo from "../modal/UploadVideo";
+import UploadAudio from "../modal/UploadAudio";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -15,6 +16,8 @@ const ButtonAdd = (props) => {
   const [showYoutube, setShowYoutube] = useState(false);
   const [showUploadImage, setShowUploadImage] = useState(false);
   const [showUploadVideo, setShowUploadVideo] = useState(false);
+  const [showMicro, setShowMicro] = useState(false);
+  const [showUploadAudio, setShowUploadAudio] = useState(false);
 
   useEffect(() => {
     if(!devices) {
@@ -71,11 +74,14 @@ const ButtonAdd = (props) => {
           setShowYoutube={setShowYoutube}
           setShowUploadImage={setShowUploadImage}
           setShowUploadVideo={setShowUploadVideo}
+          setShowUploadAudio={setShowUploadAudio}
+          setShowMicro={setShowMicro}
         />
       </div>
       <ImageAdd curScene={props.curScene} show={showImage} setShow={setShowImage} />
       <UploadImage curScene={props.curScene} show={showUploadImage} setShow={setShowUploadImage} />
       <UploadVideo curScene={props.curScene} show={showUploadVideo} setShow={setShowUploadVideo} />
+      <UploadAudio curScene={props.curScene} show={showUploadAudio} setShow={setShowUploadAudio} />
       {renderCamera()}
       {renderYoutube()}
     </>
