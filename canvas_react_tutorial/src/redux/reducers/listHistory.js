@@ -5,6 +5,7 @@ import {
   CHANGE_NAME_LAYER,
   CHANGE_NAME_SCENE,
   CHANGE_CUR_SCENE,
+  CHANGE_SCENE,
   CREATE_THUMBNAIL,
   DEL_LAYER,
   DEL_SCENE,
@@ -120,6 +121,27 @@ const listHistory = (state = initialState, action) => {
           'scene',
           ...state.history.slice(length - state.num),
         ],
+      }
+    }
+    case CHANGE_SCENE: {
+      if(length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
+        return {
+          history: [
+            ...state.history.slice(0, length - state.num),
+          ],
+          num: 0,
+          layer: 0,
+          scene: 0,
+        }
+      }
+      return {
+        history: [
+          ...state.history.slice(0, length - state.num),
+          action.payload.type ? 'scene ' + action.payload.type : 'scene',
+        ],
+        num: 0,
+        layer: 0,
+        scene: 0,
       }
     }
     case CREATE_THUMBNAIL: {

@@ -56,7 +56,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
   return (
     <div 
       style={{
-        filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px)`,
+        filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`,
         opacity: dataScene.opacity 
       }}
     >

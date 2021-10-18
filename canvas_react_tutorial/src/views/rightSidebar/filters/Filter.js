@@ -12,7 +12,7 @@ const Filter = (props) => {
 				<div className='name-filter'>
 						Contrast
 				</div>
-				<input type='range' max='600' min='-200' value={props.data.contrast*100} onChange={e => props.setValue('contrast', e.target.value)} />
+				<input type='range' max='200' min='0' value={props.data.contrast*100} onChange={e => props.setValue('contrast', e.target.value)} />
 				<span className='value-filter'>{props.data.contrast}</span>
 			</div>
 			<div className='filter'>
@@ -42,6 +42,13 @@ const Filter = (props) => {
 				</div>
 				<input type='range' max='100' min='0' value={props.data.grayscale*100} onChange={e => props.setValue('grayscale', e.target.value)} />
 				<span className='value-filter'>{props.data.grayscale} </span>
+			</div>
+			<div className='filter'>
+				<div className='name-filter'>
+						Sepia
+				</div>
+				<input type='range' max='100' min='0' value={props.data.sepia*100} onChange={e => props.setValue('sepia', e.target.value)} />
+				<span className='value-filter'>{props.data.sepia} </span>
 			</div>
 		</div>
 	);

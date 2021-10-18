@@ -13,7 +13,7 @@ const FileUploaded = (props) => {
     if(curDate.getTime() - fileDate.getTime() > 86000000) {
       props.renew(props.place);
     }
-  })
+  });
 
   const getDetail = (url, callback) => {
     const img = new Image();

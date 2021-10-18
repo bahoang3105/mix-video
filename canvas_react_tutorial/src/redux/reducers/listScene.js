@@ -17,6 +17,7 @@ const initialState = {
   curSceneName: null,
   scenes: [],
   num: 0,
+  historyType: 'normal',
 }
 
 const listScene = (state = initialState, action) => {
@@ -35,7 +36,8 @@ const listScene = (state = initialState, action) => {
         grayscale: 0,
         saturate: 1,
         contrast: 1,
-        template: 'none',
+        sepia: 0,
+        template: 'None',
       };
       return {
         ...state,
@@ -51,6 +53,7 @@ const listScene = (state = initialState, action) => {
           }
         ],
         historyState: 0,
+        historyType: 'normal',
       };
     }
     case GET_SCENES: {
@@ -66,6 +69,7 @@ const listScene = (state = initialState, action) => {
           grayscale: 0,
           saturate: 1,
           contrast: 1,
+          sepia: 0,
           template: 'none',
         };
         return {
@@ -83,6 +87,7 @@ const listScene = (state = initialState, action) => {
             }
           ],
           historyState: 0,
+          historyType: 'normal',
         };
       }
       return {
@@ -100,6 +105,7 @@ const listScene = (state = initialState, action) => {
           }
         ],
         historyState: 0,
+        historyType: 'normal',
       };
     }
     case DEL_SCENE: {
@@ -129,6 +135,7 @@ const listScene = (state = initialState, action) => {
           }
         ],
         historyState: 0,
+        historyType: 'normal',
       };
     }
     case CHANGE_CUR_SCENE: {
@@ -146,6 +153,7 @@ const listScene = (state = initialState, action) => {
           },
           ...state.history.slice(length - state.historyState),
         ],
+        historyType: 'normal',
       }
     }
     case CHANGE_NAME_SCENE: {
@@ -179,10 +187,36 @@ const listScene = (state = initialState, action) => {
           }
         ],
         historyState: 0,
+        historyType: 'normal',
       }
     }
     case CHANGE_SCENE: {
       const place = state.scenes.findIndex(Scene => Scene.num === action.payload.num);
+      if(action.payload.type !== state.historyType) {
+        return {
+          ...state,
+          scenes: [
+            ...state.scenes.slice(0, place),
+            action.payload.scene,
+            ...state.scenes.slice(place+1),
+          ],
+          history: [
+            ...state.history.slice(0, length - state.historyState),
+            {
+              scenes: [
+                ...state.scenes.slice(0, place),
+                action.payload.scene,
+                ...state.scenes.slice(place+1),
+              ],
+              curSceneName: state.curSceneName,
+              curScene: state.curScene,
+              num: state.num,
+            }
+          ],
+          historyState: 0,
+          historyType: !action.payload.type ? 'normal' : action.payload.type,
+        }
+      }
       return {
         ...state,
         scenes: [
@@ -191,19 +225,20 @@ const listScene = (state = initialState, action) => {
           ...state.scenes.slice(place+1),
         ],
         history: [
-          ...state.history.slice(0, length - state.historyState),
+          ...state.history.slice(0, length - state.historyState - 1),
           {
             scenes: [
               ...state.scenes.slice(0, place),
               action.payload.scene,
               ...state.scenes.slice(place+1),
             ],
-            curSceneName: state.curSceneName,
             curScene: state.curScene,
+            curSceneName: state.curSceneName,
             num: state.num,
           }
         ],
         historyState: 0,
+        historyType: !action.payload.type ? 'normal' : action.payload.type,
       }
     }
     case DUPLICATE_SCENE: {
@@ -238,6 +273,7 @@ const listScene = (state = initialState, action) => {
           },
         ],
         historyState: 0,
+        historyType: 'normal',
       }
     }
     case CREATE_THUMBNAIL: {
@@ -269,6 +305,7 @@ const listScene = (state = initialState, action) => {
           },
         ],
         historyState: 0,
+        historyType: 'normal',
       }
     }
     case CHANGE_STATE_SCENES: {

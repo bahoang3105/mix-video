@@ -57,6 +57,14 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
         changeScene(changedScene, curScene, type);
         break;
       }
+      case 'sepia': {
+        const changedScene = {
+          ...curSceneData,
+          sepia: value/100,
+        };
+        changeScene(changedScene, curScene, type);
+        break;
+      }
       default:
         break;
     }
@@ -77,20 +85,20 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
         </div>
         <div id='filters-template'>
           <div className='grid-filter'>
-            <SampleFilter name='none'/>
-            <SampleFilter name='aaaa'/>
+            <SampleFilter name='None' opacity={1} brightness={1} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Ancient' opacity={1} brightness={0.96} contrast={0.9} saturate={1} blur={0} grayscale={0.22} sepia={0.42} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='none'/>
-            <SampleFilter name='aaaa'/>
+            <SampleFilter name='Colorful' opacity={1} brightness={1} contrast={1} saturate={2.5} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Warm' opacity={1} brightness={1.35} contrast={1} saturate={1.7} blur={0} grayscale={0} sepia={0.45} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='none'/>
-            <SampleFilter name='aaaa'/>
+            <SampleFilter name='Murky' opacity={1} brightness={0.7} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Bright' opacity={1} brightness={1.2} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='none'/>
-            <SampleFilter name='aaaa'/>
+            <SampleFilter name='Colorless' opacity={1} brightness={1} contrast={1} saturate={1} blur={0} grayscale={1} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Dim' opacity={0.9} brightness={1} contrast={1} saturate={1} blur={3} grayscale={0} sepia={0} template={curSceneData.template} />
           </div>
         </div>
       </div>

@@ -57,6 +57,7 @@ const Upload = ({ curScene, ...props }) => {
           ...props.data[place],
           url: url.data.url,
           img: thumbnail,
+          date: new Date(),
         },
         ...props.data.slice(place+1),
       ]);
