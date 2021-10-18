@@ -3,10 +3,14 @@ import Filter from './Filter';
 import { getCurScene, getListScene } from "../../../redux/selectors";
 import { connect } from "react-redux";
 import { changeScene } from "../../../redux/actions";
+import { AiOutlineDown, AiOutlineRight } from "react-icons/ai";
+import { useState } from "react";
 
 const Filters = ({ display, curScene, scenes, changeScene }) => {
   const curSceneData = curScene ? scenes.find(scene => scene.num === curScene) : [];
   
+  const [displayConfig, setDisplayConfig] = useState(false);
+
   const setValue = (type, value) => {
     switch (type) {
       case 'contrast': {
@@ -71,7 +75,7 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
   }
 
   const renderConfig = () => {
-    if(curSceneData.length === 0) {
+    if(curSceneData.length === 0 || !displayConfig) {
       return;
     }
     return <Filter data={curSceneData} setValue={setValue} />;
@@ -104,6 +108,10 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
       </div>
       <div className='right-field'>
         <div className='right-field-name'>
+          <div className='more-config-dropdown' onClick={() => setDisplayConfig(!displayConfig)}>
+            <AiOutlineDown style={{ display: displayConfig ? '' : 'none'}} />
+            <AiOutlineRight style={{ display: displayConfig ? 'none' : '' }} />
+          </div>
           More config
         </div>
         {renderConfig()}
