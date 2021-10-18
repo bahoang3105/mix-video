@@ -4,7 +4,6 @@ import { changeLayer, getLayers, changeCurLayer } from "../../redux/actions";
 import { getCurLayer, getCurScene, getListLayer, getListScene } from "../../redux/selectors";
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
-import VideoTag from "./VideoTag";
 import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
 
@@ -45,20 +44,6 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     return listYoutube;
   }
 
-  const renderVideoUploaded = () => {
-    const videoUploadedLayers = layers ? layers.filter(layer => layer.type === 'video') : null;
-    if(!videoUploadedLayers) return;
-    const listVideo = [];
-    for(let i = 0; i < videoUploadedLayers.length; i++) {
-      if(videoUploadedLayers[i].scene === curScene) {
-        listVideo.push(
-          <VideoTag data={videoUploadedLayers[i]} key={videoUploadedLayers[i].num} curLayer={curLayer.num} />
-        );
-      }
-    }
-    return listVideo;
-  }
-
   const renderAudioUploaded = () => {
     const audioUploadedLayers = layers ? layers.filter(layer => layer.type === 'audio') : null;
     if(!audioUploadedLayers) return;
@@ -88,20 +73,18 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
   }
 
   return (
-    <div 
-      style={{
-        filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`,
-        opacity: dataScene.opacity 
-      }}
-    >
+    <div>
       {renderYoutube()}
-      {renderVideoUploaded()}
       {renderAudioUploaded()}
       {renderMicro()}
       <Stage
         width={size.width}
         height={size.height - 170 }
-        style={{ backgroundColor: '#969ca5' }}
+        style={{
+          filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`,
+          opacity: dataScene.opacity  ,
+          backgroundColor: '#969ca5',
+        }}
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}
       >
