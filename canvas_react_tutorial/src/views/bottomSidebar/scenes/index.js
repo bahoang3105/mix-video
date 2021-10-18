@@ -32,7 +32,7 @@ const Scenes = ({ scenes, curScene }) => {
   }
 
   return(
-    <div className='list-bottom'>
+    <div className='list-bottom' style={{ overflowX: scenes.length > 6 ? 'scroll' : 'hidden' }}>
       {renderScenes(scenes)}
     </div>
   );

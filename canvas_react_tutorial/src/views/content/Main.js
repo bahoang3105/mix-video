@@ -100,7 +100,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
       {renderMicro()}
       <Stage
         width={size.width}
-        height={size.height - 160 }
+        height={size.height - 170 }
         style={{ backgroundColor: '#969ca5' }}
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}

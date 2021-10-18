@@ -25,7 +25,7 @@ const Videos = ({ videos }) => {
   };
 
   return(
-    <div className='list-bottom'>
+    <div className='list-bottom' style={{ overflowX: videos.length > 6 ? 'scroll' : 'hidden' }}>
       {renderVideos(videos)}
     </div>
   );

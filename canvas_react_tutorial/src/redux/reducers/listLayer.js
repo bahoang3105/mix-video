@@ -160,7 +160,7 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'screen': {
-          const { name, src, width, height } = action.payload.details;
+          const { name, src, width, height, onCamera } = action.payload.details;
           newLayer = {
             name: name + state.num,
             type: 'screen',
@@ -173,7 +173,7 @@ const listLayer = (state = initialState, action) => {
             height: height,
             opacity: 1,
             src: src,
-            camera: true,
+            camera: onCamera,
             micro: true,
             hidden: false,
             lock: false,
