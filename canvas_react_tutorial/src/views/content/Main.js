@@ -36,9 +36,11 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     if(!youtubeLayers) return;
     const listYoutube = [];
     for(let i = 0; i < youtubeLayers.length; i++) {
-      listYoutube.push(
-        <YoutubeIframe data={youtubeLayers[i]} key={`youtube-iframe-${youtubeLayers[i].num}`} curLayer={curLayer.num} />
-      );
+      if(youtubeLayers[i].scene === curScene) {
+        listYoutube.push(
+          <YoutubeIframe data={youtubeLayers[i]} key={`youtube-iframe-${youtubeLayers[i].num}`} curLayer={curLayer.num} />
+        );
+      }
     }
     return listYoutube;
   }
@@ -48,9 +50,11 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     if(!videoUploadedLayers) return;
     const listVideo = [];
     for(let i = 0; i < videoUploadedLayers.length; i++) {
-      listVideo.push(
-        <VideoTag data={videoUploadedLayers[i]} key={videoUploadedLayers[i].num} curLayer={curLayer.num} />
-      );
+      if(videoUploadedLayers[i].scene === curScene) {
+        listVideo.push(
+          <VideoTag data={videoUploadedLayers[i]} key={videoUploadedLayers[i].num} curLayer={curLayer.num} />
+        );
+      }
     }
     return listVideo;
   }
@@ -60,9 +64,11 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     if(!audioUploadedLayers) return;
     const listAudio = [];
     for(let i = 0; i < audioUploadedLayers.length; i++) {
-      listAudio.push(
-        <AudioTag data={audioUploadedLayers[i]} key={audioUploadedLayers[i].num} curLayer={curLayer.num} />
-      );
+      if(audioUploadedLayers[i].scene === curScene) {
+        listAudio.push(
+          <AudioTag data={audioUploadedLayers[i]} key={audioUploadedLayers[i].num} curLayer={curLayer.num} />
+        );
+      }
     }
     return listAudio;
   }
@@ -72,9 +78,11 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     if(micros) return;
     const listMicro = [];
     for(let i = 0; i < micros.length; i++) {
-      listMicro.push(
-        <MicroTag data={micros[i]} key={micros[i].num} />
-      );
+      if(micros[i].scene) {
+        listMicro.push(
+          <MicroTag data={micros[i]} key={micros[i].num} />
+        );
+      }
     }
     return listMicro;
   }

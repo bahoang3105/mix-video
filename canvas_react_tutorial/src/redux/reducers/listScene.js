@@ -70,7 +70,7 @@ const listScene = (state = initialState, action) => {
           saturate: 1,
           contrast: 1,
           sepia: 0,
-          template: 'none',
+          template: 'None',
         };
         return {
           ...state,
