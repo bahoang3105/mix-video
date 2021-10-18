@@ -107,8 +107,8 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
         </div>
       </div>
       <div className='right-field'>
-        <div className='right-field-name'>
-          <div className='more-config-dropdown' onClick={() => setDisplayConfig(!displayConfig)}>
+        <div className='right-field-name' onClick={() => setDisplayConfig(!displayConfig)} style={{ cursor: 'pointer' }}>
+          <div className='more-config-dropdown'>
             <AiOutlineDown style={{ display: displayConfig ? '' : 'none'}} />
             <AiOutlineRight style={{ display: displayConfig ? 'none' : '' }} />
           </div>

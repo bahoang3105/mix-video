@@ -8,9 +8,9 @@ import stopStream from '../../videos/stopStream';
 const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, addLayer, ...props }) => {
   const videoRef = useRef(null);
 
-  const [camera, setCamera] = useState(cameraDevices[0].deviceId);
+  const [camera, setCamera] = useState(cameraDevices.length === 0 ? false : cameraDevices[0].deviceId);
   const [micro, setMicro] = useState(false);
-  const [label, setLabel] = useState(cameraDevices[0].label);
+  const [label, setLabel] = useState(cameraDevices.length === 0 ? null : cameraDevices[0].deviceId);
 
   const renderListVideo = () => {
     if(!cameraDevices) return;
@@ -45,6 +45,11 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
   }
 
   const addCamera = () => {
+    if(label === null) {
+     alert('We need your permission to use the camera and microphone!');
+     setShow(false);
+     return; 
+    }
     addVideo('camera', label, {
       src: videoRef.current.srcObject,
       height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height,

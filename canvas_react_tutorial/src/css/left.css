@@ -385,3 +385,21 @@ input[type="file"] {
   font-size: 15px;
   color: #555555;
 }
+
+.close-micro {
+  left: 348px;
+  margin-top: -22px;
+}
+
+.apply-audio {
+  text-align: center;
+  border-radius: 15px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: black;
+  font-weight: 500;
+  font-size: 15px;
+  background-color: #ff0059;
+  padding: 8px;
+  margin: 20px 15px 0 15px;
+  width: 270px;
+}

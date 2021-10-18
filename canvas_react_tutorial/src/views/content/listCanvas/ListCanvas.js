@@ -136,6 +136,18 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
             );
             break;
           }
+          case 'micro': {
+            listCanvas.push(
+              <Audio
+                key={`video-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
           default:
             break;
         }

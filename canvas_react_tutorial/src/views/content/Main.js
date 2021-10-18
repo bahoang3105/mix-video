@@ -5,6 +5,8 @@ import { getCurLayer, getCurScene, getListLayer, getListScene } from "../../redu
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import VideoTag from "./VideoTag";
+import AudioTag from "./AudioTag";
+import MicroTag from './MicroTag';
 
 const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
   const dispatch = useDispatch();
@@ -53,8 +55,28 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     return listVideo;
   }
 
-  const renderAudio = () => {
-    
+  const renderAudioUploaded = () => {
+    const audioUploadedLayers = layers ? layers.filter(layer => layer.type === 'audio') : null;
+    if(!audioUploadedLayers) return;
+    const listAudio = [];
+    for(let i = 0; i < audioUploadedLayers.length; i++) {
+      listAudio.push(
+        <AudioTag data={audioUploadedLayers[i]} key={audioUploadedLayers[i].num} curLayer={curLayer.num} />
+      );
+    }
+    return listAudio;
+  }
+
+  const renderMicro = () => {
+    const micros = layers ? layers.filter(layer => layer.type === 'micro') : null;
+    if(micros) return;
+    const listMicro = [];
+    for(let i = 0; i < micros.length; i++) {
+      listMicro.push(
+        <MicroTag data={micros[i]} key={micros[i].num} />
+      );
+    }
+    return listMicro;
   }
 
   return (
@@ -66,7 +88,8 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     >
       {renderYoutube()}
       {renderVideoUploaded()}
-      {renderAudio()}
+      {renderAudioUploaded()}
+      {renderMicro()}
       <Stage
         width={size.width}
         height={size.height - 160 }

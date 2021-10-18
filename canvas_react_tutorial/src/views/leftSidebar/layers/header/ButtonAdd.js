@@ -7,6 +7,7 @@ import YoutubeModal from "./YoutubeModal";
 import UploadImage from "../modal/UploadImage";
 import UploadVideo from "../modal/UploadVideo";
 import UploadAudio from "../modal/UploadAudio";
+import MicroModal from "./MicroModal";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -56,6 +57,19 @@ const ButtonAdd = (props) => {
     }
   }
 
+  const renderMicro = () => {
+    if(showMicro && devices !== null) {
+      return (
+        <MicroModal
+          show={showMicro}
+          setShow={setShowMicro}
+          microDevices={devices.filter(device => device.kind === 'audioinput')}
+          curScene={props.curScene}
+        />
+      );
+    }
+  }
+
   return(
     <>
       <div
@@ -84,6 +98,7 @@ const ButtonAdd = (props) => {
       <UploadAudio curScene={props.curScene} show={showUploadAudio} setShow={setShowUploadAudio} />
       {renderCamera()}
       {renderYoutube()}
+      {renderMicro()}
     </>
   );
 };

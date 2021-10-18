@@ -255,6 +255,27 @@ const listLayer = (state = initialState, action) => {
           }
           break;
         }
+        case 'micro': {
+          const {name, src} = action.payload.details;
+          newLayer = {
+            name: name + state.num,
+            type: 'micro',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: 50,
+            height: 50,
+            opacity: 1,
+            src: src,
+            hidden: false,
+            lock: false,
+            mute: false,
+            volume: 100,
+          }
+          break;
+        }
         default:
           newLayer = {}
       }
