@@ -28,7 +28,7 @@ const FileUploaded = (props) => {
         getDetail(
           props.url,
           (width, height) => {
-            props.addLayer('image', props.curScene, {name: props.name, link: props.url, width: width/2, height: height/2}); 
+            props.addLayer('imageUpload', props.curScene, {name: props.name, link: props.url, width: width/2, height: height/2}); 
           }
         );
         break;

@@ -44,7 +44,8 @@ const VideoButton = (props) => {
         <div onClick={() => props.setShowUploadVideo(true)} style={{ cursor: 'pointer' }}>
           <Library name='Library of video' />
         </div>
-        <div onClick={() => props.setShowYoutube(true)} style={{ cursor: 'pointer' }}>
+        {/* <div onClick={() => props.setShowYoutube(true)} style={{ cursor: 'pointer' }}> */}
+        <div className='not-allowed'>
           <Youtube name='Video from YouTube' />
         </div>
         <div onClick={addScreen} style={{ cursor: 'pointer' }}>

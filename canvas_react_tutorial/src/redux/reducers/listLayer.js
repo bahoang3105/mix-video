@@ -138,6 +138,28 @@ const listLayer = (state = initialState, action) => {
           }
           break;
         }
+        case 'imageUpload': {
+          const {name, link, width, height} = action.payload.details;
+          newLayer = {
+            name: name,
+            type: 'imageUpload',
+            scene: action.payload.curScene,
+            num: state.num,
+            x: 0,
+            y: 0,
+            g: 0,
+            width: width,
+            height: height,
+            opacity: 1,
+            src: link,
+            flip: false,
+            scaleX: 1.0,
+            scaleY: 1.0,
+            hidden: false,
+            lock: false,
+          }
+          break;
+        }
         case 'camera': {
           const { name, src } = action.payload.details;
           newLayer = {

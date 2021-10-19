@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Upload from './Upload';
 
 const UploadVideo = (props) => {
-  const dataFromStorage = localStorage.getItem('video');
-  const [data, setData] = useState(dataFromStorage ? JSON.parse(dataFromStorage) : []);
-  useEffect(() => {
-    localStorage.setItem('video', JSON.stringify(data));
-  }, [data]);
+  const [data, setData] = useState([]);
 
   return (
     <Upload 

@@ -47,6 +47,11 @@ const Settings = ({ curLayer, display }) => {
           <Image data={curLayer} />
         );
       }
+      case 'imageUpload': {
+        return(
+          <Image data={curLayer} />
+        );
+      }
       case 'camera': {
         return(
           <VideoStream data={curLayer} />

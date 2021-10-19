@@ -76,6 +76,18 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
             );
             break;
           }
+          case 'imageUpload': {
+            listCanvas.push(
+              <ImageCanvas
+                key={`image-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+              />
+            );
+            break;
+          }
           case 'camera': {
             listCanvas.push(
               <Video

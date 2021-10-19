@@ -11,7 +11,7 @@ const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
   const save = () => {
     const saveLayer = [];
     for(let i = 0; i < layers.length; i++) {
-      if(layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro') {
+      if(layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'video' && layers[i].type !== 'imageUpload') {
         if(layers[i].type === 'youtube' || layers[i].type === 'video' || layers[i].type === 'audio') {
           saveLayer.push({
             ...layers[i],

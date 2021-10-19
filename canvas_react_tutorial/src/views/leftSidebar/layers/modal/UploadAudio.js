@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Upload from './Upload';
 
 const UploadAudio = (props) => {
-  const dataFromStorage = localStorage.getItem('audio');
-  const [data, setData] = useState(dataFromStorage ? JSON.parse(dataFromStorage) : []);
-  useEffect(() => {
-    localStorage.setItem('audio', JSON.stringify(data));
-  }, [data]);
+  const [data, setData] = useState([]);
 
   return (
     <Upload 

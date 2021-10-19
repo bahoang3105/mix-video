@@ -6,8 +6,17 @@ import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
+import { useEffect, useRef } from "react";
 
 const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
+  const dataScene = scenes.find(scene => scene.num === curScene);
+  const layerRef = useRef(null);
+  useEffect(() => {
+    const canvas = layerRef.current.getCanvas()._canvas;
+    canvas.style.filter = `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`;
+    canvas.style.opacity = dataScene.opacity;
+  })
+
   const dispatch = useDispatch();
   if(!layers) {
     dispatch(getLayers())
@@ -27,8 +36,6 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
   const onSelect = layer => {
     changeCurLayer(layer);
   }
-  
-  const dataScene = scenes.find(scene => scene.num === curScene);
 
   const renderYoutube = () => {
     const youtubeLayers = layers ? layers.filter(layer => layer.type === 'youtube') : null;
@@ -80,15 +87,11 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
       <Stage
         width={size.width}
         height={size.height - 170 }
-        style={{
-          filter: `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`,
-          opacity: dataScene.opacity  ,
-          backgroundColor: '#969ca5',
-        }}
+        style={{ backgroundColor: '#969ca5' }}
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}
       >
-        <Layer>
+        <Layer ref={layerRef}>
           <ListCanvas 
             layers={layers} 
             curLayer={curLayer} 

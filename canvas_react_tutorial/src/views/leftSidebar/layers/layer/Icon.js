@@ -37,6 +37,8 @@ const Icon = (props) => {
         return <GrObjectUngroup />;
       case 'image':
         return <BiImageAlt />;
+      case 'imageUpload':
+        return <BiImageAlt />;
       case 'circle':
         return <AiFillDribbbleCircle />;
       case 'rectangle':
