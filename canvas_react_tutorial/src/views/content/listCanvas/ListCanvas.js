@@ -13,7 +13,7 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
   const renderCanvas = (layers, curLayer, curScene) => {
     if(!layers) return;
     const listCanvas = [];
-    for(let i =0; i < layers.length; i++) {
+    for(let i = layers.length - 1; i >= 0; i--) {
       if(layers[i].scene === curScene) {
         switch(layers[i].type) {
           case 'rectangle': {

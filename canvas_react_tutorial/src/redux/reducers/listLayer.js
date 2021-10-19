@@ -195,7 +195,7 @@ const listLayer = (state = initialState, action) => {
             height: height,
             opacity: 1,
             src: src,
-            camera: onCamera,
+            camera: !onCamera,
             micro: true,
             hidden: false,
             lock: false,
