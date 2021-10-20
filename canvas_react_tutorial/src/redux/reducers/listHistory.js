@@ -12,6 +12,7 @@ import {
   DEL_VIDEO_LAYER,
   DUPLICATE_LAYER,
   DUPLICATE_SCENE,
+  MOVE_LAYER,
   MUTE_MIC,
   REDO,
   UNDO,
@@ -204,6 +205,17 @@ const listHistory = (state = initialState, action) => {
         history: [
           ...state.history.slice(0, length - state.num),
           'scene layer',
+        ],
+        num: 0,
+        layer: 0,
+        scene: 0,
+      }
+    }
+    case MOVE_LAYER: {
+      return {
+        history: [
+          ...state.history.slice(0, length - state.num),
+          'layer',
         ],
         num: 0,
         layer: 0,

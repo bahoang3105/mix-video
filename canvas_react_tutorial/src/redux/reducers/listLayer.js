@@ -8,6 +8,7 @@ import {
   CHANGE_LAYER,
   CHANGE_NAME_LAYER,
   CHANGE_CUR_LAYER,
+  MOVE_LAYER,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
   DEL_SCENE,
@@ -527,6 +528,61 @@ const listLayer = (state = initialState, action) => {
               ...state.curLayer,
               name: action.payload.newName,
             },
+            num: state.num,
+          },
+        ],
+        historyState: 0,
+        historyType: 'normal',
+      }
+    }
+    case MOVE_LAYER: {
+      const { sourceNum, destinationNum } = action.payload;
+      const sourcePlace = state.layers.findIndex(layer => layer.num === sourceNum);
+      const destinationPlace = state.layers.findIndex(layer => layer.num === destinationNum);
+      if(sourcePlace < destinationPlace) {
+        return {
+          ...state,
+          layers: [
+            ...state.layers.slice(0, sourcePlace),
+            ...state.layers.slice(sourcePlace+1, destinationPlace+1),
+            state.layers[sourcePlace],
+            ...state.layers.slice(destinationPlace+1),
+          ],
+          history: [
+            ...state.history.slice(0, length - state.historyState),
+            {
+              layers: [
+                ...state.layers.slice(0, sourcePlace),
+                ...state.layers.slice(sourcePlace+1, destinationPlace+1),
+                state.layers[sourcePlace],
+                ...state.layers.slice(destinationPlace+1),
+              ],
+              curLayer: state.curLayer,
+              num: state.num,
+            },
+          ],
+          historyState: 0,
+          historyType: 'normal',
+        }
+      }
+      return {
+        ...state,
+        layers: [
+          ...state.layers.slice(0, destinationPlace),
+          state.layers[sourcePlace],
+          ...state.layers.slice(destinationPlace, sourcePlace),
+          ...state.layers.slice(sourcePlace+1),
+        ],
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            layers: [
+              ...state.layers.slice(0, destinationPlace),
+              state.layers[sourcePlace],
+              ...state.layers.slice(destinationPlace, sourcePlace),
+              ...state.layers.slice(sourcePlace+1),
+            ],
+            curLayer: state.curLayer,
             num: state.num,
           },
         ],

@@ -18,6 +18,7 @@ import {
   GET_LAYERS,
   GET_SCENES,
   SWITCH_VIDEO,
+  MOVE_LAYER,
   MUTE_MIC,
   ZOOMIN_LAYER,
   ZOOMOUT_LAYER,
@@ -189,6 +190,14 @@ export const switchVideo = video => ({
   type: SWITCH_VIDEO,
   payload: {
     video,
+  }
+});
+
+export const moveLayer = ( sourceNum, destinationNum) => ({
+  type: MOVE_LAYER,
+  payload: {
+    sourceNum,
+    destinationNum,
   }
 });
 
