@@ -1,5 +1,5 @@
-import FullScreen from "./FullScreen";
-import FullScreenExit from "./FullSreenExit";
+// import FullScreen from "./FullScreen";
+// import FullScreenExit from "./FullSreenExit";
 import InputField from "./InputField";
 import Transparency from "./Transparency";
 
@@ -21,8 +21,8 @@ const General = (props) => {
           <InputField nameField="W" value={props.data.width} setValue={setValue} lock={props.data.lock} />
           <InputField nameField='H' value={props.data.height} setValue={setValue} lock={props.data.lock} />
           <div className='full-screen'>
-            <FullScreenExit />
-            <FullScreen />
+            {/* <FullScreenExit />
+            <FullScreen /> */}
           </div>
         </div>
       </div>
