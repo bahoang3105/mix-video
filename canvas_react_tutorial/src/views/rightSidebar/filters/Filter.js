@@ -5,7 +5,7 @@ const Filter = (props) => {
 				<div className='name-filter'>
 						Brightness
 				</div>
-				<input type='range' max='400' min='0' value={props.data.brightness*100} onChange={e => props.setValue('brightness', e.target.value)} />
+				<input type='range' max='200' min='0' value={props.data.brightness*100} onChange={e => props.setValue('brightness', e.target.value)} />
 				<span className='value-filter'>{props.data.brightness}</span>
 			</div>
 			<div className='filter'>
@@ -31,24 +31,40 @@ const Filter = (props) => {
 			</div>
 			<div className='filter'>
 				<div className='name-filter'>
-						Opacity
+						Red
 				</div>
-				<input type='range' max='100' min='0' value={props.data.opacity*100} onChange={e => props.setValue('opacity', e.target.value)} />
-				<span className='value-filter'>{props.data.opacity}</span>
+				<input type='range' max='256' min='0' value={props.data.red} onChange={e => props.setValue('red', e.target.value)} />
+				<span className='value-filter'>{props.data.red} </span>
 			</div>
 			<div className='filter'>
+				<div className='name-filter'>
+						Green
+				</div>
+				<input type='range' max='256' min='0' value={props.data.green} onChange={e => props.setValue('green', e.target.value)} />
+				<span className='value-filter'>{props.data.green} </span>
+			</div>
+			<div className='filter'>
+				<div className='name-filter'>
+						Blue
+				</div>
+				<input type='range' max='256' min='0' value={props.data.blue} onChange={e => props.setValue('blue', e.target.value)} />
+				<span className='value-filter'>{props.data.blue} </span>
+			</div>
+			<div className='filter'>
+				<div className='name-filter'>
+						Alpha
+				</div>
+				<input type='range' max='100' min='0' value={props.data.alpha*100} onChange={e => props.setValue('alpha', e.target.value)} />
+				<span className='value-filter'>{props.data.alpha} </span>
+			</div>
+			<div className='filter' style={{ borderBottom: 'none' }}>
 				<div className='name-filter'>
 						Grayscale
 				</div>
-				<input type='range' max='100' min='0' value={props.data.grayscale*100} onChange={e => props.setValue('grayscale', e.target.value)} />
-				<span className='value-filter'>{props.data.grayscale} </span>
-			</div>
-			<div className='filter'>
-				<div className='name-filter'>
-						Sepia
-				</div>
-				<input type='range' max='100' min='0' value={props.data.sepia*100} onChange={e => props.setValue('sepia', e.target.value)} />
-				<span className='value-filter'>{props.data.sepia} </span>
+				<label className="switch" id='grayscale'>
+					<input type="checkbox" checked={props.data.grayscale} onChange={e => props.setValue('grayscale')}/>
+					<span className="slider round"></span>
+				</label>
 			</div>
 		</div>
 	);

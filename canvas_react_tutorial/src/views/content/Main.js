@@ -11,11 +11,12 @@ import { useEffect, useRef } from "react";
 const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
+  const videoRef = useRef(null);
   useEffect(() => {
     const canvas = layerRef.current.getCanvas()._canvas;
-    canvas.style.filter = `contrast(${dataScene.contrast}) brightness(${dataScene.brightness}) grayscale(${dataScene.grayscale}) saturate(${dataScene.saturate}) blur(${dataScene.blur}px) sepia(${dataScene.sepia})`;
-    canvas.style.opacity = dataScene.opacity;
-  })
+    const stream = canvas.captureStream(144);
+    videoRef.current.srcObject = stream;
+  });
 
   const dispatch = useDispatch();
   if(!layers) {
@@ -81,6 +82,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
 
   return (
     <div>
+      <video ref={videoRef} width='1000px' height='600px' autoPlay controls crossOrigin="anonymous" />
       {renderYoutube()}
       {renderAudioUploaded()}
       {renderMicro()}
@@ -98,6 +100,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
             curScene={curScene} 
             changeLayer={changeLayerCanvas}
             onSelect={onSelect}
+            dataScene={dataScene}
           />
         </Layer>
       </Stage>

@@ -12,6 +12,10 @@ const TextCanvas = (props) => {
     }
   }, [props.isSelected, props.shapeProps.lock]);
 
+  useEffect(() => {
+    shapeRef.current.cache();
+  });
+
   const onMove = (x, y) => {
     const layer = {
       ...props.shapeProps,
@@ -76,6 +80,15 @@ const TextCanvas = (props) => {
           node.scaleY(1);
           onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
+        filters={props.filters}
+        brightness={props.dataScene.brightness - 1}
+        contrast={(props.dataScene.contrast - 1) * 100}
+        blurRadius={props.dataScene.blur}
+        saturation={props.dataScene.saturate - 1}
+        red={props.dataScene.red}
+        green={props.dataScene.green}
+        blue={props.dataScene.blue}
+        alpha={props.dataScene.alpha}
       />
       {props.isSelected && !props.shapeProps.lock && (
         <Transformer

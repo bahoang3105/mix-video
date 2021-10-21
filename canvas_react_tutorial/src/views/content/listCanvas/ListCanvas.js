@@ -7,10 +7,14 @@ import Video from './Video';
 import YoutubeCanvas from './YoutubeCanvas';
 import VideoUpload from './VideoUpload';
 import Audio from './Audio';
+import Konva from 'konva';
 
 
-const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
+const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect, dataScene }) => {
   const renderCanvas = (layers, curLayer, curScene) => {
+    const filters = dataScene.grayscale ? 
+      [Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSL, Konva.Filters.RGBA, Konva.Filters.Blur, Konva.Filters.Grayscale] :
+      [Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSL, Konva.Filters.RGBA, Konva.Filters.Blur];
     if(!layers) return;
     const listCanvas = [];
     for(let i = layers.length - 1; i >= 0; i--) {
@@ -24,6 +28,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -36,6 +42,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -48,6 +56,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -60,6 +70,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -72,6 +84,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -84,6 +98,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -96,6 +112,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -108,6 +126,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -120,6 +140,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -132,6 +154,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -144,6 +168,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;
@@ -156,6 +182,8 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect }) => {
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}
                 onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
               />
             );
             break;

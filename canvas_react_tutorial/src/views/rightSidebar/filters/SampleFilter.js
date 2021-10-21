@@ -11,12 +11,14 @@ const SampleFilter = ({ curScene, scenes, ...props}) => {
       ...curSceneData,
       template: props.name,
       blur: props.blur,
-      brightness: props.brightness,
-      opacity: props.opacity,
-      grayscale: props.grayscale,
+      brightness: props.name === 'Warm' ? 1.15 : props.brightness,
       contrast: props.contrast,
-      sepia: props.sepia,
       saturate: props.saturate,
+      grayscale: props.boolGray,
+      red: props.red,
+      green: props.green,
+      blue: props.blue,
+      alpha: props.alpha,
     };
     props.changeScene(changedScene, curScene);
   }

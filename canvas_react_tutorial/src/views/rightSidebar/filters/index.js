@@ -24,7 +24,7 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
       case 'blur': {
         const changedScene = {
           ...curSceneData,
-          blur: value/4,
+          blur: value/4*3,
         };
         changeScene(changedScene, curScene, type);
         break;
@@ -45,27 +45,43 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
         changeScene(changedScene, curScene, type);
         break;
       }
-      case 'opacity': {
-        const changedScene = {
-          ...curSceneData,
-          opacity: value/100,
-        };
-        changeScene(changedScene, curScene, type);
-        break;
-      }
       case 'grayscale': {
         const changedScene = {
           ...curSceneData,
-          grayscale: value/100,
+          grayscale: !curSceneData.grayscale,
         };
         changeScene(changedScene, curScene, type);
         break;
       }
-      case 'sepia': {
+      case 'red': {
         const changedScene = {
           ...curSceneData,
-          sepia: value/100,
-        };
+          red: parseInt(value),
+        }
+        changeScene(changedScene, curScene, type);
+        break;
+      }
+      case 'green': {
+        const changedScene = {
+          ...curSceneData,
+          green: parseInt(value),
+        }
+        changeScene(changedScene, curScene, type);
+        break;
+      }
+      case 'blue': {
+        const changedScene = {
+          ...curSceneData,
+          blue: parseInt(value),
+        }
+        changeScene(changedScene, curScene, type);
+        break;
+      }
+      case 'alpha': {
+        const changedScene = {
+          ...curSceneData,
+          alpha: value/100,
+        }
         changeScene(changedScene, curScene, type);
         break;
       }
@@ -89,20 +105,20 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
         </div>
         <div id='filters-template'>
           <div className='grid-filter'>
-            <SampleFilter name='None' opacity={1} brightness={1} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
-            <SampleFilter name='Ancient' opacity={1} brightness={0.96} contrast={0.9} saturate={1} blur={0} grayscale={0.22} sepia={0.42} template={curSceneData.template} />
+            <SampleFilter name='None' brightness={1} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
+            <SampleFilter name='Ancient' brightness={0.96} contrast={0.9} saturate={1} blur={0} grayscale={0.22} sepia={0.42} boolGray={false} red={82} green={79} blue={50} alpha={0.3} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='Colorful' opacity={1} brightness={1} contrast={1} saturate={2.5} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
-            <SampleFilter name='Warm' opacity={1} brightness={1.35} contrast={1} saturate={1.7} blur={0} grayscale={0} sepia={0.45} template={curSceneData.template} />
+            <SampleFilter name='Colorful' brightness={1} contrast={1} saturate={2.5} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
+            <SampleFilter name='Warm' brightness={1.35} contrast={1} saturate={1.7} blur={0} grayscale={0} sepia={0.45} boolGray={false} red={255} green={134} blue={48} alpha={0.2} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='Murky' opacity={1} brightness={0.7} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
-            <SampleFilter name='Bright' opacity={1} brightness={1.2} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Murky' brightness={0.8} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
+            <SampleFilter name='Bright' brightness={1.2} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
-            <SampleFilter name='Colorless' opacity={1} brightness={1} contrast={1} saturate={1} blur={0} grayscale={1} sepia={0} template={curSceneData.template} />
-            <SampleFilter name='Dim' opacity={0.9} brightness={1} contrast={1} saturate={1} blur={3} grayscale={0} sepia={0} template={curSceneData.template} />
+            <SampleFilter name='Colorless' brightness={1} contrast={1} saturate={1} blur={0} grayscale={1} sepia={0} boolGray={true} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
+            <SampleFilter name='Dim' brightness={1} contrast={1} saturate={1} blur={3} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
           </div>
         </div>
       </div>

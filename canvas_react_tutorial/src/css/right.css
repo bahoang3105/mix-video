@@ -518,7 +518,6 @@ input:checked + .slider:before {
 .select-template {
   border: 2px solid rgb(146, 3, 146);
   margin: -2px;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
 }
 
 .more-config-dropdown {
@@ -526,4 +525,8 @@ input:checked + .slider:before {
   margin: 2px 0 0 230px;
   color: rgb(119, 119, 119);
   font-size: 14px;
+}
+
+#grayscale {
+  margin: -1px 0 0 180px; 
 }

@@ -5,6 +5,7 @@ import useImage from 'use-image';
 const ImageCanvas = (props) => {
   const shapeRef = useRef();
   const trRef = useRef();
+  const [img] = useImage(props.shapeProps.src, 'Anonymous');
 
   const flipX = props.shapeProps.flip ? -props.shapeProps.scaleX : props.shapeProps.scaleX;
   const flipY = props.shapeProps.scaleY;
@@ -17,6 +18,12 @@ const ImageCanvas = (props) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [props.isSelected, props.shapeProps.lock]);
+
+  useEffect(() => {
+    if(img) {
+      shapeRef.current.cache();
+    }
+  }, [img]);
 
   const onMove = (x, y) => {
     const layer = {
@@ -50,8 +57,6 @@ const ImageCanvas = (props) => {
     }
   }
 
-  const [img] = useImage(props.shapeProps.src);
-
   return (
     <Fragment>
       <Image
@@ -75,6 +80,15 @@ const ImageCanvas = (props) => {
           node.scaleY(1);
           onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
+        filters={props.filters}
+        brightness={props.dataScene.brightness - 1}
+        contrast={(props.dataScene.contrast - 1) * 100}
+        blurRadius={props.dataScene.blur}
+        saturation={props.dataScene.saturate - 1}
+        red={props.dataScene.red}
+        green={props.dataScene.green}
+        blue={props.dataScene.blue}
+        alpha={props.dataScene.alpha}
       />
       {props.isSelected && !props.shapeProps.lock && (
         <Transformer
