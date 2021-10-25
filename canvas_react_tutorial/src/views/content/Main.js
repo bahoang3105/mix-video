@@ -6,18 +6,28 @@ import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Flashphoner from '@flashphoner/websdk';
 
 const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
   const videoRef = useRef(null);
-  useEffect(() => {
-    const canvas = layerRef.current.getCanvas()._canvas;
-    const stream = canvas.captureStream(144);
-    videoRef.current.srcObject = stream;
-  });
+  const [session, setSession] = useState();
 
+  const SESSION_STATUS = Flashphoner.constants.SESSION_STATUS;
+  const STREAM_STATUS = Flashphoner.constants.STREAM_STATUS;
+  
+  useEffect(() => {
+    Flashphoner.init({});
+    Flashphoner.createSession({
+      urlServer: "wss://demo.flashphoner.com"
+    }).on(SESSION_STATUS.ESTABLISHED, (session) => {
+      console.log('established');
+      setSession(session);
+    });
+  }, [SESSION_STATUS.ESTABLISHED, STREAM_STATUS]);
+  
   const dispatch = useDispatch();
   if(!layers) {
     dispatch(getLayers())
@@ -80,9 +90,35 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     return listMicro;
   }
 
+  const click = () => {
+    const stream = 'mystream';
+      const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
+      session.createStream({
+        name: stream,
+        display: videoRef.current,
+        cacheLocalResources: true,
+        constraints: {
+          video: false,
+          audio: false,
+          customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
+          cacheLocalResources: true,
+          receiveVideo: false,
+          receiveAudio: false,
+        },
+        rtmpUrl: rtmpUrl,
+      }).on(STREAM_STATUS.PUBLISHING, () => {
+        console.log('publishing');
+      }).on(STREAM_STATUS.UNPUBLISHED, () => {
+        console.log('unpublishing');
+      }).on(STREAM_STATUS.FAILED, () => {
+        console.log('failed');
+      }).publish();
+  }
+
   return (
     <div>
-      <video ref={videoRef} width='1000px' height='600px' autoPlay controls crossOrigin="anonymous" />
+      <div onClick={click}>dasdasd</div>
+      <video ref={videoRef} hidden/>
       {renderYoutube()}
       {renderAudioUploaded()}
       {renderMicro()}

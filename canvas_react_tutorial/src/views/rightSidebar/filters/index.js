@@ -110,7 +110,7 @@ const Filters = ({ display, curScene, scenes, changeScene }) => {
           </div>
           <div className='grid-filter'>
             <SampleFilter name='Colorful' brightness={1} contrast={1} saturate={2.5} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />
-            <SampleFilter name='Warm' brightness={1.35} contrast={1} saturate={1.7} blur={0} grayscale={0} sepia={0.45} boolGray={false} red={255} green={134} blue={48} alpha={0.2} template={curSceneData.template} />
+            <SampleFilter name='Warm' brightness={1.35} contrast={1} saturate={1.7} blur={0} grayscale={0} sepia={0.45} boolGray={false} red={255} green={200} blue={48} alpha={0.2} template={curSceneData.template} />
           </div>
           <div className='grid-filter'>
             <SampleFilter name='Murky' brightness={0.8} contrast={1} saturate={1} blur={0} grayscale={0} sepia={0} boolGray={false} red={0} green={0} blue={0} alpha={0} template={curSceneData.template} />

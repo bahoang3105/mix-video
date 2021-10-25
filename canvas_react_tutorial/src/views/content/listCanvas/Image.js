@@ -20,10 +20,8 @@ const ImageCanvas = (props) => {
   }, [props.isSelected, props.shapeProps.lock]);
 
   useEffect(() => {
-    if(img) {
-      shapeRef.current.cache();
-    }
-  }, [img]);
+    shapeRef.current.cache();
+  });
 
   const onMove = (x, y) => {
     const layer = {
