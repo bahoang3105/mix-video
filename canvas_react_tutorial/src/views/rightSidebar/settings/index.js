@@ -5,6 +5,7 @@ import Audio from "./Audio";
 import Circle from "./Circle";
 import Image from "./Image";
 import Rectangle from "./Rectangle";
+import RTMP from "./RTMP";
 import Text from './Text';
 import Triangle from "./Triangle";
 import VideoStream from "./VideoStream";
@@ -76,6 +77,11 @@ const Settings = ({ curLayer, display }) => {
         return (
           <Audio data={curLayer} />
         );
+      }
+      case 'rtmp': {
+        return (
+          <RTMP data={curLayer} />
+        )
       }
       default:
         return;

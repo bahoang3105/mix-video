@@ -52,8 +52,8 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
     }
     addVideo('camera', label, {
       src: videoRef.current.srcObject,
-      height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height,
-      width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width,
+      height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height/2,
+      width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width/2,
     });
     setShow(false);
     if(props.curScene) {
@@ -61,8 +61,8 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
         name: label, 
         type: 'camera', 
         src: videoRef.current.srcObject,
-        height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height,
-        width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width,
+        height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height/2,
+        width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width/2,
       });
     }
   }

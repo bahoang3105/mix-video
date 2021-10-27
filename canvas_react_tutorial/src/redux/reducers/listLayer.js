@@ -163,7 +163,7 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'camera': {
-          const { name, src } = action.payload.details;
+          const { name, src, height, width } = action.payload.details;
           newLayer = {
             name: name,
             type: 'camera',
@@ -172,8 +172,8 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
-            width: 400,
-            height: 300,
+            width: width,
+            height: height,
             opacity: 1,
             src: src,
             camera: true,

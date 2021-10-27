@@ -8,9 +8,8 @@ import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
 import { useEffect, useRef, useState } from "react";
 import Flashphoner from '@flashphoner/websdk';
-// import {ReactFlvPlayer} from 'react-flv-player';
 
-const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
+const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
   const videoRef = useRef(null);
@@ -92,34 +91,33 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     return listMicro;
   }
 
-  const click = () => {
+  if(publish) {
     const stream = 'mystream';
-      const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
-      session.createStream({
-        name: stream,
-        display: videoRef.current,
+    const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
+    session.createStream({
+      name: stream,
+      display: videoRef.current,
+      cacheLocalResources: true,
+      constraints: {
+        video: false,
+        audio: false,
+        customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
         cacheLocalResources: true,
-        constraints: {
-          video: false,
-          audio: false,
-          customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
-          cacheLocalResources: true,
-          receiveVideo: false,
-          receiveAudio: false,
-        },
-        rtmpUrl: rtmpUrl,
-      }).on(STREAM_STATUS.PUBLISHING, () => {
-        console.log('publishing');
-      }).on(STREAM_STATUS.UNPUBLISHED, () => {
-        console.log('unpublishing');
-      }).on(STREAM_STATUS.FAILED, () => {
-        console.log('failed');
-      }).publish();
+        receiveVideo: false,
+        receiveAudio: false,
+      },
+      rtmpUrl: rtmpUrl,
+    }).on(STREAM_STATUS.PUBLISHING, () => {
+      console.log('publishing');
+    }).on(STREAM_STATUS.UNPUBLISHED, () => {
+      console.log('unpublishing');
+    }).on(STREAM_STATUS.FAILED, () => {
+      console.log('failed');
+    }).publish();
   }
 
   return (
     <div>
-      <div onClick={click}>Publish</div>
       <video ref={videoRef} hidden/>
       {renderYoutube()}
       {renderAudioUploaded()}

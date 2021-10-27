@@ -9,22 +9,25 @@ import RightSidebar from './views/rightSidebar';
 function App() {
   const scenesRef = useRef(null);
   const [size, setSize] = useState({width: 0, height: 0});
+  const [publish, setPublish] = useState(false);
+
   useEffect(() => {
     setSize({
       width: scenesRef.current.clientWidth < 700 ? 700 : scenesRef.current.clientWidth, 
       height: scenesRef.current.clientHeight < 500 ? 500 : scenesRef.current.clientHeight,
     });
-  }, [setSize])
+  }, [setSize]);
+
   return (
     <div>
-      <Header/>
+      <Header setPublish={setPublish} />
       <div className='grid-container'>
         <div className='left-sidebar'>
           <LeftSidebar />
         </div>
         <div id='bonus-space-left' />
         <div className='scenes' ref={scenesRef}>
-          <Content size={size}/>
+          <Content size={size} publish={publish} />
           <BottomSidebar size={size} />
         </div>
         <div id='bonus-space-right' />
