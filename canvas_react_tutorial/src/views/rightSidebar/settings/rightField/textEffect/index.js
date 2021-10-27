@@ -1,4 +1,4 @@
-import Animation from "./Animation";
+// import Animation from "./Animation";
 import DropShadow from "./DropShadow";
 
 const TextEffect = (props) => {
@@ -7,7 +7,7 @@ const TextEffect = (props) => {
       <div className='right-field-name'>
         Text Effect
       </div>
-      <Animation data={props.data} setValue={props.setValue} />
+      {/* <Animation data={props.data} setValue={props.setValue} /> */}
       <DropShadow data={props.data} setValue={props.setValue} />
     </div>
   );

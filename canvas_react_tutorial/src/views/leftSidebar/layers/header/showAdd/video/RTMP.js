@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GrInternetExplorer } from 'react-icons/gr';
 
-const Website = (props) => {
+const RTMP = (props) => {
   const [isSelect, setIsSelect] = useState('');
   return (
     <div
@@ -16,4 +16,4 @@ const Website = (props) => {
   );
 }
 
-export default Website;
+export default RTMP;

@@ -8,6 +8,7 @@ import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
 import { useEffect, useRef, useState } from "react";
 import Flashphoner from '@flashphoner/websdk';
+// import {ReactFlvPlayer} from 'react-flv-player';
 
 const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
@@ -17,6 +18,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
 
   const SESSION_STATUS = Flashphoner.constants.SESSION_STATUS;
   const STREAM_STATUS = Flashphoner.constants.STREAM_STATUS;
+
   
   useEffect(() => {
     Flashphoner.init({});
@@ -117,7 +119,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
 
   return (
     <div>
-      <div onClick={click}>dasdasd</div>
+      <div onClick={click}>Publish</div>
       <video ref={videoRef} hidden/>
       {renderYoutube()}
       {renderAudioUploaded()}

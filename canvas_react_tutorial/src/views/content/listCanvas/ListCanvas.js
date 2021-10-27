@@ -8,6 +8,7 @@ import YoutubeCanvas from './YoutubeCanvas';
 import VideoUpload from './VideoUpload';
 import Audio from './Audio';
 import Konva from 'konva';
+import RTMP from './RTMP';
 
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect, dataScene }) => {
@@ -178,6 +179,20 @@ const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect, dataSce
             listCanvas.push(
               <Audio
                 key={`video-${i}`}
+                shapeProps={layers[i]}
+                isSelected={layers[i].num === curLayer.num}
+                changeLayer={changeLayer}
+                onSelect={() => onSelect(layers[i].num)}
+                dataScene={dataScene}
+                filters={filters}
+              />
+            );
+            break;
+          }
+          case 'rtmp': {
+            listCanvas.push(
+              <RTMP
+                key={`rtmp-${i}`}
                 shapeProps={layers[i]}
                 isSelected={layers[i].num === curLayer.num}
                 changeLayer={changeLayer}

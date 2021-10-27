@@ -8,6 +8,7 @@ import UploadImage from "../modal/UploadImage";
 import UploadVideo from "../modal/UploadVideo";
 import UploadAudio from "../modal/UploadAudio";
 import MicroModal from "./MicroModal";
+import AddRTMP from "../modal/AddRTMP";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -19,6 +20,7 @@ const ButtonAdd = (props) => {
   const [showUploadVideo, setShowUploadVideo] = useState(false);
   const [showMicro, setShowMicro] = useState(false);
   const [showUploadAudio, setShowUploadAudio] = useState(false);
+  const [showRTMP, setShowRTMP] = useState(false);
 
   useEffect(() => {
     if(!devices) {
@@ -90,12 +92,14 @@ const ButtonAdd = (props) => {
           setShowUploadVideo={setShowUploadVideo}
           setShowUploadAudio={setShowUploadAudio}
           setShowMicro={setShowMicro}
+          setShowRTMP={setShowRTMP}
         />
       </div>
       <ImageAdd curScene={props.curScene} show={showImage} setShow={setShowImage} />
       <UploadImage curScene={props.curScene} show={showUploadImage} setShow={setShowUploadImage} />
       <UploadVideo curScene={props.curScene} show={showUploadVideo} setShow={setShowUploadVideo} />
       <UploadAudio curScene={props.curScene} show={showUploadAudio} setShow={setShowUploadAudio} />
+      <AddRTMP curScene={props.curScene} show={showRTMP} setShow={setShowRTMP} />
       {renderCamera()}
       {renderYoutube()}
       {renderMicro()}

@@ -1,11 +1,10 @@
 import { Animation } from "konva/lib/Animation";
 import { Fragment, useEffect, useRef } from "react";
 import { Image, Transformer } from "react-konva";
-import useImage from "use-image";
-import useVideo from "./useVideo";
+import useRTMP from "./useRTMP";
 
-const Video = (props) => {
-  const video = useVideo(props.shapeProps.src);
+const RTMP = (props) => {
+  const video = useRTMP(props.shapeProps.src);
   const shapeRef = useRef();
   const trRef = useRef();
 
@@ -14,12 +13,15 @@ const Video = (props) => {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
+  }, [props.isSelected, props.shapeProps.lock]);
+
+  useEffect(() => {
     const anim = new Animation(() => {
       shapeRef.current.cache();
-    }, [shapeRef.current.getLayer()]);
-    anim.start();
-    return () => anim.stop();
-  }, [video, props.isSelected, props.shapeProps.lock]);
+      }, [shapeRef.current.getLayer()]);
+      anim.start();
+      return () => anim.stop();
+  })
 
   const onMove = (x, y) => {
     const layer = {
@@ -53,14 +55,12 @@ const Video = (props) => {
     }
   }
   
-  const [img] = useImage('https://cdn1.iconfinder.com/data/icons/hospital-47/64/Stop-photo-sign-picture-prohibited-camera-512.png');
-
   return (
     <Fragment>
       <Image
         onClick={props.onSelect}
         ref={shapeRef}
-        image={props.shapeProps.camera ? video : img}
+        image={video}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
         draggable={props.isSelected  && !props.shapeProps.lock}
@@ -100,4 +100,4 @@ const Video = (props) => {
   );
 };
 
-export default Video;
+export default RTMP;

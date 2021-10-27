@@ -14,6 +14,7 @@ export const MUTE_MIC = 'MUTE_MIC';
 export const CHANGE_NAME_VIDEO = 'CHANGE_NAME_VIDEO';
 
 export const ADD_LAYER = 'ADD_LAYER';
+export const ADD_STREAM = 'ADD_STREAM';
 export const DEL_LAYER = 'DEL_LAYER';
 export const DUPLICATE_LAYER = 'DUPLICATE_LAYER';
 export const CHANGE_LAYER = 'CHANGE_LAYER';

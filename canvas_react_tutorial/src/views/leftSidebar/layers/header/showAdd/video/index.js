@@ -3,7 +3,7 @@ import Camera from './Camera';
 import Invite from './Invite';
 import Library from './Library';
 import Screen from './Screen';
-import Website from './Website';
+import RTMP from './RTMP';
 import Youtube from './Youtube';
 import { useState } from 'react';
 import getDisplayMedia from '../../../../../bottomSidebar/videos/getDisplayMedia';
@@ -51,8 +51,8 @@ const VideoButton = (props) => {
         <div onClick={addScreen} style={{ cursor: 'pointer' }}>
           <Screen name='Screen Sharing' />
         </div>
-        <div className='not-allowed'>
-          <Website name='Website' />
+        <div onClick={() => props.setShowRTMP(true)} style={{ cursor: 'pointer' }}>
+          <RTMP name='From another livestream' />
         </div>
         <div className='not-allowed'>
           <Invite name='Invite guests to join' />

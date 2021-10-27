@@ -14,6 +14,7 @@ import {
   DEL_SCENE,
   SWITCH_STATE_VIDEO,
   CHANGE_STATE_LAYERS,
+  ADD_STREAM,
 } from '../actionTypes';
 
 const initialState = {
@@ -320,6 +321,41 @@ const listLayer = (state = initialState, action) => {
           historyState: 0,
           historyType: 'normal'
         }
+      }
+      return {
+        ...state,
+        layers: [...state.layers, newLayer],
+        num: state.num + 1,
+        history: [
+          ...state.history.slice(0, length - state.historyState),
+          {
+            layers: [...state.layers, newLayer],
+            num: state.num + 1,
+            curLayer: state.curLayer,
+          },
+        ],
+        historyState: 0,
+        historyType: 'normal',
+      };
+    }
+    case ADD_STREAM: {
+      const { link } = action.payload.details;
+      const newLayer = {
+        name: 'rtmp ' + state.num,
+        type: 'rtmp',
+        scene: action.payload.curScene,
+        num: state.num,
+        x: 0,
+        y: 0,
+        g: 0,
+        width: 1000,
+        height: 600,
+        opacity: 1,
+        src: link,
+        hidden: false,
+        lock: false,
+        mute: false,
+        volume: 100,
       }
       return {
         ...state,

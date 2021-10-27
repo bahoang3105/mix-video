@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   ADD_LAYER,
   ADD_SCENE,
@@ -28,6 +29,7 @@ import {
   REDO,
   CHANGE_STATE_LAYERS,
   CHANGE_STATE_SCENES,
+  ADD_STREAM,
 } from './actionTypes';
 
 export const addLayer = (type, curScene, details) => ({
@@ -38,6 +40,30 @@ export const addLayer = (type, curScene, details) => ({
     details,
   }
 });
+
+export const addStream = (link, curScene) => {
+  return async (dispatch) => {
+    try {
+      const stream = await axios.get('http://localhost:3001/file/rtmp', {
+        params: {
+          link,
+        }
+      });
+      console.log(stream.data.stream)
+      dispatch({
+        type: ADD_STREAM,
+        payload: {
+          curScene,
+          details: {
+            link,
+          }
+        }
+      })
+    } catch(err) {
+      console.log(err.response.data.message);
+    }
+  }
+}
 
 export const addScene = () => ({
   type: ADD_SCENE,
