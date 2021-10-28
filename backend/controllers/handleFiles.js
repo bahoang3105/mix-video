@@ -1,7 +1,6 @@
 import AWS from 'aws-sdk';
 import { v4 as uuid } from 'uuid';
 import 'dotenv/config';
-import ffmpeg from 'fluent-ffmpeg';
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ID,
@@ -60,23 +59,4 @@ export const downloadFile = async (req, res, next) => {
   } catch(error) {
       next(error);
   };
-}
-
-export const rtmp = async (req,res, next) => {
-  const { link } = req.query;
-  const linkParams = link.split('/');
-  const room = linkParams[3];
-  const nameStream = linkParams[4];
-  try {
-    const stream = ffmpeg()
-    .addInput(link)
-    .outputOption([
-      '-c copy',
-      '-f flv',
-    ])
-    .save(`rtmp://localhost:19351/${room}/${nameStream}`);
-    return res.status(200).json({ stream: stream });
-  } catch (err) {
-    next(err)
-  }
 }

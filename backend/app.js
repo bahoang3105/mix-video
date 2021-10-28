@@ -1,15 +1,21 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import fileRoute from './routers/File';
+import rtmpRoute from './routers/RTMP';
+import db, { init } from './models';
 
 const app = express();
 
-app.use(bodyParser.json());
+db.sequelize.sync();
+
+init();
+
+app.use(express.json());
 
 app.use(cors());
 
 app.use('/file', fileRoute);
+app.use('/rtmp', rtmpRoute);
 
 const PORT = process.env.PORT || 3001;
 

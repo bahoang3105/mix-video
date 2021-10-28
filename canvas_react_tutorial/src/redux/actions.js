@@ -44,12 +44,7 @@ export const addLayer = (type, curScene, details) => ({
 export const addStream = (link, curScene) => {
   return async (dispatch) => {
     try {
-      const stream = await axios.get('http://localhost:3001/file/rtmp', {
-        params: {
-          link,
-        }
-      });
-      console.log(stream.data.stream)
+      await axios.post('http://localhost:3001/rtmp/publish', { link });
       dispatch({
         type: ADD_STREAM,
         payload: {
@@ -60,7 +55,7 @@ export const addStream = (link, curScene) => {
         }
       })
     } catch(err) {
-      console.log(err.response.data.message);
+      alert('This stream does not exist!');
     }
   }
 }

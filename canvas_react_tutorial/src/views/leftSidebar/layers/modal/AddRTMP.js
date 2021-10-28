@@ -12,9 +12,14 @@ const AddRTMP = (props) => {
   }
 
   const addStream = () => {
-    props.addStream(link, props.curScene);
-    setLink('');
-    props.setShow(false);
+    const regex = /^rtmp(s?):\/\/([^/s]+)\/([^/s]+)\/([^/s]+)$/;
+    if(regex.test(link)) {
+      props.addStream(link, props.curScene);
+      setLink('');
+      props.setShow(false);
+    } else {
+      alert('Invalid link, please try again!');
+    }
   }
   
   return (
