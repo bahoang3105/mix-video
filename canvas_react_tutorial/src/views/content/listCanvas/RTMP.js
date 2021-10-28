@@ -17,7 +17,7 @@ const RTMP = (props) => {
 
   useEffect(() => {
     const anim = new Animation(() => {
-      shapeRef.current.cache();
+      // shapeRef.current.cache();
       }, [shapeRef.current.getLayer()]);
       anim.start();
       return () => anim.stop();

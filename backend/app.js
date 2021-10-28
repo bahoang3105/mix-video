@@ -2,13 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import fileRoute from './routers/File';
 import rtmpRoute from './routers/RTMP';
-import db, { init } from './models';
+import { init } from './models';
 
 const app = express();
 
-db.sequelize.sync();
-
 init();
+
 
 app.use(express.json());
 
