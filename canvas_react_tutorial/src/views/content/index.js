@@ -8,6 +8,7 @@ const Content = ({ size, publish }) => {
       <>
         <Main size={size} publish={publish} />
       </>
+      // <div/>
     );
   }
   return (

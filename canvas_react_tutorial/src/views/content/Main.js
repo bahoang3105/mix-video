@@ -1,6 +1,6 @@
 import { Stage, Layer } from "react-konva";
 import { connect, useDispatch } from "react-redux";
-import { changeLayer, getLayers, changeCurLayer } from "../../redux/actions";
+import { changeLayer, getLayers, changeCurLayer, getScenes } from "../../redux/actions";
 import { getCurLayer, getCurScene, getListLayer, getListScene } from "../../redux/selectors";
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
@@ -30,9 +30,14 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
   }, [SESSION_STATUS.ESTABLISHED, STREAM_STATUS]);
   
   const dispatch = useDispatch();
-  if(!layers) {
-    dispatch(getLayers())
-  }
+  useEffect(() => {
+    if(!layers) {
+      dispatch(getLayers());
+    }
+    if(!scenes || scenes.length === 0) {
+      dispatch(getScenes());
+    }
+  });
 
   const checkDeselect = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -114,6 +119,10 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     }).on(STREAM_STATUS.FAILED, () => {
       console.log('failed');
     }).publish();
+  }
+
+  if(!layers || !scenes || scenes.length === 0) {
+    return <div/>;
   }
 
   return (

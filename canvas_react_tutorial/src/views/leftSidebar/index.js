@@ -3,11 +3,11 @@ import '../../css/left.css'
 import Preview from "./preview";
 import Layers from "./layers";
 
-const LeftSidebar = () => {
+const LeftSidebar = (props) => {
   return(
     <div>
       <ControlButton className='grid-left-container'/>
-      <Preview />
+      <Preview size={props.size}/>
       <Layers />
     </div>
   );

@@ -7,14 +7,17 @@ import BottomSidebar from './views/bottomSidebar';
 import RightSidebar from './views/rightSidebar';
 
 function App() {
+  useEffect(() => {
+    window.addEventListener('message', (e) => console.log(e.data), false)
+  })
   const scenesRef = useRef(null);
   const [size, setSize] = useState({width: 0, height: 0});
   const [publish, setPublish] = useState(false);
 
   useEffect(() => {
     setSize({
-      width: scenesRef.current.clientWidth < 700 ? 700 : scenesRef.current.clientWidth, 
-      height: scenesRef.current.clientHeight < 500 ? 500 : scenesRef.current.clientHeight,
+      width: scenesRef.current.clientWidth-20, 
+      height: scenesRef.current.clientHeight-20,
     });
   }, [setSize]);
 
@@ -23,7 +26,7 @@ function App() {
       <Header setPublish={setPublish} />
       <div className='grid-container'>
         <div className='left-sidebar'>
-          <LeftSidebar />
+          <LeftSidebar size={size}/>
         </div>
         <div id='bonus-space-left' />
         <div className='scenes' ref={scenesRef}>

@@ -1,5 +1,4 @@
 import ffmpeg from 'fluent-ffmpeg';
-import { on } from 'nodemon';
 import db from '../models';
 
 const LiveStream = db.livestream;

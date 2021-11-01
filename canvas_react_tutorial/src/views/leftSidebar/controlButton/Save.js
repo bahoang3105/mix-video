@@ -1,5 +1,7 @@
 import { AiOutlineSave } from "react-icons/ai";
 import { connect } from "react-redux";
+import axios from 'axios';
+import BaseUrl from "../../../BaseUrl";
 import {
   getListLayer,
   getListScene,
@@ -8,7 +10,7 @@ import {
 } from '../../../redux/selectors';
 
 const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
-  const save = () => {
+  const save = async () => {
     const saveLayer = [];
     for(let i = 0; i < layers.length; i++) {
       if(layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'video' && layers[i].type !== 'imageUpload' && layers[i].type !== 'rtmp') {
@@ -23,10 +25,16 @@ const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
         }
       }
     }
-    localStorage.setItem('layers', JSON.stringify(saveLayer));
-    localStorage.setItem('scenes', JSON.stringify(scenes));
-    localStorage.setItem('numLayer', numLayer);
-    localStorage.setItem('numScene', numScene);
+    await axios.put(BaseUrl + '/app/save', {
+      layers: saveLayer,
+      scenes,
+      numLayer,
+      numScene,
+    }, {
+      headers: {
+        'secret-key': localStorage.getItem('secretKey')
+      }
+    });
     setDisplayNoti(true);
     setTimeout(() => {
       setDisplayNoti(false);

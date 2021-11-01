@@ -1,18 +1,37 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
+import BaseUrl from '../../BaseUrl';
 
 const NameStream = (props) => {
-  if(localStorage.getItem('nameStream') === null) {
-    localStorage.setItem('nameStream', 'Stream1');
+  const [name, setName] = useState('');
+  useEffect(() => {
+    getNameStream();
+  }, []);
+
+  const getNameStream = async () => {
+    try {
+      const { data } = await axios.get(BaseUrl + '/app/getNameStream', {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      });
+      console.log(data);
+      setName(data.name);
+    } catch (err) {
+      console.error(err.response.data.message);
+    }
   }
-  const nameStream = localStorage.getItem('nameStream');
-  const [name, setName] = useState(nameStream);
   const [display, setDisplay] = useState(true);
   const [inputName, setInputName] = useState(name);
 
-  const allowChangeName = () => {
+  const allowChangeName = async () => {
     setName(inputName);
-    localStorage.setItem('nameStream', inputName);
+    await axios.post(BaseUrl + '/app/updateName', { newName: inputName }, {
+      headers: {
+        'secret-key': localStorage.getItem('secretKey'),
+      }
+    })
     setDisplay(!display);
   }
 

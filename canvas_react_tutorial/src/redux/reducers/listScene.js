@@ -59,6 +59,8 @@ const listScene = (state = initialState, action) => {
       };
     }
     case GET_SCENES: {
+      console.log(action.payload.scenes, '1111111111111111111111111')
+      console.log(action.payload.num)
       if(!action.payload.scenes || action.payload.scenes.length === 0) {
         const newName = 'Scene 1';
         const newScene = {

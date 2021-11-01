@@ -1,9 +1,9 @@
-const Preview = () => {
+const Preview = (props) => {
   return (
     <div className='preview'>
     <div className='preview-div'>
       <label className='label-preview'>PREVIEW</label>
-      <span>854x480</span>
+      <span>{props.size.width}x{props.size.height}</span>
       <div className='speed'>
         <label className='label-speed'>Speed: </label>
         <span>0 bps</span>

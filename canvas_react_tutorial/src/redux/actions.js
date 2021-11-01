@@ -1,4 +1,5 @@
 import axios from 'axios';
+import BaseUrl from './../BaseUrl';
 import {
   ADD_LAYER,
   ADD_SCENE,
@@ -175,35 +176,59 @@ export const duplicateScene = (scene, numScene) => ({
 });
 
 export const getLayers = () => {
-  return (dispatch) => {
-    const layers = JSON.parse(localStorage.getItem('layers')) ? JSON.parse(localStorage.getItem('layers')) : [];
-    const num = parseInt(localStorage.getItem('numLayer')) ? parseInt(localStorage.getItem('numLayer')) : 1;
-    dispatch({
-      type: GET_LAYERS,
-      payload: {
-        layers,
-        num,
-        history: [{
-          layers,
-          num,
-          curLayer: [],
-        }],
-      }
-    });
+  return async (dispatch) => {
+    try {
+      const layers = await axios.get(BaseUrl + '/app/getLayer', {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      });
+      const num = await axios.get(BaseUrl + '/app/getLayerNum', {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      });
+      dispatch({
+        type: GET_LAYERS,
+        payload: {
+          layers: layers.data.layers,
+          num: num.data.layerNum,
+          history: [{
+            layers: layers.data.layers,
+            num: num.data.layerNum,
+            curLayer: [],
+          }],
+        }
+      });
+    } catch (err) {
+      console.error(err.response.data.message);
+    }
   };
 };
 
 export const getScenes = () => {
-  return (dispatch) => {
-    const scenes = JSON.parse(localStorage.getItem('scenes'));
-    const num = parseInt(localStorage.getItem('numScene'));
-    dispatch({
-      type: GET_SCENES,
-      payload: {
-        scenes,
-        num,
-      }
-    });
+  return async (dispatch) => {
+    try {
+      const scenes = await axios.get(BaseUrl + '/app/getScene', {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      });
+      const num = await axios.get(BaseUrl + '/app/getSceneNum', {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      });
+      dispatch({
+        type: GET_SCENES,
+        payload: {
+          scenes: scenes.data.scenes,
+          num: num.data.sceneNum,
+        }
+      });
+    } catch (err) {
+      console.error(err.response.data.message);
+    }
   };
 };
 

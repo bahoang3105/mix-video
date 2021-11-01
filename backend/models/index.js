@@ -2,6 +2,11 @@ import dbConfig from '../config/database';
 import Sequelize from 'sequelize';
 import Livestream from './LiveStream';
 import mysql from 'mysql2/promise';
+import Application from './Application';
+import Num from './Num';
+import Layer from './Layer';
+import Scene from './Scene';
+import File from './File';
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 	host: dbConfig.HOST,
@@ -22,6 +27,11 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.livestream = Livestream(sequelize, Sequelize);
+db.application = Application(sequelize, Sequelize);
+db.num = Num(sequelize, Sequelize);
+db.layer = Layer(sequelize, Sequelize);
+db.scene = Scene(sequelize, Sequelize);
+db.file = File(sequelize, Sequelize);
 
 export const init = async () => {
 	const connection = await mysql.createConnection({
