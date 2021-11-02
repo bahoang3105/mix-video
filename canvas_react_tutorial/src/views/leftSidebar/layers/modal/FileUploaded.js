@@ -8,6 +8,9 @@ const FileUploaded = (props) => {
   const curDate = new Date();
   const fileDate = new Date(props.date);
 
+  const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
+  const thumbnail = (props.type === 'audio') ? thumbnailAudio : props.url;
+
   // an url has an expiry date of 1 day, so it needs to be renewed when it expires
   useEffect(() => {
     if(curDate.getTime() - fileDate.getTime() > 86000000) {
@@ -67,7 +70,7 @@ const FileUploaded = (props) => {
   return (
     <div 
       className='file-uploaded' 
-      style={{ backgroundImage: `url(${props.img})`, backgroundSize: 'cover', cursor: 'pointer' }}
+      style={{ backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', cursor: 'pointer' }}
       onClick={addToScene}
     >
       <span className='name-file-upload'>

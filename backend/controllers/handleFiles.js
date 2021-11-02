@@ -26,16 +26,19 @@ export const insertFile = async (req, res, next) => {
   try {
     // get file details
     const { originalname } = req.file;
+    const myFile = originalname.split('.');
+    const fileType = myFile[myFile.length - 1];
     const date = new Date();
-
     const fileUploaded = await uploadFile(req.file);
     const fileKey = fileUploaded.Key;
-    
+    const url = downloadFromS3(fileKey);
     const newFile = {
-        appId: req.appId,
+        appId: req.app.id,
+        fileType,
         fileKey,
         fileName: originalname,
         date,
+        url,
     };
 
     await File.create(newFile);
@@ -55,13 +58,28 @@ const downloadFromS3 = (fileKey) => {
   return s3.getSignedUrl('getObject', params);
 };
 
-export const downloadFile = (req, res, next) => {
+export const renewUrl = async (req, res) => {
   const { fileKey } = req.query;
   try {
-      const url = downloadFromS3(fileKey);
-      
-      return res.status(200).json({ url });
+    const url = downloadFromS3(fileKey);
+    await File.update({ 
+      url: url
+    }, {
+      where: {
+        fileKey: fileKey
+      }
+    });
+    return res.status(200).json({ url });
   } catch(error) {
-      next(error);
+      return res.status(404).json({ message: error + ' ' });
   };
+}
+
+export const getFiles = async (req, res) => {
+  try {
+    const listFile = await File.findAll({ where: { appId: req.app.id } });
+    return res.status(200).json({ files: listFile });
+  } catch (err) {
+    return res.status(404).json({ message: err + ' ' });
+  }
 }

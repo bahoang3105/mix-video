@@ -24,7 +24,7 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     Flashphoner.createSession({
       urlServer: "wss://demo.flashphoner.com"
     }).on(SESSION_STATUS.ESTABLISHED, (session) => {
-      console.log('established');
+      console.log('Established');
       setSession(session);
     });
   }, [SESSION_STATUS.ESTABLISHED, STREAM_STATUS]);

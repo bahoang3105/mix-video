@@ -16,7 +16,6 @@ const NameStream = (props) => {
           'secret-key': localStorage.getItem('secretKey'),
         }
       });
-      console.log(data);
       setName(data.name);
     } catch (err) {
       console.error(err.response.data.message);

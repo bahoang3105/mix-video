@@ -1,6 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
-import { downloadFile, insertFile } from "../controllers/handleFiles";
+import { getFiles, insertFile, renewUrl } from "../controllers/handleFiles";
+import allowIfHasSecretKey from '../controllers/allowIfHasSecretKey';
 
 const router = Router();
 
@@ -12,7 +13,8 @@ const storage = multer.memoryStorage({
 
 const upload = multer({storage}).single('file');
 
-router.post('/upload', upload, insertFile);
-router.get('/download', downloadFile);
+router.post('/upload', allowIfHasSecretKey, upload, insertFile);
+router.get('/renewUrl', allowIfHasSecretKey, renewUrl);
+router.get('/getFiles', allowIfHasSecretKey, getFiles);
 
 export default router;

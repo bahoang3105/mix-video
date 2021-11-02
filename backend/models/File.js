@@ -15,11 +15,17 @@ const File = (sequelize, Sequelize) => {
     fileName: {
       type: Sequelize.STRING,
     },
+    fileType: {
+      type: Sequelize.STRING,
+    },
     fileKey: {
       type: Sequelize.STRING,
     },
     date: {
       type: Sequelize.DATE,
+    },
+    url: {
+      type: Sequelize.STRING,
     },
   }, {
     freezeTableName: true,

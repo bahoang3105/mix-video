@@ -38,7 +38,6 @@ export const getNameStream = async (req, res) => {
 }
 
 export const updateName = async (req, res) => {
-  console.log(req.body.newName);
   try {
     await App.update({ nameStream: req.body.newName }, {
       where: {
