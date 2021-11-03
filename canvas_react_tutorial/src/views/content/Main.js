@@ -9,7 +9,7 @@ import MicroTag from './MicroTag';
 import { useEffect, useRef, useState } from "react";
 import Flashphoner from '@flashphoner/websdk';
 
-const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
+const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
   const videoRef = useRef(null);
@@ -17,14 +17,18 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
 
   const SESSION_STATUS = Flashphoner.constants.SESSION_STATUS;
   const STREAM_STATUS = Flashphoner.constants.STREAM_STATUS;
-
   
   useEffect(() => {
     Flashphoner.init({});
     Flashphoner.createSession({
       urlServer: "wss://demo.flashphoner.com"
     }).on(SESSION_STATUS.ESTABLISHED, (session) => {
-      console.log('Established');
+      window.parent.postMessage({
+        call: 'establish',
+        value: {
+          publish: 'READY',
+        }
+      }, '*');
       setSession(session);
     });
   }, [SESSION_STATUS.ESTABLISHED, STREAM_STATUS]);
@@ -95,31 +99,47 @@ const Main = ({ layers, curLayer, curScene, scenes, changeLayer, changeCurLayer,
     }
     return listMicro;
   }
-
-  if(publish) {
-    const stream = 'mystream';
-    const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
-    session.createStream({
-      name: stream,
-      display: videoRef.current,
-      cacheLocalResources: true,
-      constraints: {
-        video: false,
-        audio: false,
-        customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
+  
+  useEffect(() => {
+    if(publish) {
+      const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
+      session.createStream({
+        name: name,
+        display: videoRef.current,
         cacheLocalResources: true,
-        receiveVideo: false,
-        receiveAudio: false,
-      },
-      rtmpUrl: rtmpUrl,
-    }).on(STREAM_STATUS.PUBLISHING, () => {
-      console.log('publishing');
-    }).on(STREAM_STATUS.UNPUBLISHED, () => {
-      console.log('unpublishing');
-    }).on(STREAM_STATUS.FAILED, () => {
-      console.log('failed');
-    }).publish();
-  }
+        constraints: {
+          video: false,
+          audio: false,
+          customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
+          cacheLocalResources: true,
+          receiveVideo: false,
+          receiveAudio: false,
+        },
+        rtmpUrl: rtmpUrl,
+      }).on(STREAM_STATUS.PUBLISHING, () => {
+        window.parent.postMessage({
+          call: 'publish',
+          value: {
+            rtmpLink: rtmpUrl + 'rtmp_' + name,
+          }
+        }, '*');
+      }).on(STREAM_STATUS.UNPUBLISHED, () => {
+        window.parent.postMessage({
+          call: 'unpublishing',
+          value: {
+            publish: 'UNPUBLISHING',
+          }
+        }, '*');
+      }).on(STREAM_STATUS.FAILED, () => {
+        window.parent.postMessage({
+          call: 'publishFailed',
+          value: {
+            publish: 'FAILED',
+          }
+        }, '*');
+      }).publish();
+    }
+  },[publish, STREAM_STATUS, session, name]);
 
   if(!layers || !scenes || scenes.length === 0) {
     return <div/>;

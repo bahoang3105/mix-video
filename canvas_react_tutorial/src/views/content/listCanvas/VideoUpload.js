@@ -14,10 +14,6 @@ const VideoUpload = (props) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [props.isSelected, props.shapeProps.lock]);
-
-  useEffect(() => {
-    shapeRef.current.cache();
-  });
   
   const onMove = (x, y) => {
     const layer = {
@@ -46,6 +42,7 @@ const VideoUpload = (props) => {
     element.volume = props.shapeProps.volume/100;
     element.loop = props.shapeProps.loop;
     element.controls = false;
+    element.crossOrigin = 'Anonymous';
     return element;
     // eslint-disable-next-line
   }, [props.shapeProps.src]);
@@ -58,12 +55,17 @@ const VideoUpload = (props) => {
         video.pause()
       }
     }
+  }, [video, props.shapeProps.pause, props.shapeProps.start]);
+
+  useEffect(() => {
     const anim = new Animation(() => {
-      // do nothing in animation, it will just automatically redraw a layer
+      if(props.shapeProps.start) {
+        shapeRef.current.cache();
+      }
     }, [shapeRef.current.getLayer()]);
     anim.start();
     return () => anim.stop();
-  }, [video, props.shapeProps.pause, props.shapeProps.start]);
+  })
 
   useEffect(() => {
     const onload = () => {
@@ -76,7 +78,7 @@ const VideoUpload = (props) => {
     return () => {
       video.removeEventListener("loadedmetadata", onload);
     };
-  });
+  }, [video]);
 
   const preview = usePreview(props.shapeProps.src);
 

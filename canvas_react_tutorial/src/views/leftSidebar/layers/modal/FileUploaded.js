@@ -1,12 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { addLayer } from '../../../../redux/actions';
 import { connect } from 'react-redux';
+import { AiOutlineMore } from 'react-icons/ai';
+import MoreAction from "./MoreAction";
 
 const FileUploaded = (props) => {
   const videoRef = useRef(null);
   const name = props.name.length >= 16 ? props.name.substring(0, 16) + '...' : props.name;
   const curDate = new Date();
   const fileDate = new Date(props.date);
+  const [displatMoreAction, setDisplayMoreAction] = useState(false);
 
   const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
   const thumbnail = (props.type === 'audio') ? thumbnailAudio : props.url;
@@ -59,22 +62,60 @@ const FileUploaded = (props) => {
 
   if(props.type === 'video') {
     return (
-      <div className='file-uploaded' onClick={addToScene}>
+      <div className='file-uploaded'>
+        <div
+          className='thumbnail'
+          onClick={addToScene}
+        >
+          <video src={props.url} className='video-uploaded' controls={false} ref={videoRef} />
+        </div>
         <span className='name-file-upload' id='video-name-uploaded'>
           {name}
+        <span
+          onClick={() => setDisplayMoreAction(true)}
+          onMouseLeave={() => setDisplayMoreAction(false)}
+        >
+          <MoreAction 
+            display={displatMoreAction} 
+            setDisplay={setDisplayMoreAction}
+            deleteFile={props.deleteFile}
+            renameFile={props.renameFile}
+            fileKey={props.fileKey}
+            fileName={props.fileName}
+          />
+          <span className='more-action'>
+            <AiOutlineMore />
+          </span>
         </span>
-        <video src={props.url} className='video-uploaded' controls={false} ref={videoRef} />
+      </span>
       </div>
     );
   }
   return (
-    <div 
-      className='file-uploaded' 
-      style={{ backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', cursor: 'pointer' }}
-      onClick={addToScene}
-    >
+    <div className='file-uploaded'>
+      <div 
+        className='thumbnail' 
+        style={{ backgroundImage: `url(${thumbnail})`, backgroundSize: 'cover', cursor: 'pointer' }}
+        onClick={addToScene}
+      />
       <span className='name-file-upload'>
         {name}
+        <span
+          onClick={() => setDisplayMoreAction(true)}
+          onMouseLeave={() => setDisplayMoreAction(false)}
+        >
+          <MoreAction 
+            display={displatMoreAction} 
+            setDisplay={setDisplayMoreAction}
+            deleteFile={props.deleteFile}
+            renameFile={props.renameFile}
+            fileKey={props.fileKey}
+            fileName={props.fileName}
+          />
+          <span className='more-action'>
+            <AiOutlineMore />
+          </span>
+        </span>
       </span>
     </div>
   );

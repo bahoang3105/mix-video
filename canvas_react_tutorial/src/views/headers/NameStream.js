@@ -1,26 +1,9 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
 import BaseUrl from '../../BaseUrl';
 
-const NameStream = (props) => {
-  const [name, setName] = useState('');
-  useEffect(() => {
-    getNameStream();
-  }, []);
-
-  const getNameStream = async () => {
-    try {
-      const { data } = await axios.get(BaseUrl + '/app/getNameStream', {
-        headers: {
-          'secret-key': localStorage.getItem('secretKey'),
-        }
-      });
-      setName(data.name);
-    } catch (err) {
-      console.error(err.response.data.message);
-    }
-  }
+const NameStream = ({ name, setName, ...props }) => {
   const [display, setDisplay] = useState(true);
   const [inputName, setInputName] = useState(name);
 

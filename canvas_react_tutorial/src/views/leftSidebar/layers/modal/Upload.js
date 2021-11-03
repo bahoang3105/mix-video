@@ -7,9 +7,11 @@ import axios from 'axios';
 import { getCurScene } from '../../../../redux/selectors';
 import { connect } from 'react-redux';
 import BaseUrl from "../../../../BaseUrl";
+import PageNum from "./PageNum";
 
 const Upload = ({ curScene, ...props }) => {
   const [uploadState, setUploadState] = useState(false);
+  const [page, setPage] = useState(1);
   const closeModal = () => {
     props.setShow(false);
   }
@@ -29,6 +31,12 @@ const Upload = ({ curScene, ...props }) => {
         ...props.data
       ]);
       setUploadState(false);
+      window.parent.postMessage({
+        call: 'uploadFile',
+        value: {
+          fileDeital: uploadFile.data.newFile
+        }
+      }, '*');
     }
     catch(err) {
       console.error(err.response.data.message);
@@ -104,7 +112,7 @@ const Upload = ({ curScene, ...props }) => {
       }
     }
     const listUpload = [];
-    for(let i = 0; i < props.data.length; i++) {
+    for(let i = page*4-4; i < (props.data.length > page*4 ? page*4 : props.data.length); i++) {
       listUpload.push(
         <FileUploaded 
           key={props.data[i].fileKey}
@@ -113,11 +121,14 @@ const Upload = ({ curScene, ...props }) => {
           name={props.data[i].fileName} 
           date={props.data[i].date}
           fileKey={props.data[i].fileKey}
+          fileName={props.data[i].fileName}
           place={i}
           renew={renew}
           type={props.type}
           curScene={curScene}
           closeModal={closeModal}
+          deleteFile={props.deleteFile}
+          renameFile={props.renameFile}
         />
       );
     }
@@ -126,6 +137,48 @@ const Upload = ({ curScene, ...props }) => {
         {listUpload}
       </div>
     );
+  }
+
+  const renderPage = () => {
+    if(props.data.length === 0) {
+      return;
+    }
+    const numPage = Math.ceil(props.data.length/4);
+    const listNumPage = [];
+    listNumPage.push(
+      <PageNum
+        key='<'
+        value='<'
+        onSelected={page}
+        setPage={setPage}
+        numPage={numPage}
+        disabled={page === 1}
+      />
+    );
+    const start = (numPage > 5) ? (page > 2 ? (page > numPage - 2 ? numPage - 4 : page - 2) : 1) : 1;
+    const end =  (numPage > 5) ? (page < 3 ? 5 : (page < numPage - 2 ? page + 2 : numPage)) : numPage;
+    for(let i = start; i <= end; i++) {
+      listNumPage.push(
+        <PageNum 
+          key={i}
+          value={i}
+          onSelected={page}
+          setPage={setPage}
+          numPage={numPage}
+        />
+      );
+    }
+    listNumPage.push(
+      <PageNum
+        key='>'
+        value='>'
+        onSelected={page}
+        setPage={setPage}
+        numPage={numPage}
+        disabled={page === numPage}
+      />
+    );
+    return listNumPage;
   }
 
   return (
@@ -165,6 +218,9 @@ const Upload = ({ curScene, ...props }) => {
         </Modal.Body>
         <Modal.Footer>
           {renderList()}
+          <div className='list-num-page'>
+            {renderPage()}
+          </div>
         </Modal.Footer>
       </div>
     </Modal>

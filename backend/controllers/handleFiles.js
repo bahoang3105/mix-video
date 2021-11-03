@@ -18,6 +18,7 @@ const uploadFile = ({ originalname, buffer }) => {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${uuid()}.${fileType}`,
     Body: buffer,
+    
   };
   return s3.upload(params).promise();
 }
@@ -54,6 +55,7 @@ const downloadFromS3 = (fileKey) => {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileKey,
       Expires: 86400,
+      ResponseCacheControl: "no-cache",
   };
   return s3.getSignedUrl('getObject', params);
 };
@@ -79,6 +81,34 @@ export const getFiles = async (req, res) => {
   try {
     const listFile = await File.findAll({ where: { appId: req.app.id } });
     return res.status(200).json({ files: listFile });
+  } catch (err) {
+    return res.status(404).json({ message: err + ' ' });
+  }
+}
+
+export const deleteFile = async (req, res) => {
+  try {
+    await File.destroy({
+      where: {
+        fileKey: req.body.fileKey
+      }
+    });
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    return res.status(404).json({ message: err + ' ' });
+  }
+}
+
+export const renameFile = async (req, res) => {
+  try {
+    await File.update({
+      fileName: req.body.fileName,  
+    }, {
+      where: {
+        fileKey: req.body.fileKey,
+      }
+    });
+    return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(404).json({ message: err + ' ' });
   }

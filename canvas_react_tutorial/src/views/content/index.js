@@ -2,13 +2,12 @@ import '../../css/content.css';
 import Main from './Main';
 
 
-const Content = ({ size, publish }) => {
+const Content = ({ name, size, publish }) => {
   if(size.width !== 0) {
     return(
       <>
-        <Main size={size} publish={publish} />
+        <Main size={size} publish={publish} name={name} />
       </>
-      // <div/>
     );
   }
   return (
