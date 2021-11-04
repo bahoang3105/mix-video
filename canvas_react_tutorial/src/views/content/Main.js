@@ -102,6 +102,7 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
   
   useEffect(() => {
     if(publish) {
+      layerRef.current.crossOrigin = 'anonymous';
       const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
       session.createStream({
         name: name,
@@ -110,8 +111,8 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
         constraints: {
           video: false,
           audio: false,
-          customStream: layerRef.current.getCanvas()._canvas.captureStream(144),
-          cacheLocalResources: true,
+          customStream: layerRef.current.getCanvas()._canvas.captureStream(240),
+          cacheLocalResources: false,
           receiveVideo: false,
           receiveAudio: false,
         },
@@ -120,7 +121,7 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
         window.parent.postMessage({
           call: 'publish',
           value: {
-            rtmpLink: rtmpUrl + 'rtmp_' + name,
+            rtmpLink: rtmpUrl + '/rtmp_' + name,
           }
         }, '*');
       }).on(STREAM_STATUS.UNPUBLISHED, () => {
@@ -147,7 +148,7 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
 
   return (
     <div>
-      <video ref={videoRef} hidden/>
+      <video ref={videoRef} crossOrigin='anonymous' hidden/>
       {renderYoutube()}
       {renderAudioUploaded()}
       {renderMicro()}

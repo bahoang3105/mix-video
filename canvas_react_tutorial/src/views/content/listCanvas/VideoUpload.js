@@ -36,16 +36,18 @@ const VideoUpload = (props) => {
   }
 
   const video = useMemo(() => {
-    const element = document.createElement('video');
-    element.src = props.shapeProps.src;
-    element.muted = props.shapeProps.mute;
-    element.volume = props.shapeProps.volume/100;
-    element.loop = props.shapeProps.loop;
-    element.controls = false;
-    element.crossOrigin = 'Anonymous';
-    return element;
+    return document.createElement('video');
+  }, []);
+
+  useEffect(() => {
+    video.crossOrigin = 'Anonymous';
+    video.muted = props.shapeProps.mute;
+    video.volume = props.shapeProps.volume/100;
+    video.loop = props.shapeProps.loop;
+    video.controls = false;
+    video.src = props.shapeProps.src;
     // eslint-disable-next-line
-  }, [props.shapeProps.src]);
+  }, []);
 
   useEffect(() => {
     if(props.shapeProps.start) {
@@ -54,18 +56,17 @@ const VideoUpload = (props) => {
       } else {
         video.pause()
       }
+      const anim = new Animation(() => {
+        if(props.shapeProps.start) {
+          if(shapeRef.current !== null) {
+            shapeRef.current.cache();
+          }
+        }
+      }, [shapeRef.current.getLayer()]);
+      anim.start();
+      return () => anim.stop();
     }
   }, [video, props.shapeProps.pause, props.shapeProps.start]);
-
-  useEffect(() => {
-    const anim = new Animation(() => {
-      if(props.shapeProps.start) {
-        shapeRef.current.cache();
-      }
-    }, [shapeRef.current.getLayer()]);
-    anim.start();
-    return () => anim.stop();
-  })
 
   useEffect(() => {
     const onload = () => {

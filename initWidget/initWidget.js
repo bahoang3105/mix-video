@@ -30,13 +30,24 @@ window.addEventListener('message', e => {
       console.log('Publish link: ' + e.data.value.rtmpLink);
       break;
     }
-    case 'publishFailed', 'unpublishing', 'establish': {
+    case 'publishFailed': {
+      console.log('===============publish==================');
+      console.log(e.data.value.publish);
+      break;
+    }
+    case 'unpublishing': {
+      console.log('===============publish==================');
+      console.log(e.data.value.publish);
+      break;
+    }
+    case 'establish': {
       console.log('===============publish==================');
       console.log(e.data.value.publish);
       break;
     }
     default: {
       console.log('===============SomeEvents===============');
+      console.log(e.data);
     }
   }
 }, false);
@@ -48,7 +59,7 @@ const initIframe = () => {
   const iframe = document.createElement('iframe');
   iframe.onload = () => {
     iframe.contentWindow.postMessage({ 
-      call: 'message', 
+      call: 'connect', 
       value: {
         secretKey: localStorage.getItem('secretKey')
       }

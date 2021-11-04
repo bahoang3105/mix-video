@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     window.addEventListener('message', (e) => {
       if(e.data.type !== 'webpackOk') {
-        if(e.data.value) {
+        if(e.data.call === 'connect') {
           console.log('Successfully connected!');
           localStorage.setItem('secretKey', e.data.value.secretKey);
           setData(e.data.value);
@@ -45,26 +45,26 @@ function App() {
   });
 
   useEffect(() => {
-    if(data) {
+    // if(data) {
       setSize({
         width: scenesRef.current.clientWidth, 
         height: scenesRef.current.clientHeight-20,
       });
-    }
+    // }
   }, [data]);
 
-  if(!data) {
-    return (
-      <div/>
-    );
-  }
+  // if(!data) {
+  //   return (
+  //     <div/>
+  //   );
+  // }
 
   return (
     <div>
       <Header setPublish={setPublish} name={name} setName={setName} />
       <div className='grid-container'>
         <div className='left-sidebar'>
-          <LeftSidebar size={size} callback={data.logInfo}/>
+          <LeftSidebar size={size} />
         </div>
         <div id='bonus-space-left' />
         <div className='scenes' ref={scenesRef}>
