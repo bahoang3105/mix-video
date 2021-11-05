@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { addLayer } from '../../../../redux/actions';
 import { connect } from 'react-redux';
 import { AiOutlineMore } from 'react-icons/ai';
@@ -7,19 +7,10 @@ import MoreAction from "./MoreAction";
 const FileUploaded = (props) => {
   const videoRef = useRef(null);
   const name = props.name.length >= 16 ? props.name.substring(0, 16) + '...' : props.name;
-  const curDate = new Date();
-  const fileDate = new Date(props.date);
   const [displatMoreAction, setDisplayMoreAction] = useState(false);
 
   const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
   const thumbnail = (props.type === 'audio') ? thumbnailAudio : props.url;
-
-  // an url has an expiry date of 1 day, so it needs to be renewed when it expires
-  useEffect(() => {
-    if(curDate.getTime() - fileDate.getTime() > 86000000) {
-      props.renew(props.place);
-    }
-  });
 
   const getDetail = (url, callback) => {
     const img = new Image();
@@ -34,7 +25,7 @@ const FileUploaded = (props) => {
         getDetail(
           props.url,
           (width, height) => {
-            props.addLayer('imageUpload', props.curScene, {name: props.name, link: props.url, width: width/2, height: height/2}); 
+            props.addLayer('imageUpload', props.curScene, {name: props.name, link: props.url, width: width/2, height: height/2, fileKey: props.fileKey, date: props.date}); 
           }
         );
         break;

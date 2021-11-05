@@ -3,10 +3,8 @@ import { Modal } from "react-bootstrap";
 import { BsFileEarmarkArrowUp } from "react-icons/bs";
 import { FcFilmReel, FcMusic, FcRemoveImage } from "react-icons/fc";
 import FileUploaded from "./FileUploaded";
-import axios from 'axios';
 import { getCurScene } from '../../../../redux/selectors';
 import { connect } from 'react-redux';
-import BaseUrl from "../../../../BaseUrl";
 import PageNum from "./PageNum";
 
 const Upload = ({ curScene, ...props }) => {
@@ -16,56 +14,50 @@ const Upload = ({ curScene, ...props }) => {
     props.setShow(false);
   }
 
-  const upload = async (e) => {
-    setUploadState(true);
-    let formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    try {
-      const uploadFile = await axios.post(BaseUrl + '/file/upload', formData, {
-        headers: {
-          'secret-key': localStorage.getItem('secretKey'),
-        }
-      });
-      props.setData([
-        uploadFile.data.newFile,
-        ...props.data
-      ]);
-      setUploadState(false);
-      window.parent.postMessage({
-        call: 'uploadFile',
-        value: {
-          fileDeital: uploadFile.data.newFile
-        }
-      }, '*');
-    }
-    catch(err) {
-      console.error(err.response.data.message);
-    }
-  }
+  // const upload = async (e) => {
+  //   setUploadState(true);
+  //   let formData = new FormData();
+  //   formData.append('file', e.target.files[0]);
+  //   try {
+  //     const uploadFile = await axios.post(BaseUrl + '/file/upload', formData, {
+  //       headers: {
+  //         'secret-key': localStorage.getItem('secretKey'),
+  //       }
+  //     });
+  //     props.setData([
+  //       uploadFile.data.newFile,
+  //       ...props.data
+  //     ]);
+  //     setUploadState(false);
+  //     window.parent.postMessage({
+  //       call: 'uploadFile',
+  //       value: {
+  //         fileDeital: uploadFile.data.newFile
+  //       }
+  //     }, '*');
+  //   }
+  //   catch(err) {
+  //     console.error(err.response.data.message);
+  //   }
+  // }
 
-  const renew = async(place) => {
-    try {
-      const { data } = await axios.get(BaseUrl + '/file/renewUrl', {
-        headers: {
-          'secret-key': localStorage.getItem('secretKey'),
-        },
-        params: {
-          fileKey: props.data[place].fileKey,
-        }
-      });
-      props.setData([
-        ...props.data.slice(0, place),
-        {
-          ...props.data[place],
-          url: data.url,
-          date: new Date(),
-        },
-        ...props.data.slice(place+1),
-      ]);
+  const upload = (e) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
+    const thumbnail = (props.type === 'audio') ? thumbnailAudio : url;
+
+    const uploadFile = {
+      fileName: file.name,
+      type: props.type,
+      img: thumbnail,
+      url: url,
+      fileKey: Math.random() + file.name,
     }
-    catch(err) {
-      console.error(err);
-    }
+    props.setData([
+      uploadFile,
+      ...props.data,
+    ]);
   }
 
   const renderList = () => {
@@ -123,7 +115,6 @@ const Upload = ({ curScene, ...props }) => {
           fileKey={props.data[i].fileKey}
           fileName={props.data[i].fileName}
           place={i}
-          renew={renew}
           type={props.type}
           curScene={curScene}
           closeModal={closeModal}
@@ -202,7 +193,7 @@ const Upload = ({ curScene, ...props }) => {
             </div>
             <div className='info-add-image info-upload'>
               {uploadState ? `We are uploading this ${props.type}. It will take a few minutes, in the meantime you can do other things` : `Please choose ${props.choose} here.`}
-              Please choose ${props.choose} here.
+              Please choose {props.choose} here.
             </div>
             <div className='notice-upload'>
               File should be {props.typeNotice}.

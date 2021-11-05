@@ -1,6 +1,6 @@
 import { Stage, Layer } from "react-konva";
 import { connect, useDispatch } from "react-redux";
-import { changeLayer, getLayers, changeCurLayer, getScenes } from "../../redux/actions";
+import { changeLayer, getLayers, changeCurLayer, getScenes, renewUrl } from "../../redux/actions";
 import { getCurLayer, getCurScene, getListLayer, getListScene } from "../../redux/selectors";
 import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
@@ -9,7 +9,7 @@ import MicroTag from './MicroTag';
 import { useEffect, useRef, useState } from "react";
 import Flashphoner from '@flashphoner/websdk';
 
-const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
+const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish, renewUrl }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
   const videoRef = useRef(null);
@@ -167,6 +167,7 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
             changeLayer={changeLayerCanvas}
             onSelect={onSelect}
             dataScene={dataScene}
+            renewUrl={renewUrl}
           />
         </Layer>
       </Stage>
@@ -183,5 +184,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { changeLayer, changeCurLayer }, 
+  { changeLayer, changeCurLayer, renewUrl }, 
 )(Main);

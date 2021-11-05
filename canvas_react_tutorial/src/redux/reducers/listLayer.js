@@ -15,6 +15,7 @@ import {
   SWITCH_STATE_VIDEO,
   CHANGE_STATE_LAYERS,
   ADD_STREAM,
+  RENEW_URL,
 } from '../actionTypes';
 
 const initialState = {
@@ -141,15 +142,17 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'imageUpload': {
-          const {name, link, width, height} = action.payload.details;
+          const {name, link, width, height, fileKey, date} = action.payload.details;
           newLayer = {
             name: name,
             type: 'imageUpload',
+            fileKey,
             scene: action.payload.curScene,
             num: state.num,
             x: 0,
             y: 0,
             g: 0,
+            date,
             width: width,
             height: height,
             opacity: 1,
@@ -230,7 +233,7 @@ const listLayer = (state = initialState, action) => {
           break;
         }
         case 'video': {
-          const {name, link, width, height} = action.payload.details;
+          const {name, link, width, height, fileKey, date} = action.payload.details;
           newLayer = {
             name: name,
             type: 'video',
@@ -251,11 +254,13 @@ const listLayer = (state = initialState, action) => {
             pause: true,
             loop: false,
             volume: 100,
+            fileKey,
+            date,
           }
           break;
         }
         case 'audio': {
-          const {name, link} = action.payload.details;
+          const {name, link, fileKey, date} = action.payload.details;
           newLayer = {
             name: name,
             type: 'audio',
@@ -264,6 +269,8 @@ const listLayer = (state = initialState, action) => {
             x: 0,
             y: 0,
             g: 0,
+            fileKey,
+            date,
             width: 50,
             height: 50,
             opacity: 1,
@@ -372,6 +379,13 @@ const listLayer = (state = initialState, action) => {
         historyState: 0,
         historyType: 'normal',
       };
+    }
+    case RENEW_URL: {
+      const { fileKey, url } = action.payload;
+      return {
+        ...state,
+        layers: state.layers ? state.layers.map(layer => (layer.fileKey === fileKey ? { ...layer, url } : layer)) : state.layers,
+      }
     }
     case DEL_LAYER: {
       const { layer } = action.payload;

@@ -1,13 +1,7 @@
-import { useEffect, useState } from 'react';
 import { deleteFileAction, renameFileAction } from './Action';
-import GetFile from './getFile';
 import Upload from './Upload';
 
-const UploadImage = (props) => {
-  const [data, setData] = useState(null);
-
-  const listAudioType = ['jpg', 'png', 'gif'];
-
+const UploadImage = ({ data, setData, ...props }) => {
   const deleteFile = async (fileKey) => {
     const newData = await deleteFileAction(fileKey, data);
     setData(newData);
@@ -17,18 +11,6 @@ const UploadImage = (props) => {
     const newData = await renameFileAction(fileKey, fileName, data);
     setData(newData);
   }
-  
-  const getImageFile = async () => {
-    if(data === null) {
-      const listFile = await GetFile();
-      const listImageFile = listFile.data.files.filter(file => listAudioType.includes(file.fileType));
-      setData(listImageFile);
-    }
-  }
-
-  useEffect(() => {
-    getImageFile();
-  });
 
   return (
     <Upload 

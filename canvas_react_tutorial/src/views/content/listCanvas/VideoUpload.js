@@ -39,8 +39,9 @@ const VideoUpload = (props) => {
     return document.createElement('video');
   }, []);
 
+  video.setAttribute('crossOrigin', 'anonymous');
+
   useEffect(() => {
-    video.crossOrigin = 'Anonymous';
     video.muted = props.shapeProps.mute;
     video.volume = props.shapeProps.volume/100;
     video.loop = props.shapeProps.loop;
