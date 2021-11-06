@@ -11,8 +11,8 @@ import MicroModal from "./MicroModal";
 import AddRTMP from "../modal/AddRTMP";
 import axios from "axios";
 import BaseUrl from "../../../../BaseUrl";
-import { renewUrl } from "../../../../redux/actions";
-import { connect } from "react-redux";
+// import { renewUrl } from "../../../../redux/actions";
+// import { connect } from "react-redux";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -28,7 +28,7 @@ const ButtonAdd = (props) => {
   const [dataImage, setDataImage] = useState(null);
   const [dataVideo, setDataVideo] = useState(null);
   const [dataAudio, setDataAudio] = useState(null);
-  const curDate = new Date();
+  // const curDate = new Date();
 
   useEffect(() => {
     if(!devices) {
@@ -36,26 +36,26 @@ const ButtonAdd = (props) => {
     }
   });
 
-  const renew = async(fileKey) => {
-    try {
-      const { data } = await axios.get(BaseUrl + '/file/renewUrl', {
-        headers: {
-          'secret-key': localStorage.getItem('secretKey'),
-        },
-        params: {
-          fileKey: fileKey,
-        }
-      });
-      props.renewUrl(fileKey, data.url);
-    }
-    catch(err) {
-      console.error(err);
-    }
-  }
+  // const renew = async(fileKey) => {
+  //   try {
+  //     const { data } = await axios.get(BaseUrl + '/file/renewUrl', {
+  //       headers: {
+  //         'secret-key': localStorage.getItem('secretKey'),
+  //       },
+  //       params: {
+  //         fileKey: fileKey,
+  //       }
+  //     });
+  //     props.renewUrl(fileKey, data.url);
+  //   }
+  //   catch(err) {
+  //     console.error(err);
+  //   }
+  // }
 
   const listAudioType = ['mp3', 'wav'];
   const listVideoType = ['mp4', 'mov', 'webm'];
-  const listImageType = ['jpg', 'png', 'gif'];
+  const listImageType = ['jpg', 'png', 'gif', 'jpeg', 'tif', 'tiff', '.bmp'];
 
   const getFiles = async () => {
     try{
@@ -65,12 +65,12 @@ const ButtonAdd = (props) => {
             'secret-key': localStorage.getItem('secretKey'),
           }
         });
-        for(let i = 0; i < listFile.data.files.length; i++) {
-          const fileDate = new Date(listFile.data.files[i].date);
-          if(curDate.getTime() - fileDate.getTime() > 86000000) {
-            await renew(listFile.data.files[i].fileKey);
-          }
-        }
+        // for(let i = 0; i < listFile.data.files.length; i++) {
+        //   const fileDate = new Date(listFile.data.files[i].date);
+        //   if(curDate.getTime() - fileDate.getTime() > 86000000) {
+        //     await renew(listFile.data.files[i].fileKey);
+        //   }
+        // }
         const listAudioFile = listFile.data.files.filter(file => listAudioType.includes(file.fileType));
         const listVideoFile = listFile.data.files.filter(file => listVideoType.includes(file.fileType));
         const listImageFile = listFile.data.files.filter(file => listImageType.includes(file.fileType));
@@ -166,7 +166,9 @@ const ButtonAdd = (props) => {
   );
 };
 
-export default connect(
-  null,
-  { renewUrl }
-)(ButtonAdd);
+// export default connect(
+//   null,
+//   { renewUrl }
+// )(ButtonAdd);
+
+export default ButtonAdd;

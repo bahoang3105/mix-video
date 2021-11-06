@@ -27,6 +27,7 @@ const VideoUpload = (props) => {
   const onChange = (x, y, w, h, g) => {
     const layer = {
       ...props.shapeProps,
+      g: parseInt(g),
       x: parseInt(x),
       y: parseInt(y),
       width: parseInt(w),
@@ -36,21 +37,19 @@ const VideoUpload = (props) => {
   }
 
   const video = useMemo(() => {
-    return document.createElement('video');
-  }, []);
-
-  video.setAttribute('crossOrigin', 'anonymous');
-
-  useEffect(() => {
-    video.muted = props.shapeProps.mute;
-    video.volume = props.shapeProps.volume/100;
-    video.loop = props.shapeProps.loop;
-    video.controls = false;
-    video.src = props.shapeProps.src;
+    const element = document.createElement('video');
+    element.setAttribute('crossOrigin', 'anonymous');
+    element.muted = true;
+    element.volume = props.shapeProps.volume/100;
+    element.loop = props.shapeProps.loop;
+    element.controls = false;
+    element.src = props.shapeProps.src;
+    return element;
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
+    video.setAttribute('crossOrigin', 'anonymous');
     if(props.shapeProps.start) {
       if(!props.shapeProps.pause) {
         video.play();
@@ -58,11 +57,12 @@ const VideoUpload = (props) => {
         video.pause()
       }
       const anim = new Animation(() => {
-        if(props.shapeProps.start) {
-          if(shapeRef.current !== null) {
-            shapeRef.current.cache();
-          }
-        }
+        video.setAttribute('crossOrigin', 'anonymous');
+        // if(props.shapeProps.start) {
+        //   if(shapeRef.current !== null) {
+        //     shapeRef.current.cache();
+        //   }
+        // }
       }, [shapeRef.current.getLayer()]);
       anim.start();
       return () => anim.stop();
@@ -104,17 +104,17 @@ const VideoUpload = (props) => {
 
           node.scaleX(1);
           node.scaleY(1);
-          onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY);
+          onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
-        filters={props.filters}
-        brightness={props.dataScene.brightness - 1}
-        contrast={(props.dataScene.contrast - 1) * 100}
-        blurRadius={props.dataScene.blur}
-        saturation={props.dataScene.saturate - 1}
-        red={props.dataScene.red}
-        green={props.dataScene.green}
-        blue={props.dataScene.blue}
-        alpha={props.dataScene.alpha}
+        // filters={props.filters}
+        // brightness={props.dataScene.brightness - 1}
+        // contrast={(props.dataScene.contrast - 1) * 100}
+        // blurRadius={props.dataScene.blur}
+        // saturation={props.dataScene.saturate - 1}
+        // red={props.dataScene.red}
+        // green={props.dataScene.green}
+        // blue={props.dataScene.blue}
+        // alpha={props.dataScene.alpha}
       />
       {props.isSelected && !props.shapeProps.lock && (
         <Transformer

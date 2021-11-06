@@ -26,7 +26,7 @@ export const CHANGE_NAME_LAYER = 'CHANGE_NAME_LAYER';
 export const DEL_VIDEO_LAYER = 'DEL_VIDEO_LAYER';
 export const SWITCH_STATE_VIDEO = 'SWITCH_STATE_VIDEO';
 export const MOVE_LAYER = 'MOVE_LAYER';
-export const RENEW_URL = 'RENEW_URL';
+// export const RENEW_URL = 'RENEW_URL';
 
 export const UNDO = 'UNDO';
 export const REDO = 'REDO';

@@ -15,7 +15,7 @@ import {
   SWITCH_STATE_VIDEO,
   CHANGE_STATE_LAYERS,
   ADD_STREAM,
-  RENEW_URL,
+  // RENEW_URL,
 } from '../actionTypes';
 
 const initialState = {
@@ -380,13 +380,13 @@ const listLayer = (state = initialState, action) => {
         historyType: 'normal',
       };
     }
-    case RENEW_URL: {
-      const { fileKey, url } = action.payload;
-      return {
-        ...state,
-        layers: state.layers ? state.layers.map(layer => (layer.fileKey === fileKey ? { ...layer, url } : layer)) : state.layers,
-      }
-    }
+    // case RENEW_URL: {
+    //   const { fileKey, url } = action.payload;
+    //   return {
+    //     ...state,
+    //     layers: state.layers ? state.layers.map(layer => (layer.fileKey === fileKey ? { ...layer, url } : layer)) : state.layers,
+    //   }
+    // }
     case DEL_LAYER: {
       const { layer } = action.payload;
       const place = state.layers.findIndex(Layer => Layer.num === parseInt(layer));

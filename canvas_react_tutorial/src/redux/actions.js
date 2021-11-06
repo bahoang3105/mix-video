@@ -31,7 +31,7 @@ import {
   CHANGE_STATE_LAYERS,
   CHANGE_STATE_SCENES,
   ADD_STREAM,
-  RENEW_URL,
+  // RENEW_URL,
 } from './actionTypes';
 
 export const addLayer = (type, curScene, details) => ({
@@ -116,13 +116,13 @@ export const changeLayer = (layer, num, type) => ({
   }
 });
 
-export const renewUrl = (fileKey, url) => ({
-  type: RENEW_URL,
-  payload: {
-    fileKey,
-    url,
-  }
-})
+// export const renewUrl = (fileKey, url) => ({
+//   type: RENEW_URL,
+//   payload: {
+//     fileKey,
+//     url,
+//   }
+// });
 
 export const changeScene = (scene, num, type) => ({
   type: CHANGE_SCENE,

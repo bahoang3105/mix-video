@@ -6,6 +6,10 @@ import FileUploaded from "./FileUploaded";
 import { getCurScene } from '../../../../redux/selectors';
 import { connect } from 'react-redux';
 import PageNum from "./PageNum";
+import axios from "axios";
+import BaseUrl from "../../../../BaseUrl";
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTQ0OTQxNCwibmFtZSI6InR1YW5yMmIiLCJlbWFpbCI6InR1YW5yMmJAdmNjb3JwLnZuIiwidXNlcm5hbWUiOiJ0dWFucjJiIiwicGhvbmUiOiIwODM0NTY3NzQxIiwic3RhdHVzIjoiYWN0aXZlIiwic1JvbGUiOiJhZG1pbmlzdHJhdG9yIiwiYWN0aXZhdGVkIjpmYWxzZSwiYXZhdGFyVXJsIjoiaHR0cHM6Ly9jZG4uc29oYXR2LnZuL1pxN1VzRkdxQ0pudjF5T0ovb3ZwLzEwMDAwMDYvMjAxOS8wNS8zMC8xNTU5MTg4NjMzNTUxLW1hbi5wbmciLCJpYXQiOjE2MzYxMDEzMjIsImV4cCI6MTYzODY5MzMyMn0.oYbgGzz3zizynsmzc5hPiJQgJi4qb0BAp0QwgEGhfxU';
 
 const Upload = ({ curScene, ...props }) => {
   const [uploadState, setUploadState] = useState(false);
@@ -14,51 +18,81 @@ const Upload = ({ curScene, ...props }) => {
     props.setShow(false);
   }
 
-  // const upload = async (e) => {
-  //   setUploadState(true);
-  //   let formData = new FormData();
-  //   formData.append('file', e.target.files[0]);
-  //   try {
-  //     const uploadFile = await axios.post(BaseUrl + '/file/upload', formData, {
-  //       headers: {
-  //         'secret-key': localStorage.getItem('secretKey'),
-  //       }
-  //     });
-  //     props.setData([
-  //       uploadFile.data.newFile,
-  //       ...props.data
-  //     ]);
-  //     setUploadState(false);
-  //     window.parent.postMessage({
-  //       call: 'uploadFile',
-  //       value: {
-  //         fileDeital: uploadFile.data.newFile
-  //       }
-  //     }, '*');
-  //   }
-  //   catch(err) {
-  //     console.error(err.response.data.message);
-  //   }
-  // }
+  const upload = async (e) => {
+    setUploadState(true);
+    let formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    try {
+      // upload file
+      const { data } = await axios.post('https://ovp.sohatv.vn/api/cms/upload/file', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'X-OVP-APP': 'g63hfzwu6heogfzxrop2z3v3hgii88im',
+        }
+      });
 
-  const upload = (e) => {
-    const file = e.target.files[0];
-    const url = URL.createObjectURL(file);
-    const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
-    const thumbnail = (props.type === 'audio') ? thumbnailAudio : url;
+      //file uploaded info 
+      const fileName = data.data.originalname;
+      const fileNameSplit = fileName.split('.');
+      const fileType = fileNameSplit[fileNameSplit.length - 1];
+      const fileKey = data.data.objectKey;
+      const url = data.data.url;
 
-    const uploadFile = {
-      fileName: file.name,
-      type: props.type,
-      img: thumbnail,
-      url: url,
-      fileKey: Math.random() + file.name,
+      // save file uploaded info to database
+      await axios.post(BaseUrl + '/file/upload', {
+        fileName,
+        fileType,
+        fileKey,
+        url,
+      }, {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        },
+      });
+
+      // update data state
+      props.setData([
+        {
+          fileName,
+          fileType,
+          fileKey,
+          url,
+        },
+        ...props.data
+      ]);
+      setUploadState(false);
+
+      // callback message
+      window.parent.postMessage({
+        call: 'uploadFile',
+        value: {
+          fileDeital: data.data
+        }
+      }, '*');
     }
-    props.setData([
-      uploadFile,
-      ...props.data,
-    ]);
+    catch(err) {
+      console.error(err.response.data.message);
+    }
   }
+
+  // const upload = (e) => {
+  //   const file = e.target.files[0];
+  //   const url = URL.createObjectURL(file);
+  //   const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
+  //   const thumbnail = (props.type === 'audio') ? thumbnailAudio : url;
+
+  //   const uploadFile = {
+  //     fileName: file.name,
+  //     type: props.type,
+  //     img: thumbnail,
+  //     url: url,
+  //     fileKey: Math.random() + file.name,
+  //   }
+  //   props.setData([
+  //     uploadFile,
+  //     ...props.data,
+  //   ]);
+  // }
 
   const renderList = () => {
     if(props.data.length === 0 && !uploadState) {
