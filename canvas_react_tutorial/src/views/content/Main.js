@@ -6,32 +6,12 @@ import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
-import { useEffect, useRef, useState } from "react";
-import Flashphoner from '@flashphoner/websdk';
+import { useEffect, useRef } from "react";
+import Publish from './Publish';
 
 const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
-  const videoRef = useRef(null);
-  const [session, setSession] = useState();
-
-  const SESSION_STATUS = Flashphoner.constants.SESSION_STATUS;
-  const STREAM_STATUS = Flashphoner.constants.STREAM_STATUS;
-  
-  useEffect(() => {
-    Flashphoner.init({});
-    Flashphoner.createSession({
-      urlServer: "wss://demo.flashphoner.com"
-    }).on(SESSION_STATUS.ESTABLISHED, (session) => {
-      window.parent.postMessage({
-        call: 'establish',
-        value: {
-          publish: 'READY',
-        }
-      }, '*');
-      setSession(session);
-    });
-  }, [SESSION_STATUS.ESTABLISHED, STREAM_STATUS]);
   
   const dispatch = useDispatch();
   useEffect(() => {
@@ -101,51 +81,18 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
   }
   
   useEffect(() => {
-    try {
-      if(publish) {
-        // videoRef.current.srcObject = layerRef.current.getCanvas()._canvas.captureStream(240);
-        const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
+    if(publish) {
+      try {
         const nameStream = name.replaceAll(' ', '');
-        session.createStream({
-          name: nameStream,
-          display: videoRef.current,
-          cacheLocalResources: true,
-          constraints: {
-            video: false,
-            audio: false,
-            customStream: layerRef.current.getCanvas()._canvas.captureStream(240),
-            cacheLocalResources: false,
-            receiveVideo: false,
-            receiveAudio: false,
-          },
-          rtmpUrl: rtmpUrl,
-        }).on(STREAM_STATUS.PUBLISHING, () => {
-          window.parent.postMessage({
-            call: 'publish',
-            value: {
-              rtmpLink: rtmpUrl + '/rtmp_' + nameStream,
-            }
-          }, '*');
-        }).on(STREAM_STATUS.UNPUBLISHED, () => {
-          window.parent.postMessage({
-            call: 'unpublishing',
-            value: {
-              publish: 'UNPUBLISHING',
-            }
-          }, '*');
-        }).on(STREAM_STATUS.FAILED, () => {
-          window.parent.postMessage({
-            call: 'publishFailed',
-            value: {
-              publish: 'FAILED',
-            }
-          }, '*');
-        }).publish();
+        const publishStream = Publish.create();
+        publishStream.stream = layerRef.current.getCanvas()._canvas.captureStream(256);
+        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send`);
+      } catch (err) {
+        console.error(err);
       }
-    } catch (err) {
-      console.error(err);
     }
-  },[publish, STREAM_STATUS, session, name]);
+  // eslint-disable-next-line
+  },[publish]);
 
   if(!layers || !scenes || scenes.length === 0) {
     return <div/>;
@@ -153,7 +100,6 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
 
   return (
     <div>
-      <video ref={videoRef} crossOrigin='anonymous' hidden />
       {renderYoutube()}
       {renderAudioUploaded()}
       {renderMicro()}

@@ -49,7 +49,6 @@ const VideoUpload = (props) => {
   }, []);
 
   useEffect(() => {
-    video.setAttribute('crossOrigin', 'anonymous');
     if(props.shapeProps.start) {
       if(!props.shapeProps.pause) {
         video.play();
@@ -57,12 +56,11 @@ const VideoUpload = (props) => {
         video.pause()
       }
       const anim = new Animation(() => {
-        video.setAttribute('crossOrigin', 'anonymous');
-        // if(props.shapeProps.start) {
-        //   if(shapeRef.current !== null) {
-        //     shapeRef.current.cache();
-        //   }
-        // }
+        if(props.shapeProps.start) {
+          if(shapeRef.current !== null) {
+            shapeRef.current.cache();
+          }
+        }
       }, [shapeRef.current.getLayer()]);
       anim.start();
       return () => anim.stop();
@@ -106,15 +104,15 @@ const VideoUpload = (props) => {
           node.scaleY(1);
           onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());
         }}
-        // filters={props.filters}
-        // brightness={props.dataScene.brightness - 1}
-        // contrast={(props.dataScene.contrast - 1) * 100}
-        // blurRadius={props.dataScene.blur}
-        // saturation={props.dataScene.saturate - 1}
-        // red={props.dataScene.red}
-        // green={props.dataScene.green}
-        // blue={props.dataScene.blue}
-        // alpha={props.dataScene.alpha}
+        filters={props.filters}
+        brightness={props.dataScene.brightness - 1}
+        contrast={(props.dataScene.contrast - 1) * 100}
+        blurRadius={props.dataScene.blur}
+        saturation={props.dataScene.saturate - 1}
+        red={props.dataScene.red}
+        green={props.dataScene.green}
+        blue={props.dataScene.blue}
+        alpha={props.dataScene.alpha}
       />
       {props.isSelected && !props.shapeProps.lock && (
         <Transformer
