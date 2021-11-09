@@ -101,44 +101,49 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
   }
   
   useEffect(() => {
-    if(publish) {
-      layerRef.current.crossOrigin = 'anonymous';
-      const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
-      session.createStream({
-        name: name,
-        display: videoRef.current,
-        cacheLocalResources: true,
-        constraints: {
-          video: false,
-          audio: false,
-          customStream: layerRef.current.getCanvas()._canvas.captureStream(240),
-          cacheLocalResources: false,
-          receiveVideo: false,
-          receiveAudio: false,
-        },
-        rtmpUrl: rtmpUrl,
-      }).on(STREAM_STATUS.PUBLISHING, () => {
-        window.parent.postMessage({
-          call: 'publish',
-          value: {
-            rtmpLink: rtmpUrl + '/rtmp_' + name,
-          }
-        }, '*');
-      }).on(STREAM_STATUS.UNPUBLISHED, () => {
-        window.parent.postMessage({
-          call: 'unpublishing',
-          value: {
-            publish: 'UNPUBLISHING',
-          }
-        }, '*');
-      }).on(STREAM_STATUS.FAILED, () => {
-        window.parent.postMessage({
-          call: 'publishFailed',
-          value: {
-            publish: 'FAILED',
-          }
-        }, '*');
-      }).publish();
+    try {
+      if(publish) {
+        // videoRef.current.srcObject = layerRef.current.getCanvas()._canvas.captureStream(240);
+        const rtmpUrl = 'rtmp://demo.flashphoner.com:1935/live';
+        const nameStream = name.replaceAll(' ', '');
+        session.createStream({
+          name: nameStream,
+          display: videoRef.current,
+          cacheLocalResources: true,
+          constraints: {
+            video: false,
+            audio: false,
+            customStream: layerRef.current.getCanvas()._canvas.captureStream(240),
+            cacheLocalResources: false,
+            receiveVideo: false,
+            receiveAudio: false,
+          },
+          rtmpUrl: rtmpUrl,
+        }).on(STREAM_STATUS.PUBLISHING, () => {
+          window.parent.postMessage({
+            call: 'publish',
+            value: {
+              rtmpLink: rtmpUrl + '/rtmp_' + nameStream,
+            }
+          }, '*');
+        }).on(STREAM_STATUS.UNPUBLISHED, () => {
+          window.parent.postMessage({
+            call: 'unpublishing',
+            value: {
+              publish: 'UNPUBLISHING',
+            }
+          }, '*');
+        }).on(STREAM_STATUS.FAILED, () => {
+          window.parent.postMessage({
+            call: 'publishFailed',
+            value: {
+              publish: 'FAILED',
+            }
+          }, '*');
+        }).publish();
+      }
+    } catch (err) {
+      console.error(err);
     }
   },[publish, STREAM_STATUS, session, name]);
 
@@ -148,7 +153,7 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
 
   return (
     <div>
-      <video ref={videoRef} crossOrigin='anonymous' hidden/>
+      <video ref={videoRef} crossOrigin='anonymous' hidden />
       {renderYoutube()}
       {renderAudioUploaded()}
       {renderMicro()}
