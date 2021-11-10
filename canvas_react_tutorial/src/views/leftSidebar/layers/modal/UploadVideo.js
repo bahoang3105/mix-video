@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { deleteFileAction, renameFileAction } from './Action';
 import Upload from './Upload';
 
-const UploadVideo = ({ data, setData, ...props }) => {
+const UploadVideo = (props) => {
+  const [data, setData] = useState([]);
   const deleteFile = async (fileKey) => {
     const newData = await deleteFileAction(fileKey, data);
     setData(newData);

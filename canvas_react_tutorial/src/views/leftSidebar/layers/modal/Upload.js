@@ -19,80 +19,80 @@ const Upload = ({ curScene, ...props }) => {
   }
 
   const upload = async (e) => {
-    setUploadState(true);
-    let formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    try {
-      // upload file
-      const { data } = await axios.post('https://ovp.sohatv.vn/api/cms/upload/file', formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'X-OVP-APP': 'g63hfzwu6heogfzxrop2z3v3hgii88im',
-        }
-      });
+    if(props.type === 'image' || props.type === 'audio') {
+      setUploadState(true);
+      let formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      try {
+        // upload file
+        const { data } = await axios.post('https://ovp.sohatv.vn/api/cms/upload/file', formData, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'X-OVP-APP': 'g63hfzwu6heogfzxrop2z3v3hgii88im',
+          }
+        });
 
-      //file uploaded info 
-      const fileName = data.data.originalname;
-      const fileNameSplit = fileName.split('.');
-      const fileType = fileNameSplit[fileNameSplit.length - 1];
-      const fileKey = data.data.objectKey;
-      const url = data.data.url;
+        //file uploaded info 
+        const fileName = data.data.originalname;
+        const fileNameSplit = fileName.split('.');
+        const fileType = fileNameSplit[fileNameSplit.length - 1];
+        const fileKey = data.data.objectKey;
+        const url = data.data.url;
 
-      // save file uploaded info to database
-      await axios.post(BaseUrl + '/file/upload', {
-        fileName,
-        fileType,
-        fileKey,
-        url,
-      }, {
-        headers: {
-          'secret-key': localStorage.getItem('secretKey'),
-        },
-      });
-
-      // update data state
-      props.setData([
-        {
+        // save file uploaded info to database
+        await axios.post(BaseUrl + '/file/upload', {
           fileName,
           fileType,
           fileKey,
           url,
-        },
-        ...props.data
-      ]);
-      setUploadState(false);
+        }, {
+          headers: {
+            'secret-key': localStorage.getItem('secretKey'),
+          },
+        });
 
-      // callback message
-      window.parent.postMessage({
-        call: 'uploadFile',
-        value: {
-          fileDeital: data.data
-        }
-      }, '*');
-    }
-    catch(err) {
-      console.error(err.response.data.message);
+        // update data state
+        props.setData([
+          {
+            fileName,
+            fileType,
+            fileKey,
+            url,
+          },
+          ...props.data
+        ]);
+        setUploadState(false);
+
+        // callback message
+        window.parent.postMessage({
+          call: 'uploadFile',
+          value: {
+            fileDeital: data.data
+          }
+        }, '*');
+      }
+      catch(err) {
+        console.error(err.response.data.message);
+      }
+    } else {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
+      const thumbnail = (props.type === 'audio') ? thumbnailAudio : url;
+  
+      const uploadFile = {
+        fileName: file.name,
+        type: props.type,
+        img: thumbnail,
+        url: url,
+        fileKey: Math.random() + file.name,
+      }
+      props.setData([
+        uploadFile,
+        ...props.data,
+      ]);
     }
   }
-
-  // const upload = (e) => {
-  //   const file = e.target.files[0];
-  //   const url = URL.createObjectURL(file);
-  //   const thumbnailAudio = 'https://media.wired.com/photos/5f9ca518227dbb78ec30dacf/master/w_2560%2Cc_limit/Gear-RIP-Google-Music-1194411695.jpg'
-  //   const thumbnail = (props.type === 'audio') ? thumbnailAudio : url;
-
-  //   const uploadFile = {
-  //     fileName: file.name,
-  //     type: props.type,
-  //     img: thumbnail,
-  //     url: url,
-  //     fileKey: Math.random() + file.name,
-  //   }
-  //   props.setData([
-  //     uploadFile,
-  //     ...props.data,
-  //   ]);
-  // }
 
   const renderList = () => {
     if(props.data.length === 0 && !uploadState) {
