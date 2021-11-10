@@ -39,7 +39,6 @@ const VideoUpload = (props) => {
   const video = useMemo(() => {
     const element = document.createElement('video');
     element.setAttribute('crossOrigin', 'anonymous');
-    element.muted = true;
     element.volume = props.shapeProps.volume/100;
     element.loop = props.shapeProps.loop;
     element.controls = false;
@@ -47,6 +46,12 @@ const VideoUpload = (props) => {
     return element;
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    video.onloadeddata = () => {
+      video.muted = true;
+    }
+  })
 
   useEffect(() => {
     if(props.shapeProps.start) {
