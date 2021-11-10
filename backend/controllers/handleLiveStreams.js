@@ -15,7 +15,7 @@ export const publish = async (req,res, next) => {
       room: room,
       name: nameStream,
     } });
-    if(livestreamExists) {
+    if(livestreamExists && checkReturn === 0) {
       return res.status(200).json({ success: true, info: `This stream already exists. Don't need to republish` });
     }
 
@@ -33,14 +33,19 @@ export const publish = async (req,res, next) => {
           room: room,
           name: nameStream,
         } });
-        return res.status(404).json({ success: false, info: err.message });
+        checkReturn += 1;
+        if(checkReturn <= 1) {
+          return res.status(404).json({ success: false, info: err.message });
+        }
       })
       // when livestream start, add it to database
       .on('start', async (stdout, stderr) => {
-        await LiveStream.create({
-          room,
-          name: nameStream,
-        });
+        if(checkReturn === 0) {
+          await LiveStream.create({
+            room,
+            name: nameStream,
+          });
+        }
       })
       // if rtmp is valid, return success
       .on('progress', () => {
