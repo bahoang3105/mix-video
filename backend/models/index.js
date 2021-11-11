@@ -41,6 +41,10 @@ export const init = async () => {
 	});
 	await connection.query("CREATE DATABASE IF NOT EXISTS livestream;");
 	await db.livestream.sequelize.query("DROP TABLE IF EXISTS livestream;");
+	const firstInit = await db.application.findOne({  where: { secretKey: '8ef1522b-0b4c-45e8-b017-1c71ecbd0038' } } );
+	if(firstInit === null) {
+		await db.application.create({ secretKey: '8ef1522b-0b4c-45e8-b017-1c71ecbd0038' });
+	}
 	await db.sequelize.sync();
 }
 
