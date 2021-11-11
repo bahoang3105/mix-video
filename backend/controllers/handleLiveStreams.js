@@ -9,8 +9,7 @@ export const publish = async (req,res, next) => {
   const room = linkParams[3];
   const nameStream = linkParams[4];
   let checkReturn = 0;
-  let oldFrame = -1;
-  let newFrame = 0;
+  let i = 0;
   try {
     //check if livestream exists
     const livestreamExists = await LiveStream.findOne({ where: {
@@ -50,18 +49,18 @@ export const publish = async (req,res, next) => {
         }
       })
       // if rtmp is valid, return success
-      .on('progress', (progress) => {
-        console.log(progress);
-        oldFrame = newFrame;
-        if(newFrame === progress.frames) {
-          // finish livestream
-          command.kill();
-        } else {
-          newFrame = progress.frames;
-        }
+      .on('progress', () => {
+        i = 0;
         checkReturn += 1;
         if(checkReturn === 1) {
           return res.status(200).json({ success: true, info: 'Republish successfully'});
+        }
+        // if after 3 seconds no frame arrives, kill the command 
+        while(true) {
+          setTimeout(() => {
+            i++;
+          });
+          if(i === 3) command.kill();
         }
       })
       // publish to this link
@@ -74,6 +73,7 @@ export const publish = async (req,res, next) => {
         } });
         console.log('hihihi')
       });
+
   } catch (err) {
     next(err)
   }
