@@ -10,6 +10,7 @@ export const publish = async (req,res, next) => {
   const nameStream = linkParams[4];
   let checkReturn = 0;
   let i = 0;
+  let intr;
   try {
     //check if livestream exists
     const livestreamExists = await LiveStream.findOne({ where: {
@@ -38,6 +39,7 @@ export const publish = async (req,res, next) => {
         if(checkReturn <= 1) {
           return res.status(404).json({ success: false, info: err.message });
         }
+        command.kill();
       })
       // when livestream start, add it to database
       .on('start', async (stdout, stderr) => {
@@ -47,6 +49,13 @@ export const publish = async (req,res, next) => {
             name: nameStream,
           });
         }
+        intr = setInterval(() => {
+          i++;
+          if(i === 2) {
+            // if after 2 seconds no frame arrives, kill process
+            command.kill();
+          }
+        }, 1000);
       })
       // if rtmp is valid, return success
       .on('progress', () => {
@@ -54,13 +63,6 @@ export const publish = async (req,res, next) => {
         checkReturn += 1;
         if(checkReturn === 1) {
           return res.status(200).json({ success: true, info: 'Republish successfully'});
-        }
-        // if after 3 seconds no frame arrives, kill the command 
-        while(true) {
-          setTimeout(() => {
-            i++;
-          });
-          if(i === 3) command.kill();
         }
       })
       // publish to this link
@@ -71,9 +73,8 @@ export const publish = async (req,res, next) => {
           room: room,
           name: nameStream,
         } });
-        console.log('hihihi')
+        command.kill();
       });
-
   } catch (err) {
     next(err)
   }
