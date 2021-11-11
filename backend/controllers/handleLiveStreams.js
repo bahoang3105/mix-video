@@ -51,8 +51,8 @@ export const publish = async (req,res, next) => {
         }
         intr = setInterval(() => {
           i++;
-          if(i === 2) {
-            // if after 2 seconds no frame arrives, kill process
+          if(i === 5) {
+            // if after 5 seconds no frame arrives, kill process
             command.kill();
           }
         }, 1000);
