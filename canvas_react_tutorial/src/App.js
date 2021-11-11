@@ -45,19 +45,19 @@ function App() {
   });
 
   useEffect(() => {
-    // if(data) {
+    if(data) {
       setSize({
         width: scenesRef.current.clientWidth, 
         height: scenesRef.current.clientHeight-20,
       });
-    // }
+    }
   }, [data]);
 
-  // if(!data) {
-  //   return (
-  //     <div/>
-  //   );
-  // }
+  if(!data) {
+    return (
+      <div/>
+    );
+  }
 
   return (
     <div>
