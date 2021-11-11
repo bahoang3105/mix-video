@@ -9,6 +9,8 @@ export const publish = async (req,res, next) => {
   const room = linkParams[3];
   const nameStream = linkParams[4];
   let checkReturn = 0;
+  let oldFrame = -1;
+  let newFrame = 0;
   try {
     //check if livestream exists
     const livestreamExists = await LiveStream.findOne({ where: {
@@ -20,7 +22,7 @@ export const publish = async (req,res, next) => {
     }
 
     // if livestream does not exist, republish this and add to db
-    ffmpeg()
+    const command = ffmpeg()
       .addInput(link)
       .outputOption([
         '-c copy', 
@@ -48,7 +50,15 @@ export const publish = async (req,res, next) => {
         }
       })
       // if rtmp is valid, return success
-      .on('progress', () => {
+      .on('progress', (progress) => {
+        console.log(progress);
+        oldFrame = newFrame;
+        if(newFrame === progress.frames) {
+          // finish livestream
+          command.kill();
+        } else {
+          newFrame = progress.frames;
+        }
         checkReturn += 1;
         if(checkReturn === 1) {
           return res.status(200).json({ success: true, info: 'Republish successfully'});
@@ -62,6 +72,7 @@ export const publish = async (req,res, next) => {
           room: room,
           name: nameStream,
         } });
+        console.log('hihihi')
       });
   } catch (err) {
     next(err)
