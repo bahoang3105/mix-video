@@ -39,7 +39,6 @@ export const publish = async (req,res, next) => {
         if(checkReturn <= 1) {
           return res.status(404).json({ success: false, info: err.message });
         }
-        command.kill();
       })
       // when livestream start, add it to database
       .on('start', async (stdout, stderr) => {
@@ -73,7 +72,6 @@ export const publish = async (req,res, next) => {
           room: room,
           name: nameStream,
         } });
-        command.kill();
       });
   } catch (err) {
     next(err)
