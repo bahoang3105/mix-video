@@ -1,496 +1,753 @@
-const PublishStream = {};
+const OvenLiveKit = {};
 
-const logHeader = 'PublishStream.js :';
-const logEventHeader = 'PublishStream.js ====';
+const logHeader = 'OvenLiveKit.js :';
+const logEventHeader = 'OvenLiveKit.js ====';
 
 // private methods
-const sendMessage = (webSocket, message) => {
-	if (webSocket) {
-		webSocket.send(JSON.stringify(message));
-	}
+function sendMessage(webSocket, message) {
+
+    if (webSocket) {
+        webSocket.send(JSON.stringify(message));
+    }
 }
 
-const generateDomainFromUrl = url => {
-	const match = url.match(/^(?:wss?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?=]+)/im);
-	if (match) {
-		return match[1];
-	}
-	return '';
+function generateDomainFromUrl(url) {
+    let result = '';
+    let match = url.match(/^(?:wss?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?=]+)/im)
+    if (match) {
+        result = match[1];
+    }
+
+    return result;
 }
 
-const findIp = string => {
-	const match = string.match(new RegExp('\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b', 'gi'));
-	if (match) {
-		return match[0];
-	}
-	return '';
+function findIp(string) {
+
+    let result = '';
+		let match = string.match(new RegExp('\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b', 'gi'));
+    if (match) {
+        result = match[0];
+    }
+
+    return result;
 }
 
-const initConfig = (instance, options) => {
-	instance.stream = null;
-	instance.webSocket = null;
-	instance.peerConnection = null;
-	instance.connectionConfig = {};
-
-	instance.status = 'creating';
-
-	instance.videoElement = null;
-	instance.connectionUrl = null;
-
-	if (options && options.callbacks) {
-
-		instance.callbacks = options.callbacks;
-	} else {
-		instance.callbacks = {};
-	}
+function checkIOSVersion() {
+    var agent = window.navigator.userAgent,
+        start = agent.indexOf('OS ');
+    if ((agent.indexOf('iPhone') > -1 || agent.indexOf('iPad') > -1) && start > -1) {
+        return window.Number(agent.substr(start + 3, 3).replace('_', '.'));
+    }
+    return 0;
 }
 
-const addMethod = (instance) => {
+function getFormatNumber(sdp, format) {
 
-	const errorHandler = (error) => {
+    const lines = sdp.split('\r\n');
+    let formatNumber = -1;
 
-		if (instance.callbacks.error) {
+    for (let i = 0; i < lines.length - 1; i++) {
 
-			instance.callbacks.error(error);
-		}
-	}
+        lines[i] = lines[i].toLowerCase();
 
-	// From https://webrtchacks.com/limit-webrtc-bandwidth-sdp/
-	const setBitrateLimit = (sdp, media, bitrate) => {
+        if (lines[i].indexOf('a=rtpmap') > -1 && lines[i].indexOf(format.toLowerCase()) > -1) {
+            // parsing "a=rtpmap:100 H264/90000" line
+            formatNumber = lines[i].split(' ')[0].split(':')[1];
+            break;
+        }
+    }
 
-		const lines = sdp.split('\n');
-		let line = -1;
+    return formatNumber;
+}
 
-		for (let i = 0; i < lines.length; i++) {
-			if (lines[i].indexOf('m=' + media) === 0) {
-				line = i;
-				break;
-			}
-		}
-		if (line === -1) {
-			// Could not find the m line for media
-			return sdp;
-		}
+function removeFormat(sdp, formatNumber) {
+    let newLines = [];
+    let lines = sdp.split('\r\n');
 
-		// Pass the m line
-		line++;
+    for (let i = 0; i < lines.length; i++) {
 
-		// Skip i and c lines
-		while (lines[line].indexOf('i=') === 0 || lines[line].indexOf('c=') === 0) {
+        if (lines[i].indexOf('m=video') === 0) {
+            newLines.push(lines[i].replace(' ' + formatNumber + '', ''));
+        } else if (lines[i].indexOf(formatNumber + '') > -1) {
 
-			line++;
-		}
+        } else {
+            newLines.push(lines[i]);
+        }
+    }
 
-		// If we're on a b line, replace it
-		if (lines[line].indexOf('b') === 0) {
+    return newLines.join('\r\n')
+}
 
-			lines[line] = 'b=AS:' + bitrate;
+async function getStreamForDeviceCheck() {
 
-			return lines.join('\n');
-		}
+    // High resolution video constraints makes browser to get maximum resolution of video device.
+    const constraints = {
+        audio: { deviceId: undefined },
+        video: { deviceId: undefined, width: 1920, height: 1080 }
+    };
 
-		// Add a new b line
-		let newLines = lines.slice(0, line)
+    return await navigator.mediaDevices.getUserMedia(constraints);
+}
 
-		newLines.push('b=AS:' + bitrate)
-		newLines = newLines.concat(lines.slice(line, lines.length))
+async function getDevices() {
 
-		return newLines.join('\n')
-	}
+    return await navigator.mediaDevices.enumerateDevices();
 
-	const initWebSocket = (connectionUrl) => {
 
-		if (!connectionUrl) {
-			errorHandler('connectionUrl is required');
-			return;
-		}
+}
 
-		instance.connectionUrl = connectionUrl;
+function gotDevices(deviceInfos) {
 
-		let webSocket = null;
+    let devices = {
+        'audioinput': [],
+        'audiooutput': [],
+        'videoinput': [],
+        'other': [],
+    };
 
-		try {
+    for (let i = 0; i !== deviceInfos.length; ++i) {
 
-			webSocket = new WebSocket(connectionUrl);
-		} catch (error) {
+        const deviceInfo = deviceInfos[i];
 
-			errorHandler(error);
-		}
+        let info = {};
 
+        info.deviceId = deviceInfo.deviceId;
 
-		instance.webSocket = webSocket;
+        if (deviceInfo.kind === 'audioinput') {
 
-		webSocket.onopen = () => {
+            info.label = deviceInfo.label || `microphone ${devices.audioinput.length + 1}`;
+            devices.audioinput.push(info);
+        } else if (deviceInfo.kind === 'audiooutput') {
 
-			// Request offer at the first time.
-			sendMessage(webSocket, {
-				command: 'request_offer'
-			});
-		};
+            info.label = deviceInfo.label || `speaker ${devices.audiooutput.length + 1}`;
+            devices.audiooutput.push(info);
+        } else if (deviceInfo.kind === 'videoinput') {
 
-		webSocket.onmessage = (e) => {
+            info.label = deviceInfo.label || `camera ${devices.videoinput.length + 1}`;
+            devices.videoinput.push(info);
+        } else {
 
-			const message = JSON.parse(e.data);
+            info.label = deviceInfo.label || `other ${devices.other.length + 1}`;
+            devices.other.push(info);
+        }
+    }
 
-			if (message.error) {
-				console.error('webSocket.onmessage', message.error);
-				errorHandler(message.error);
-			}
+    return devices;
+}
 
-			if (message.command === 'offer') {
+function initConfig(instance, options) {
 
-				// OME returns offer. Start create peer connection.
-				createPeerConnection(
-					message.id,
-					message.peer_id,
-					message.sdp,
-					message.candidates,
-					message.ice_servers
-				);
-			}
-		};
+    instance.stream = null;
+    instance.webSocket = null;
+    instance.peerConnection = null;
+    instance.connectionConfig = {};
 
-		webSocket.onerror = (error) => {
+    instance.status = 'creating';
 
-			console.error('webSocket.onerror', error);
-			errorHandler(error);
-		};
+    instance.videoElement = null;
+    instance.connectionUrl = null;
 
-		webSocket.onclose = (e) => {
+    if (options && options.callbacks) {
 
-			if (!instance.removing) {
+        instance.callbacks = options.callbacks;
+    } else {
+        instance.callbacks = {};
+    }
 
-				if (instance.callbacks.connectionClosed) {
+}
 
-					instance.callbacks.connectionClosed('websocket', e);
-				}
-			}
-		};
+function addMethod(instance) {
 
-	}
+    function errorHandler(error) {
 
-	const appendFmtp = (sdp) => {
+        if (instance.callbacks.error) {
 
-		const fmtpStr = instance.connectionConfig.sdp.appendFmtp;
+            instance.callbacks.error(error);
+        }
+    }
 
-		const lines = sdp.split('\n');
-		const payloads = [];
+    function getUserMedia(constraints) {
 
-		for (let i = 0; i < lines.length; i++) {
+        if (!constraints) {
 
-			if (lines[i].indexOf('m=video') === 0) {
+            constraints = {
+                video: {
+                    deviceId: undefined
+                },
+                audio: {
+                    deviceId: undefined
+                }
+            };
+        }
 
-				const tokens = lines[i].split(' ')
+        console.info(logHeader, 'Requested Constraint To Input Devices', constraints);
 
-				for (let j = 3; j < tokens.length; j++) {
+        return navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (stream) {
 
-					payloads.push(tokens[j].replace('\r', ''));
-				}
+                console.info(logHeader, 'Received Media Stream From Input Device', stream);
 
-				break;
-			}
-		}
+                instance.stream = stream;
 
-		for (let i = 0; i < payloads.length; i++) {
+                let elem = instance.videoElement;
 
-			let fmtpLineFound = false;
+                // Attach stream to video element when video element is provided.
+                if (elem) {
 
-			for (let j = 0; j < lines.length; j++) {
+                    elem.srcObject = stream;
 
-				if (lines[j].indexOf('a=fmtp:' + payloads[i]) === 0) {
-					fmtpLineFound = true;
-					lines[j] += ';' + fmtpStr;
-				}
-			}
+                    elem.onloadedmetadata = function (e) {
 
-			if (!fmtpLineFound) {
+                        elem.play();
+                    };
+                }
 
-				for (let j = 0; j < lines.length; j++) {
+                return new Promise(function (resolve) {
 
-					if (lines[j].indexOf('a=rtpmap:' + payloads[i]) === 0) {
+                    resolve(stream);
+                });
+            })
+            .catch(function (error) {
 
-						lines[j] += '\na=fmtp:' + payloads[i] + ' ' + fmtpStr;
-					}
-				}
-			}
-		}
+                console.error(logHeader, 'Can\'t Get Media Stream From Input Device', error);
+                errorHandler(error);
 
-		return lines.join('\n')
-	}
+                return new Promise(function (resolve, reject) {
+                    reject(error);
+                });
+            });
+    }
 
-	const createPeerConnection = (id, peerId, offer, candidates, iceServers) => {
+    async function getDisplayMedia(constraints) {
 
-		const peerConnectionConfig = {};
+        if (!constraints) {
+            constraints = {};
+        }
 
-		if (instance.connectionConfig.iceServers) {
+        console.info(logHeader, 'Requested Constraint To Display', constraints);
 
-			// first priority using ice servers from local config.
-			peerConnectionConfig.iceServers = instance.connectionConfig.iceServers;
+        return navigator.mediaDevices.getDisplayMedia(constraints)
+            .then(function (stream) {
 
-			if (instance.connectionConfig.iceTransportPolicy) {
+                console.info(logHeader, 'Received Media Stream From Display', stream);
 
-				peerConnectionConfig.iceTransportPolicy = instance.connectionConfig.iceTransportPolicy;
-			}
-		} else if (iceServers) {
+                instance.stream = stream;
 
-			// second priority using ice servers from ome and force using TCP
-			peerConnectionConfig.iceServers = [];
+                let elem = instance.videoElement;
 
-			for (let i = 0; i < iceServers.length; i++) {
+                // Attach stream to video element when video element is provided.
+                if (elem) {
 
-				const iceServer = iceServers[i];
+                    elem.srcObject = stream;
 
-				const regIceServer = {};
+                    elem.onloadedmetadata = function (e) {
 
-				regIceServer.urls = iceServer.urls;
+                        elem.play();
+                    };
+                }
 
-				let hasWebSocketUrl = false;
-				const webSocketUrl = generateDomainFromUrl(instance.connectionUrl);
+                return new Promise(function (resolve) {
 
-				for (let j = 0; j < regIceServer.urls.length; j++) {
+                    resolve(stream);
+                });
+            })
+            .catch(function (error) {
 
-					const serverUrl = regIceServer.urls[j];
+                console.error(logHeader, 'Can\'t Get Media Stream From Display', error);
+                errorHandler(error);
 
-					if (serverUrl.indexOf(webSocketUrl) > -1) {
-						hasWebSocketUrl = true;
-						break;
-					}
-				}
+                return new Promise(function (resolve, reject) {
+                    reject(error);
+                });
+            });
+    }
 
-				if (!hasWebSocketUrl) {
+    // From https://webrtchacks.com/limit-webrtc-bandwidth-sdp/
+    function setBitrateLimit(sdp, media, bitrate) {
 
-					if (regIceServer.urls.length > 0) {
+        let lines = sdp.split('\r\n');
+        let line = -1;
 
-						const cloneIceServer = regIceServer.urls[0];
-						const ip = findIp(cloneIceServer);
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].indexOf('m=' + media) === 0) {
+                line = i;
+                break;
+            }
+        }
+        if (line === -1) {
+            // Could not find the m line for media
+            return sdp;
+        }
 
-						if (webSocketUrl && ip) {
-							regIceServer.urls.push(cloneIceServer.replace(ip, webSocketUrl));
-						}
-					}
-				}
+        // Pass the m line
+        line++;
 
-				regIceServer.username = iceServer.user_name;
-				regIceServer.credential = iceServer.credential;
+        // Skip i and c lines
+        while (lines[line].indexOf('i=') === 0 || lines[line].indexOf('c=') === 0) {
 
-				peerConnectionConfig.iceServers.push(regIceServer);
-			}
+            line++;
+        }
 
-			peerConnectionConfig.iceTransportPolicy = 'relay';
-		} else {
-			// last priority using default ice servers.
+        // If we're on a b line, replace it
+        if (lines[line].indexOf('b') === 0) {
 
-			if (instance.iceTransportPolicy) {
+            lines[line] = 'b=AS:' + bitrate;
 
-				peerConnectionConfig.iceTransportPolicy = instance.iceTransportPolicy;
-			}
-		}
+            return lines.join('\r\n');
+        }
 
-		console.info(logHeader, 'Create Peer Connection With Config', peerConnectionConfig);
+        // Add a new b line
+        let newLines = lines.slice(0, line)
 
-		const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+        newLines.push('b=AS:' + bitrate)
+        newLines = newLines.concat(lines.slice(line, lines.length))
 
-		instance.peerConnection = peerConnection;
+        return newLines.join('\r\n')
+    }
 
-		// set local stream
-		instance.stream.getTracks().forEach((track) => {
+    function initWebSocket(connectionUrl) {
 
-			console.info(logHeader, 'Add Track To Peer Connection', track);
-			peerConnection.addTrack(track, instance.stream);
-		});
+        if (!connectionUrl) {
+            errorHandler('connectionUrl is required');
+            return;
+        }
 
+        instance.connectionUrl = connectionUrl;
 
-		if (instance.connectionConfig.maxVideoBitrate) {
+        let webSocket = null;
 
-			// if bandwith limit is set. modify sdp from ome to limit acceptable bandwidth of ome
-			offer.sdp = setBitrateLimit(offer.sdp, 'video', instance.connectionConfig.maxVideoBitrate);
-		}
+        try {
 
-		if (instance.connectionConfig.sdp && instance.connectionConfig.sdp.appendFmtp) {
+            webSocket = new WebSocket(connectionUrl);
 
-			offer.sdp = appendFmtp(offer.sdp);
-		}
+        } catch (error) {
 
-		peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
-			.then(() => {
+            errorHandler(error);
+        }
 
-				peerConnection.createAnswer()
-					.then((answer) => {
 
-						if (instance.connectionConfig.sdp && instance.connectionConfig.sdp.appendFmtp) {
+        instance.webSocket = webSocket;
 
-							answer.sdp = appendFmtp(answer.sdp);
-						}
+        webSocket.onopen = function () {
 
-						peerConnection.setLocalDescription(answer)
-							.then(() => {
+            // Request offer at the first time.
+            sendMessage(webSocket, {
+                command: 'request_offer'
+            });
+        };
 
-								sendMessage(instance.webSocket, {
-									id: id,
-									peer_id: peerId,
-									command: 'answer',
-									sdp: answer
-								});
-							})
-							.catch((error) => {
+        webSocket.onmessage = function (e) {
 
-								console.error('peerConnection.setLocalDescription', error);
-								errorHandler(error);
-							});
-					})
-					.catch((error) => {
+            let message = JSON.parse(e.data);
+						console.log(message);
 
-						console.error('peerConnection.createAnswer', error);
-						errorHandler(error);
-					});
-			})
-			.catch((error) => {
+            if (message.error) {
+                console.error('webSocket.onmessage', message.error);
+            }
 
-				console.error('peerConnection.setRemoteDescription', error);
-				errorHandler(error);
-			});
+            if (message.command === 'offer') {
 
-		if (candidates) {
+                // OME returns offer. Start create peer connection.
+								console.log(1112121212)
+                createPeerConnection(
+                    message.id,
+                    message.peer_id,
+                    message.sdp,
+                    message.candidates,
+                    message.ice_servers
+                );
+            }
+        };
 
-			addIceCandidate(peerConnection, candidates);
-		}
+        webSocket.onerror = function (error) {
 
-		peerConnection.onicecandidate = (e) => {
+            console.error('webSocket.onerror', error);
+            errorHandler(error);
+        };
 
-			if (e.candidate && e.candidate.candidate) {
+        webSocket.onclose = function (e) {
 
-				console.info(logHeader, 'Candidate Sent', '\n', e.candidate.candidate, '\n', e);
+            if (!instance.removing) {
 
-				sendMessage(instance.webSocket, {
-					id: id,
-					peer_id: peerId,
-					command: 'candidate',
-					candidates: [e.candidate]
-				});
-			}
-		};
+                if (instance.callbacks.connectionClosed) {
 
-		peerConnection.oniceconnectionstatechange = (e) => {
+                    instance.callbacks.connectionClosed('websocket', e);
+                }
+            }
+        };
 
-			const state = peerConnection.iceConnectionState;
+    }
 
-			if (instance.callbacks.iceStateChange) {
+    function appendFmtp(sdp) {
 
-				console.info(logHeader, 'ICE State', '[' + state + ']');
-				instance.callbacks.iceStateChange(state);
-			}
+        const fmtpStr = instance.connectionConfig.sdp.appendFmtp;
 
-			if (state === 'connected') {
+        const lines = sdp.split('\r\n');
+        const payloads = [];
 
-				if (instance.callbacks.connected) {
+        for (let i = 0; i < lines.length; i++) {
 
-					console.info(logHeader, 'Iceconnection Connected', e);
-					instance.callbacks.connected(e);
-				}
-			}
+            if (lines[i].indexOf('m=video') === 0) {
 
-			if (state === 'failed' || state === 'disconnected' || state === 'closed') {
+                let tokens = lines[i].split(' ')
 
-				if (instance.callbacks.connectionClosed) {
+                for (let j = 3; j < tokens.length; j++) {
 
-					console.error(logHeader, 'Iceconnection Closed', e);
-					instance.callbacks.connectionClosed('ice', e);
-				}
-			}
-		}
-	}
+                    payloads.push(tokens[j]);
+                }
 
-	const addIceCandidate = (peerConnection, candidates) => {
+                break;
+            }
+        }
 
-		for (let i = 0; i < candidates.length; i++) {
+        for (let i = 0; i < payloads.length; i++) {
 
-			if (candidates[i] && candidates[i].candidate) {
+            let fmtpLineFound = false;
 
-				const basicCandidate = candidates[i];
+            for (let j = 0; j < lines.length; j++) {
 
-				peerConnection.addIceCandidate(new RTCIceCandidate(basicCandidate))
-					.then(() => {
+                if (lines[j].indexOf('a=fmtp:' + payloads[i]) === 0) {
+                    fmtpLineFound = true;
+                    lines[j] += ';' + fmtpStr;
+                }
+            }
 
-					})
-					.catch((error) => {
+            if (!fmtpLineFound) {
 
-						console.error('peerConnection.addIceCandidate', error);
-						errorHandler(error);
-					});
-			}
-		}
-	}
+                for (let j = 0; j < lines.length; j++) {
 
-	instance.startStreaming = (connectionUrl, connectionConfig) => {
+                    if (lines[j].indexOf('a=rtpmap:' + payloads[i]) === 0) {
 
-		console.info(logEventHeader, 'Start Streaming');
+                        lines[j] += '\r\na=fmtp:' + payloads[i] + ' ' + fmtpStr;
+                    }
+                }
+            }
+        }
 
-		if (connectionConfig) {
+        return lines.join('\r\n')
+    }
 
-			instance.connectionConfig = connectionConfig;
-		}
+    function createPeerConnection(id, peerId, offer, candidates, iceServers) {
 
-		initWebSocket(connectionUrl);
-	};
+        let peerConnectionConfig = {};
 
-	instance.remove = () => {
+        if (instance.connectionConfig.iceServers) {
 
-		instance.removing = true;
+            // first priority using ice servers from local config.
+            peerConnectionConfig.iceServers = instance.connectionConfig.iceServers;
 
-		// first release peer connection with ome
-		if (instance.peerConnection) {
+            if (instance.connectionConfig.iceTransportPolicy) {
 
-			// remove tracks from peer connection
-			instance.peerConnection.getSenders().forEach((sender) => {
-				instance.peerConnection.removeTrack(sender);
-			});
+                peerConnectionConfig.iceTransportPolicy = instance.connectionConfig.iceTransportPolicy;
+            }
+        } else if (iceServers) {
 
-			instance.peerConnection.close();
-			instance.peerConnection = null;
-			delete instance.peerConnection;
-		}
+            // second priority using ice servers from ome and force using TCP
+            peerConnectionConfig.iceServers = [];
 
-		// release video, audio stream
-		if (instance.stream) {
+            for (let i = 0; i < iceServers.length; i++) {
 
-			instance.stream.getTracks().forEach(track => {
+                let iceServer = iceServers[i];
 
-				track.stop();
-				instance.stream.removeTrack(track);
-			});
+                let regIceServer = {};
 
-			if (instance.videoElement) {
-				instance.videoElement.srcObject = null;
-			}
+                regIceServer.urls = iceServer.urls;
 
-			instance.stream = null;
-			delete instance.stream;
-		}
+                let hasWebSocketUrl = false;
+                let webSocketUrl = generateDomainFromUrl(instance.connectionUrl);
 
-		// release websocket
-		if (instance.webSocket) {
+                for (let j = 0; j < regIceServer.urls.length; j++) {
 
-			instance.webSocket.close();
-			instance.webSocket = null;
-			delete instance.webSocket;
-		}
+                    let serverUrl = regIceServer.urls[j];
 
-		instance.status = 'removed';
+                    if (serverUrl.indexOf(webSocketUrl) > -1) {
+                        hasWebSocketUrl = true;
+                        break;
+                    }
+                }
 
-	};
+                if (!hasWebSocketUrl) {
+
+                    if (regIceServer.urls.length > 0) {
+
+                        let cloneIceServer = regIceServer.urls[0];
+                        let ip = findIp(cloneIceServer);
+
+                        if (webSocketUrl && ip) {
+                            regIceServer.urls.push(cloneIceServer.replace(ip, webSocketUrl));
+                        }
+                    }
+                }
+
+                regIceServer.username = iceServer.user_name;
+                regIceServer.credential = iceServer.credential;
+
+                peerConnectionConfig.iceServers.push(regIceServer);
+            }
+
+            peerConnectionConfig.iceTransportPolicy = 'relay';
+        } else {
+            // last priority using default ice servers.
+
+            if (instance.iceTransportPolicy) {
+
+                peerConnectionConfig.iceTransportPolicy = instance.iceTransportPolicy;
+            }
+        }
+
+        console.info(logHeader, 'Create Peer Connection With Config', peerConnectionConfig);
+
+        let peerConnection = new RTCPeerConnection(peerConnectionConfig);
+
+        instance.peerConnection = peerConnection;
+
+        // set local stream
+        instance.stream.getTracks().forEach(function (track) {
+
+            console.info(logHeader, 'Add Track To Peer Connection', track);
+            peerConnection.addTrack(track, instance.stream);
+        });
+
+
+        if (checkIOSVersion() >= 15) {
+            const formatNumber = getFormatNumber(offer.sdp, 'H264');
+
+            if (formatNumber > 0) {
+                offer.sdp = removeFormat(offer.sdp, formatNumber);
+            }
+        }
+
+        if (instance.connectionConfig.maxVideoBitrate) {
+
+            // if bandwith limit is set. modify sdp from ome to limit acceptable bandwidth of ome
+            offer.sdp = setBitrateLimit(offer.sdp, 'video', instance.connectionConfig.maxVideoBitrate);
+        }
+
+        if (instance.connectionConfig.sdp && instance.connectionConfig.sdp.appendFmtp) {
+
+            offer.sdp = appendFmtp(offer.sdp);
+        }
+
+        peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
+            .then(function () {
+
+                peerConnection.createAnswer()
+                    .then(function (answer) {
+
+                        console.log(logHeader, 'Answer')
+                        console.log(answer.sdp)
+
+                        if (checkIOSVersion() >= 15) {
+
+                            const formatNumber = getFormatNumber(answer.sdp, 'H264');
+
+                            if (formatNumber > 0) {
+
+                                answer.sdp = removeFormat(answer.sdp, formatNumber);
+                            }
+                        }
+
+                        if (instance.connectionConfig.sdp && instance.connectionConfig.sdp.appendFmtp) {
+
+                            answer.sdp = appendFmtp(answer.sdp);
+                        }
+
+                        peerConnection.setLocalDescription(answer)
+                            .then(function () {
+
+                                sendMessage(instance.webSocket, {
+                                    id: id,
+                                    peer_id: peerId,
+                                    command: 'answer',
+                                    sdp: answer
+                                });
+                            })
+                            .catch(function (error) {
+
+                                console.error('peerConnection.setLocalDescription', error);
+                                errorHandler(error);
+                            });
+                    })
+                    .catch(function (error) {
+
+                        console.error('peerConnection.createAnswer', error);
+                        errorHandler(error);
+                    });
+            })
+            .catch(function (error) {
+
+                console.error('peerConnection.setRemoteDescription', error);
+                errorHandler(error);
+            });
+
+        if (candidates) {
+
+            addIceCandidate(peerConnection, candidates);
+        }
+
+        peerConnection.onicecandidate = function (e) {
+
+            if (e.candidate && e.candidate.candidate) {
+
+                console.info(logHeader, 'Candidate Sent', '\n', e.candidate.candidate, '\n', e);
+
+                sendMessage(instance.webSocket, {
+                    id: id,
+                    peer_id: peerId,
+                    command: 'candidate',
+                    candidates: [e.candidate]
+                });
+            }
+        };
+
+        peerConnection.oniceconnectionstatechange = function (e) {
+
+            let state = peerConnection.iceConnectionState;
+
+            if (instance.callbacks.iceStateChange) {
+
+                console.info(logHeader, 'ICE State', '[' + state + ']');
+                instance.callbacks.iceStateChange(state);
+            }
+
+            if (state === 'connected') {
+
+                if (instance.callbacks.connected) {
+
+                    console.info(logHeader, 'Iceconnection Connected', e);
+                    instance.callbacks.connected(e);
+                }
+            }
+
+            if (state === 'failed' || state === 'disconnected' || state === 'closed') {
+
+                if (instance.callbacks.connectionClosed) {
+
+                    console.error(logHeader, 'Iceconnection Closed', e);
+                    instance.callbacks.connectionClosed('ice', e);
+                }
+            }
+        }
+    }
+
+    function addIceCandidate(peerConnection, candidates) {
+
+        for (let i = 0; i < candidates.length; i++) {
+
+            if (candidates[i] && candidates[i].candidate) {
+
+                let basicCandidate = candidates[i];
+
+                peerConnection.addIceCandidate(new RTCIceCandidate(basicCandidate))
+                    .then(function () {
+
+                    })
+                    .catch(function (error) {
+
+                        console.error('peerConnection.addIceCandidate', error);
+                        errorHandler(error);
+                    });
+            }
+        }
+    }
+
+    // instance methods
+    instance.attachMedia = function (videoElement) {
+
+        instance.videoElement = videoElement;
+    };
+
+    instance.getUserMedia = function (constraints) {
+
+        return getUserMedia(constraints);
+    };
+
+    instance.getDisplayMedia = function (constraints) {
+
+        return getDisplayMedia(constraints);
+    };
+
+    instance.startStreaming = function (connectionUrl, connectionConfig) {
+
+        console.info(logEventHeader, 'Start Streaming');
+
+        if (connectionConfig) {
+
+            instance.connectionConfig = connectionConfig;
+        }
+
+        initWebSocket(connectionUrl);
+    };
+
+    instance.remove = function () {
+
+        instance.removing = true;
+
+        // first release peer connection with ome
+        if (instance.peerConnection) {
+
+            // remove tracks from peer connection
+            instance.peerConnection.getSenders().forEach(function (sender) {
+                instance.peerConnection.removeTrack(sender);
+            });
+
+            instance.peerConnection.close();
+            instance.peerConnection = null;
+            delete instance.peerConnection;
+        }
+
+        // release video, audio stream
+        if (instance.stream) {
+
+            instance.stream.getTracks().forEach(track => {
+
+                track.stop();
+                instance.stream.removeTrack(track);
+            });
+
+            if (instance.videoElement) {
+                instance.videoElement.srcObject = null;
+            }
+
+            instance.stream = null;
+            delete instance.stream;
+        }
+
+        // release websocket
+        if (instance.webSocket) {
+
+            instance.webSocket.close();
+            instance.webSocket = null;
+            delete instance.webSocket;
+        }
+
+        instance.status = 'removed';
+
+        console.info(logEventHeader, 'Removed');
+
+    };
 }
 
 // static methods
-PublishStream.create = (options) => {
+OvenLiveKit.create = function (options) {
 
-  const instance = {};
+    console.info(logEventHeader, 'Create WebRTC Input v1.0.2');
 
-  instance.removing = false;
+    let instance = {};
 
-  initConfig(instance, options);
-  addMethod(instance);
+    instance.removing = false;
 
-  return instance;
+    initConfig(instance, options);
+    addMethod(instance);
+
+    return instance;
 };
 
-export default PublishStream;
+OvenLiveKit.getDevices = async function () {
+
+    await getStreamForDeviceCheck();
+    const deviceInfos = await getDevices();
+    return gotDevices(deviceInfos)
+};
+
+export default OvenLiveKit;

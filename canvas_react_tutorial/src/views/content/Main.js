@@ -80,13 +80,38 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
     return listMicro;
   }
   
+  const config = {
+    callbacks: {
+      error: (e) => {
+        console.error(e);
+      },
+      connected: (e) => {
+        console.log('connected   ', e);
+      },
+      connectionClosed: e => {
+        console.log('connection closed   ', e);
+      },
+      iceStateChange: state => {
+        console.log(state);
+      }
+    }
+  }
+
   useEffect(() => {
     if(publish) {
       try {
         const nameStream = name.replaceAll(' ', '');
-        const publishStream = Publish.create();
+        const publishStream = Publish.create(config);
         publishStream.stream = layerRef.current.getCanvas()._canvas.captureStream(256);
-        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send`);
+        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send&transport=tcp`);
+        
+        // callback message
+        window.parent.postMessage({
+          call: 'publish',
+          value: {
+            rtmpLink: `ws://localhost:3333/app/${nameStream}?direction=send`
+          }
+        }, '*');
       } catch (err) {
         console.error(err);
       }

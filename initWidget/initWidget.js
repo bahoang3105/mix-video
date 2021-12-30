@@ -65,7 +65,7 @@ const initIframe = () => {
       }
     }, '*');
   }
-  iframe.src = 'http://localhost:3005';
+  iframe.src = 'http://localhost:3000';
   parentIframe.appendChild(bar(parentIframe));
   parentIframe.appendChild(iframe);
   document.body.appendChild(parentIframe);
