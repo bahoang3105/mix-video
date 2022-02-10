@@ -15,10 +15,16 @@ const Video = (props) => {
       trRef.current.getLayer().batchDraw();
     }
     const anim = new Animation(() => {
-      shapeRef.current.cache();
+      try {
+        shapeRef.current.cache();
+      } catch (err) {
+        // do nothing
+      }
     }, [shapeRef.current.getLayer()]);
     anim.start();
-    return () => anim.stop();
+    return () => {
+      anim.stop();
+    }
   }, [video, props.isSelected, props.shapeProps.lock]);
 
   const onMove = (x, y) => {
@@ -53,7 +59,7 @@ const Video = (props) => {
     }
   }
   
-  const [img] = useImage('https://cdn1.iconfinder.com/data/icons/hospital-47/64/Stop-photo-sign-picture-prohibited-camera-512.png');
+  const [img] = useImage('https://cdn0.iconfinder.com/data/icons/photo-and-video-14/60/stop__block__camera__no__gadget-512.png', 'anonymous');
 
   return (
     <Fragment>

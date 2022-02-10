@@ -65,6 +65,7 @@ const initIframe = () => {
       }
     }, '*');
   }
+  iframe.allow = 'camera *; microphone *; full-screen *; display-capture *';
   iframe.src = 'http://localhost:3000';
   parentIframe.appendChild(bar(parentIframe));
   parentIframe.appendChild(iframe);

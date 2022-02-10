@@ -68,7 +68,9 @@ const VideoUpload = (props) => {
         }
       }, [shapeRef.current.getLayer()]);
       anim.start();
-      return () => anim.stop();
+      return () => {
+        anim.stop();
+      }
     }
   }, [video, props.shapeProps.pause, props.shapeProps.start]);
 

@@ -24,7 +24,7 @@
 
 .preview-div {
   display: flex;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   font-size: 13px;
   margin-top: 5px;
   padding-top: 5px;
@@ -48,7 +48,7 @@
 
 .label-info {
   display: flex;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   font-size: 13px;
   margin-top: 8px;
   padding: 8px 8px 8px;
@@ -65,7 +65,7 @@
 
 #name-layer {
   padding-left: 5px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   font-size: 13px;
   font-weight: 700;
   text-decoration: underline;
@@ -110,7 +110,7 @@
 
 .name-layer {
   font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .icon-layer {
@@ -336,7 +336,7 @@ input[type="file"] {
   border-bottom-right-radius: 8px;
   font-size: 15px;
   padding: 5px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .video-uploaded {
@@ -358,7 +358,7 @@ input[type="file"] {
   border-left: 5px solid rgba(42,184,90,255);
   animation-name: noti;
   animation-duration: 3s;
-  font-family:"MyriadPro-Light", "Myriad Pro Light", "Myriad Pro";
+  /* font-family:"MyriadPro-Light", "Myriad Pro Light", "Myriad Pro"; */
 }
 
 @keyframes noti {
@@ -394,7 +394,7 @@ input[type="file"] {
 .apply-audio {
   text-align: center;
   border-radius: 15px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   color: black;
   font-weight: 500;
   font-size: 15px;

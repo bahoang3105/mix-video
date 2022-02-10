@@ -68,7 +68,7 @@ export const publish = async (req,res, next) => {
       .save(`rtmp://localhost:19351/${room}/${nameStream}`)
       // when this stream end, delete it from database
       .on('end', async (stdout, stderr) => {
-        const livestreamExists = await LiveStream.destroy({ where: {
+        await LiveStream.destroy({ where: {
           room: room,
           name: nameStream,
         } });

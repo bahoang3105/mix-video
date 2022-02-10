@@ -7,6 +7,7 @@ const ImageModal = (props) => {
   const updateImage = () => {
     props.updateImage(url);
     props.setShowImage(false);
+    setUrl('');
   }
 
   const hide = () => {

@@ -42,7 +42,7 @@ const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
   }
 
   return (
-    <div onClick={save} className='control-button'>
+    <div onClick={save} className='pointer'>
       <AiOutlineSave />
     </div>
   );

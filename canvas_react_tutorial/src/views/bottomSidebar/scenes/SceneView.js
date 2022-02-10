@@ -48,7 +48,7 @@ const SceneView = (props) => {
   return(
     <div
       className={`scene-view${color}`}
-      style={{ backgroundImage: `url(${props.img})`, backgroundSize: 'contain' }}
+      style={{ backgroundImage: `url(${props.img})`, backgroundSize: 'cover' }}
     >
       <div className='click-scene-1' onClick={changeScene}/>
       <div className='buttons-scene-view'>

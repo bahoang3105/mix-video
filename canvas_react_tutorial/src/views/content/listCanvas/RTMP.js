@@ -17,11 +17,17 @@ const RTMP = (props) => {
 
   useEffect(() => {
     const anim = new Animation(() => {
-      // shapeRef.current.cache();
-      }, [shapeRef.current.getLayer()]);
-      anim.start();
-      return () => anim.stop();
-  })
+      try {
+        shapeRef.current.cache();
+      } catch (err) {
+
+      }
+    }, [shapeRef.current.getLayer()]);
+    anim.start();
+    return () => {
+      anim.stop();
+    }
+  });
 
   const onMove = (x, y) => {
     const layer = {

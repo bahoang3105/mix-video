@@ -6,7 +6,7 @@
 }
 
 .bottom-bars {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   color: rgb(107, 107, 107);
   padding-left: 30px;
 }
@@ -14,6 +14,7 @@
 .scene-video-card {
   padding: 3px 15px 8px 15px;
   display: flex;
+  cursor: pointer;
 }
 
 .button-add {
@@ -23,6 +24,7 @@
   border-radius: 8px;
   border: 1px solid rgb(202, 202, 202);
   width: 100px;
+  cursor: pointer;
 }
 
 .bottom-active {
@@ -37,11 +39,13 @@
 
 .bottom-bar-label {
   font-size: 15px;
-  margin: 0 0 0 3px;
+  margin: -1px 0 0 3px;
+  cursor: pointer;
 }
 
 .on-select {
   border-bottom: 2px solid rgb(240, 0, 140);
+  cursor: default;
 }
 
 .scene-view {
@@ -119,7 +123,7 @@
   font-size: 13px;
   margin-top: 10px;
   color: rgb(94, 94, 94);
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
 .add-video-buttons:hover {

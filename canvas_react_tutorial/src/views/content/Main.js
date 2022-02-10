@@ -103,13 +103,14 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
         const nameStream = name.replaceAll(' ', '');
         const publishStream = Publish.create(config);
         publishStream.stream = layerRef.current.getCanvas()._canvas.captureStream(256);
-        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send&transport=tcp`);
+        console.log(publishStream.stream);
+        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send`);
         
         // callback message
         window.parent.postMessage({
           call: 'publish',
           value: {
-            rtmpLink: `ws://localhost:3333/app/${nameStream}?direction=send`
+            rtmpLink: `ws://localhost:3333/app/${nameStream}`
           }
         }, '*');
       } catch (err) {
