@@ -12,7 +12,7 @@ const ButtonAdd = (props) => {
   const [color, setColor] = useState('bottom-inactive');
   const [devices, setDevices] = useState(null);
   useEffect(() => {
-    if(!devices) {
+    if (!devices) {
       getDevices();
     }
   });
@@ -23,7 +23,7 @@ const ButtonAdd = (props) => {
   }
 
   const addEvent = () => {
-    if(props.name === 'scene') {
+    if (props.name === 'scene') {
       props.addScene();
     } else {
       props.addVideo('hiih');
@@ -31,8 +31,8 @@ const ButtonAdd = (props) => {
   }
   const [show, setShow] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
-  if(props.name === 'scene') {
-    return(
+  if (props.name === 'scene') {
+    return (
       <div
         className={`${props.className} ${color}`}
         onMouseOver={() => setColor('bottom-active')}
@@ -41,16 +41,16 @@ const ButtonAdd = (props) => {
         onClick={addEvent}
       >
         <AiOutlinePlusCircle />
-          <label className='bottom-bar-label'>
-            Add {props.name}
-          </label>
+        <label className='bottom-bar-label'>
+          Add {props.name}
+        </label>
       </div>
     );
   }
 
 
   const renderCamera = () => {
-    if(showCamera && devices !== null) {
+    if (showCamera && devices !== null) {
       return (
         <CameraModal
           show={showCamera}
@@ -62,39 +62,39 @@ const ButtonAdd = (props) => {
     }
   }
 
-  return(
+  return (
     <>
-    <div
-      className={`${props.className} ${color}`}
-      onMouseOver={() => setColor('bottom-active')}
-      onMouseOut={() => setColor('bottom-inactive')}
-      style={{ marginLeft: props.margin }}
-      onClick={() => setShow(true)}
-    >
-      <AiOutlinePlusCircle />
-      <label className='bottom-bar-label'>
-        Add {props.name}
-      </label>
-    </div>
-    <Modal
-      show={show}
-      onHide={() =>setShow(false)}
-      backdrop={true}
-      className='modal'
-    >
-      <div className='border-modal'>
-        <Modal.Header>
-          <span className='x-close close-video' onClick={() => setShow(false)}>x</span>
-          <Modal.Title>Add Video</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='choose-add-video'>
-          <Camera setShow={setShow} setShowCamera={setShowCamera} />
-          <Screen setShow={setShow} />
-          <Invite setShow={setShow} />
-        </Modal.Body>
+      <div
+        className={`${props.className} ${color}`}
+        onMouseOver={() => setColor('bottom-active')}
+        onMouseOut={() => setColor('bottom-inactive')}
+        style={{ marginLeft: props.margin }}
+        onClick={() => setShow(true)}
+      >
+        <AiOutlinePlusCircle />
+        <label className='bottom-bar-label'>
+          Add {props.name}
+        </label>
       </div>
-    </Modal>
-    {renderCamera()}
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop={true}
+        className='modal'
+      >
+        <div className='border-modal'>
+          <Modal.Header>
+            <span className='x-close close-video' onClick={() => setShow(false)}>x</span>
+            <Modal.Title>Add Video</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className='choose-add-video'>
+            <Camera setShow={setShow} setShowCamera={setShowCamera} />
+            <Screen setShow={setShow} />
+            <Invite setShow={setShow} />
+          </Modal.Body>
+        </div>
+      </Modal>
+      {renderCamera()}
     </>
   );
 };

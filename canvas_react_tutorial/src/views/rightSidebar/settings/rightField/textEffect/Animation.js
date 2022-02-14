@@ -8,7 +8,7 @@ const Animation = (props) => {
   const left = (props.data.direction === 'left') ? ' on-select-align' : '';
   const right = (props.data.direction === 'right') ? ' on-select-align' : '';
   const decreaseSpeed = () => {
-    if(props.data.speed - 0.5 > 0) {
+    if (props.data.speed - 0.5 > 0) {
       props.setValue('speed', props.data.speed - 0.5);
     }
   }
@@ -19,7 +19,7 @@ const Animation = (props) => {
         Animation
       </div>
       <label className="switch">
-        <input type="checkbox" checked={props.data.animation} onChange={() => props.setValue('animation')}/>
+        <input type="checkbox" checked={props.data.animation} onChange={() => props.setValue('animation')} />
         <span className="slider round"></span>
       </label>
       <div className={`${display}`}>
@@ -31,13 +31,13 @@ const Animation = (props) => {
             <ImArrowRight />
           </div>
           <div className='input-corner' id='input-speed'>
-          <p className='plus-minus plus' onClick={() => props.setValue('speed', props.data.speed + 0.5)}>+</p>
-          <div className='input-button'>
-            Speed
+            <p className='plus-minus plus' onClick={() => props.setValue('speed', props.data.speed + 0.5)}>+</p>
+            <div className='input-button'>
+              Speed
+            </div>
+            <input id='input-value-speed' type='text' size='1' value={props.data.speed} onChange={e => props.setValue('speed', e.target.value)} />
+            <p className='plus-minus minus' onClick={decreaseSpeed}>-</p>
           </div>
-          <input id='input-value-speed' type='text' size='1' value={props.data.speed} onChange={e => props.setValue('speed', e.target.value)} />
-          <p className='plus-minus minus' onClick={decreaseSpeed}>-</p>
-        </div>
         </div>
       </div>
     </div>

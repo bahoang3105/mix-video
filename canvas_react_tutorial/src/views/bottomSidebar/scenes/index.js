@@ -7,23 +7,23 @@ import { useEffect } from 'react';
 const Scenes = ({ scenes, curScene }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if(scenes.length === 0) {
+    if (scenes.length === 0) {
       dispatch(getScenes());
     };
   });
 
   const renderScenes = scenes => {
-    if(!scenes) return;
+    if (!scenes) return;
     const inactiveDelete = (scenes.length < 2) ? true : false;
     const listScene = [];
-    for(let i = 0; i < scenes.length; i++) {
+    for (let i = 0; i < scenes.length; i++) {
       listScene.push(
         <SceneView
-          key={`${scenes[i].num}-view`} 
-          nameScene={scenes[i].name} 
-          img={scenes[i].img} 
-          onSelect={curScene} 
-          id={scenes[i].num} 
+          key={`${scenes[i].num}-view`}
+          nameScene={scenes[i].name}
+          img={scenes[i].img}
+          onSelect={curScene}
+          id={scenes[i].num}
           inactiveDelete={inactiveDelete}
         />
       );
@@ -31,7 +31,7 @@ const Scenes = ({ scenes, curScene }) => {
     return listScene;
   }
 
-  return(
+  return (
     <div className='list-bottom' style={{ overflowX: scenes.length > 6 ? 'scroll' : 'hidden' }}>
       {renderScenes(scenes)}
     </div>

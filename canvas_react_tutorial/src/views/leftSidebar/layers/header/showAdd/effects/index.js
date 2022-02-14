@@ -8,7 +8,7 @@ import VirtualGift from './VirtualGift';
 const EffectButtons = (props) => {
   const [displayEffects, setDisplayEffects] = useState(' none');
   return (
-    <div 
+    <div
       onMouseOver={() => setDisplayEffects('')}
       onMouseOut={() => setDisplayEffects(' none')}
       className='not-allowed'
@@ -20,7 +20,7 @@ const EffectButtons = (props) => {
           <VirtualGift name='Virtual Gift' />
         </div>
         <div className='not-allowed'>
-          <Countdown name='Countdown Timer' />
+          <Countdown name='Countduown Timer' />
         </div>
         <div className='not-allowed'>
           <LuckyDial name='Lucky Dial' />

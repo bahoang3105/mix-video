@@ -14,7 +14,7 @@ const ImageButton = (props) => {
       <span className='space-1 absolute' />
       <div className={`show-button-1${displayImage}`}>
         <div style={{ cursor: 'pointer' }}>
-          <FromURL name='From URL' setShow={props.setShow}/>
+          <FromURL name='From URL' setShow={props.setShow} />
         </div>
         <div style={{ cursor: 'pointer' }}>
           <UploadImage name='Upload Image' setShow={props.setShowUpload} />

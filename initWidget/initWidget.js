@@ -9,7 +9,7 @@ const initPrompt = async () => {
       'secret-key': secretKey,
     },
   });
-  if(check.status === 200) {
+  if (check.status === 200) {
     renderButton();
     localStorage.setItem('secretKey', secretKey);
   } else {
@@ -19,7 +19,7 @@ const initPrompt = async () => {
 }
 
 window.addEventListener('message', e => {
-  switch(e.data.call) {
+  switch (e.data.call) {
     case 'uploadFile': {
       console.log('===============upLoadFile===============');
       console.log(e.data.value);
@@ -53,13 +53,13 @@ window.addEventListener('message', e => {
 }, false);
 
 const initIframe = () => {
-  if(isOpen) return;
+  if (isOpen) return;
   const parentIframe = document.createElement('div');
   parentIframe.style = "width: 95vw; height: 90vh; margin: 0px auto; position: fixed; top: 36px; left: 0px; right: 0px; z-index: 100000; display: block;"
   const iframe = document.createElement('iframe');
   iframe.onload = () => {
-    iframe.contentWindow.postMessage({ 
-      call: 'connect', 
+    iframe.contentWindow.postMessage({
+      call: 'connect',
       value: {
         secretKey: localStorage.getItem('secretKey')
       }
@@ -80,7 +80,7 @@ const initIframe = () => {
 const renderButton = () => {
   const button = document.createElement('div');
   button.innerHTML = 'Open';
-  button.style = "padding: 5px; position: fixed; top: 15px; left: 100px; border: 1px solid rgb(221, 221, 221);"; 
+  button.style = "padding: 5px; position: fixed; top: 15px; left: 100px; border: 1px solid rgb(221, 221, 221);";
   button.addEventListener('click', initIframe);
   document.body.appendChild(button);
 }

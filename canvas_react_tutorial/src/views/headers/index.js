@@ -10,7 +10,7 @@ const Header = (props) => {
     <div className='header'>
       {/* <Logo className='main-logo'/> */}
       <NameStream className='name-stream' name={props.name} setName={props.setName} />
-      <StartLiveButton className='start-live-button' setPublish={props.setPublish}/>
+      <StartLiveButton className='start-live-button' setPublish={props.setPublish} />
     </div>
   )
 }

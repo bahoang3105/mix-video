@@ -39,7 +39,7 @@ const YoutubeCanvas = (props) => {
         ref={shapeRef}
         visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected  && !props.shapeProps.lock}
+        draggable={props.isSelected && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;
@@ -62,7 +62,7 @@ const YoutubeCanvas = (props) => {
       />
       {props.isSelected && !props.shapeProps.lock && (
         <Transformer
-        rotateEnabled={false}
+          rotateEnabled={false}
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
             if (newBox.width < 5 || newBox.height < 5) {

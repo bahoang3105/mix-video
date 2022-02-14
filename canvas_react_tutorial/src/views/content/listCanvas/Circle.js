@@ -26,7 +26,7 @@ const CircleCanvas = (props) => {
   }
 
   const onChange = (x, y, w, h, g) => {
-    if(g === props.shapeProps.g) {
+    if (g === props.shapeProps.g) {
       const layer = {
         ...props.shapeProps,
         x: parseInt(x),
@@ -59,7 +59,7 @@ const CircleCanvas = (props) => {
         radiusY={props.shapeProps.height}
         visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected  && !props.shapeProps.lock}
+        draggable={props.isSelected && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;
@@ -80,7 +80,7 @@ const CircleCanvas = (props) => {
         blue={props.dataScene.blue}
         alpha={props.dataScene.alpha}
       />
-      {props.isSelected  && !props.shapeProps.lock && (
+      {props.isSelected && !props.shapeProps.lock && (
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
