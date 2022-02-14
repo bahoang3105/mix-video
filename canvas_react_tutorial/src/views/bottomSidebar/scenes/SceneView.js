@@ -25,7 +25,7 @@ const SceneView = (props) => {
   };
 
   const checkShow = () => {
-    if (!props.inactiveDelete) {
+    if(!props.inactiveDelete) {
       setShowDelete(true);
     }
   }
@@ -45,12 +45,12 @@ const SceneView = (props) => {
 
   const color = (props.id === props.onSelect) ? ' bottom-active' : '';
 
-  return (
+  return(
     <div
       className={`scene-view${color}`}
       style={{ backgroundImage: `url(${props.img})`, backgroundSize: 'cover' }}
     >
-      <div className='click-scene-1' onClick={changeScene} />
+      <div className='click-scene-1' onClick={changeScene}/>
       <div className='buttons-scene-view'>
         <div className='button-scene-view hover' onClick={() => setShowImage(true)}>
           <AiOutlineCamera />
@@ -64,7 +64,7 @@ const SceneView = (props) => {
         </div>
         <DeleteModal setShowDelete={setShowDelete} showDelete={showDelete} onClickDeleteOK={onClickDeleteOK} />
       </div>
-      <div className='click-scene-2' onClick={changeScene} />
+      <div className='click-scene-2' onClick={changeScene}/>
       <span className='name-scene-view' onDoubleClick={() => setShow(true)}>
         {props.nameScene}
       </span>

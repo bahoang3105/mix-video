@@ -14,8 +14,8 @@ const useRTMP = (stream) => {
     const room = streamParams[3];
     const nameStream = streamParams[4];
     const flvPlayer = flvjs.createPlayer({
-      type: 'flv',
-      url: `http://localhost:8008/${room}/${nameStream}.flv`,
+        type: 'flv',
+        url: `http://localhost:8008/${room}/${nameStream}.flv`,
     });
     flvPlayer.attachMediaElement(video);
     flvPlayer.load();

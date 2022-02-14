@@ -72,7 +72,7 @@ const listHistory = (state = initialState, action) => {
       }
     }
     case CHANGE_LAYER: {
-      if (length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
+      if(length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
         return {
           history: [
             ...state.history.slice(0, length - state.num),
@@ -125,7 +125,7 @@ const listHistory = (state = initialState, action) => {
       }
     }
     case CHANGE_SCENE: {
-      if (length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
+      if(length - state.num > 0 && state.history[length - state.num - 1] !== 'layer scene' && state.history[length - state.num - 1].substring(6) === action.payload.type) {
         return {
           history: [
             ...state.history.slice(0, length - state.num),

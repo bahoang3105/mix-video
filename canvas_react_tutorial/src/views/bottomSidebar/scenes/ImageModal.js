@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 
 const ImageModal = (props) => {
   const [url, setUrl] = useState('');
-
+  
   const updateImage = () => {
     props.updateImage(url);
     props.setShowImage(false);

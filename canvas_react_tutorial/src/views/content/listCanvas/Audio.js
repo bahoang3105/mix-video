@@ -27,7 +27,7 @@ const Audio = (props) => {
   }
 
   const onChange = (x, y, w, h, g) => {
-    if (g === props.shapeProps.g) {
+    if(g === props.shapeProps.g) {
       const layer = {
         ...props.shapeProps,
         x: parseInt(x),
@@ -60,7 +60,7 @@ const Audio = (props) => {
         {...props.shapeProps}
         image={img}
         visible={!props.shapeProps.hidden}
-        draggable={props.isSelected && !props.shapeProps.lock}
+        draggable={props.isSelected  && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;

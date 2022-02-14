@@ -1,5 +1,5 @@
 const stopStream = stream => {
-  if (stream === null) return;
+  if(stream === null) return;
   stream.getTracks().forEach(track => track.stop());
 }
 

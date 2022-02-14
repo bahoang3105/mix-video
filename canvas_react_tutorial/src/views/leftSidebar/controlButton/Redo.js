@@ -5,19 +5,19 @@ import { redo } from "../../../redux/actions";
 const Redo = (props) => {
   const style = (props.num === 0) ? 'not-allowed' : 'pointer';
   const redoHistory = () => {
-    if (props.num > 0) {
+    if(props.num > 0) {
       props.redo();
     }
-    if (props.layer === 1) {
+    if(props.layer === 1) {
       props.setRedoLayer(true);
     }
-    if (props.scene === 1) {
+    if(props.scene === 1) {
       props.setRedoScene(true);
     }
   }
 
   return (
-    <div
+    <div 
       className={style}
       onClick={redoHistory}
     >

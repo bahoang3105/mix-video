@@ -4,9 +4,9 @@ import VideoView from "./VideoView";
 
 const Videos = ({ videos }) => {
   const renderVideos = videos => {
-    if (!videos) return;
+    if(!videos) return;
     const listVideo = [];
-    for (let i = 0; i < videos.length; i++) {
+    for(let i = 0; i < videos.length; i++) {
       listVideo.push(
         <VideoView
           key={`video-${videos[i].num}`}
@@ -24,7 +24,7 @@ const Videos = ({ videos }) => {
     return listVideo;
   };
 
-  return (
+  return(
     <div className='list-bottom' style={{ overflowX: videos.length > 6 ? 'scroll' : 'hidden' }}>
       {renderVideos(videos)}
     </div>

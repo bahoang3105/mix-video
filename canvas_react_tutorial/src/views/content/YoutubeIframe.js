@@ -10,14 +10,14 @@ const YoutubeIframe = (props) => {
   const zIndex = (props.curLayer === props.data.num) ? 10 : 0;
   const key = keyYoutube(props.data.src);
   const render = () => {
-    if (props.data.start) {
+    if(props.data.start) {
       return (
-        <div
+        <div 
           style={{
             opacity: props.data.opacity,
             zIndex: -1,
             display: props.data.hidden ? 'none' : '',
-          }}
+          }} 
         >
           <YouTube
             video={key}
@@ -30,7 +30,7 @@ const YoutubeIframe = (props) => {
             modestBranding={true}
             width={props.data.width}
             height={props.data.height}
-            volume={props.data.volume / 100}
+            volume={props.data.volume/100}
             loop={props.data.loop}
           />
         </div>
@@ -45,7 +45,7 @@ const YoutubeIframe = (props) => {
   }
 
   return (
-    <div
+    <div 
       style={{
         position: 'absolute',
         marginLeft: props.data.x + 'px',

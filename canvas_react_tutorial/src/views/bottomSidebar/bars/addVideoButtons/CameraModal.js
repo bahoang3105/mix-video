@@ -13,9 +13,9 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
   const [label, setLabel] = useState(cameraDevices.length === 0 ? null : cameraDevices[0].deviceId);
 
   const renderListVideo = () => {
-    if (!cameraDevices) return;
+    if(!cameraDevices) return;
     const list = [];
-    for (let i = 0; i < cameraDevices.length; i++) {
+    for(let i = 0; i < cameraDevices.length; i++) {
       list.push(<option value={cameraDevices[i].deviceId} key={cameraDevices[i].deviceId}>{cameraDevices[i].label ? cameraDevices[i].label : 'Camera'}</option>);
     }
     return list;
@@ -23,11 +23,11 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
 
   const renderListAudio = () => {
     const list = [];
-    if (!microDevices) {
+    if(!microDevices) {
       list.push(<option value={false} key='mute'>No microphone</option>);
       return list;
     };
-    for (let i = 0; i < microDevices.length; i++) {
+    for(let i = 0; i < microDevices.length; i++) {
       list.push(<option value={microDevices[i].label ? microDevices[i].label : 'Default'} key={microDevices[i].deviceId}>{microDevices[i].label ? microDevices[i].label : 'Default'}</option>);
     }
     list.push(<option value={false} key='mute'>No microphone</option>);
@@ -40,29 +40,29 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
     videoRef.current.srcObject = stream;
   }
 
-  if (cameraDevices !== null && microDevices !== null) {
+  if(cameraDevices !== null && microDevices !== null) {
     getVideo(camera, micro);
   }
 
   const addCamera = () => {
-    if (label === null) {
-      alert('We need your permission to use the camera and microphone!');
-      setShow(false);
-      return;
+    if(label === null) {
+     alert('We need your permission to use the camera and microphone!');
+     setShow(false);
+     return; 
     }
     addVideo('camera', label, {
       src: videoRef.current.srcObject,
-      height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height / 2,
-      width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width / 2,
+      height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height/2,
+      width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width/2,
     });
     setShow(false);
-    if (props.curScene) {
+    if(props.curScene) {
       addLayer('camera', props.curScene, {
-        name: label,
-        type: 'camera',
+        name: label, 
+        type: 'camera', 
         src: videoRef.current.srcObject,
-        height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height / 2,
-        width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width / 2,
+        height: videoRef.current.srcObject.getVideoTracks()[0].getSettings().height/2,
+        width: videoRef.current.srcObject.getVideoTracks()[0].getSettings().width/2,
       });
     }
   }
@@ -107,7 +107,7 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
           <div className='select-devices'>
             Microphone
           </div>
-          <select
+          <select 
             className='select-video-audio'
             defaultValue={false}
             onChange={e => setMicro(e.target.key)}

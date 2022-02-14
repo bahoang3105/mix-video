@@ -14,7 +14,7 @@ const VideoUpload = (props) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [props.isSelected, props.shapeProps.lock]);
-
+  
   const onMove = (x, y) => {
     const layer = {
       ...props.shapeProps,
@@ -39,7 +39,7 @@ const VideoUpload = (props) => {
   const video = useMemo(() => {
     const element = document.createElement('video');
     element.setAttribute('crossOrigin', 'anonymous');
-    element.volume = props.shapeProps.volume / 100;
+    element.volume = props.shapeProps.volume/100;
     element.loop = props.shapeProps.loop;
     element.controls = false;
     element.src = props.shapeProps.src;
@@ -54,15 +54,15 @@ const VideoUpload = (props) => {
   })
 
   useEffect(() => {
-    if (props.shapeProps.start) {
-      if (!props.shapeProps.pause) {
+    if(props.shapeProps.start) {
+      if(!props.shapeProps.pause) {
         video.play();
       } else {
         video.pause()
       }
       const anim = new Animation(() => {
-        if (props.shapeProps.start) {
-          if (shapeRef.current !== null) {
+        if(props.shapeProps.start) {
+          if(shapeRef.current !== null) {
             try {
               shapeRef.current.cache();
             } catch (err) {
@@ -104,7 +104,7 @@ const VideoUpload = (props) => {
         rotation={props.shapeProps.g}
         visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected && !props.shapeProps.lock}
+        draggable={props.isSelected  && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {
           const node = shapeRef.current;

@@ -5,11 +5,11 @@ import Transparency from "./Transparency";
 
 const General = (props) => {
   const setValue = (type, value) => {
-    if (!props.data.lock) {
+    if(!props.data.lock) {
       props.setValue(type, value);
     }
   }
-  return (
+  return(
     <>
       <div className='right-field'>
         <div className='row-field'>

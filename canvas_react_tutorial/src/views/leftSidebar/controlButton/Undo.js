@@ -5,7 +5,7 @@ import { undo } from '../../../redux/actions';
 const Undo = (props) => {
   const style = (props.history.length - props.num <= 0) ? 'not-allowed' : 'pointer';
   const undoHistory = () => {
-    if (props.history.length - props.num > 0) {
+    if(props.history.length - props.num > 0) {
       props.undo();
     }
   }
@@ -13,7 +13,7 @@ const Undo = (props) => {
   return (
     <div
       className={style}
-      onClick={undoHistory}
+      onClick={undoHistory}  
     >
       <AiOutlineUndo />
     </div>

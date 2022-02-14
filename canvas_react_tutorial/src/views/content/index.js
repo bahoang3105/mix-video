@@ -3,8 +3,8 @@ import Main from './Main';
 
 
 const Content = ({ name, size, publish }) => {
-  if (size.width !== 0) {
-    return (
+  if(size.width !== 0) {
+    return(
       <>
         <Main size={size} publish={publish} name={name} />
       </>

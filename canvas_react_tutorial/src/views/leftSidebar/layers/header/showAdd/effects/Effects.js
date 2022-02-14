@@ -20,7 +20,7 @@ const Effects = (props) => {
         <IoMdArrowDropleft />
       </div>
     </div>
-
+    
   );
 }
 

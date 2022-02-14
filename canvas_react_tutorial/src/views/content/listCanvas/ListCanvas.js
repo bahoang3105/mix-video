@@ -13,14 +13,14 @@ import RTMP from './RTMP';
 
 const ListCanvas = ({ layers, curLayer, curScene, changeLayer, onSelect, dataScene }) => {
   const renderCanvas = (layers, curLayer, curScene) => {
-    const filters = dataScene.grayscale ?
+    const filters = dataScene.grayscale ? 
       [Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSL, Konva.Filters.RGBA, Konva.Filters.Blur, Konva.Filters.Grayscale] :
       [Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSL, Konva.Filters.RGBA, Konva.Filters.Blur];
-    if (!layers) return;
+    if(!layers) return;
     const listCanvas = [];
-    for (let i = layers.length - 1; i >= 0; i--) {
-      if (layers[i].scene === curScene) {
-        switch (layers[i].type) {
+    for(let i = layers.length - 1; i >= 0; i--) {
+      if(layers[i].scene === curScene) {
+        switch(layers[i].type) {
           case 'rectangle': {
             listCanvas.push(
               <Rectangle
