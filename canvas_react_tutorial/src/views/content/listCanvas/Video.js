@@ -37,7 +37,7 @@ const Video = (props) => {
   }
 
   const onChange = (x, y, w, h, g) => {
-    if(g === props.shapeProps.g) {
+    if (g === props.shapeProps.g) {
       const layer = {
         ...props.shapeProps,
         x: parseInt(x),
@@ -58,7 +58,7 @@ const Video = (props) => {
       props.changeLayer(layer);
     }
   }
-  
+
   const [img] = useImage('https://cdn0.iconfinder.com/data/icons/photo-and-video-14/60/stop__block__camera__no__gadget-512.png', 'anonymous');
 
   return (
@@ -69,7 +69,7 @@ const Video = (props) => {
         image={props.shapeProps.camera ? video : img}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
-        draggable={props.isSelected  && !props.shapeProps.lock}
+        draggable={props.isSelected && !props.shapeProps.lock}
         visible={!props.shapeProps.hidden}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={() => {

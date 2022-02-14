@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import { getCurScene } from "../../../redux/selectors";
 import stopStream from './stopStream';
 
-const VideoView = ({ curScene, ...props}) => {
+const VideoView = ({ curScene, ...props }) => {
   const [show, setShow] = useState(false);
   const videoRef = useRef(null);
-  
+
   useEffect(() => {
     videoRef.current.srcObject = props.src;
   });
@@ -33,7 +33,7 @@ const VideoView = ({ curScene, ...props}) => {
 
   return (
     <div className='scene-view video-view'>
-      <div  className={`video-content${props.onCamera ? '' : ' display-none'}`}>
+      <div className={`video-content${props.onCamera ? '' : ' display-none'}`}>
         <video width="170" height="110" className='video' ref={videoRef} type="video/mp4" autoPlay muted>
           Your browser does not support the video tag.
         </video>

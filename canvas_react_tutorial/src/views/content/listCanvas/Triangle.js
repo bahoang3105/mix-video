@@ -26,7 +26,7 @@ const Triangle = (props) => {
   });
 
   const onChange = (x, y, w, h, g) => {
-    if(g === props.shapeProps.g) {
+    if (g === props.shapeProps.g) {
       const layer = {
         ...props.shapeProps,
         x: parseInt(x),
@@ -55,18 +55,18 @@ const Triangle = (props) => {
         onClick={props.onSelect}
         ref={shapeRef}
         fill={props.shapeProps.background}
-        points={[props.shapeProps.width/2, 0, 0, props.shapeProps.height, props.shapeProps.width, props.shapeProps.height]}
+        points={[props.shapeProps.width / 2, 0, 0, props.shapeProps.height, props.shapeProps.width, props.shapeProps.height]}
         closed={true}
         rotation={props.shapeProps.g}
         visible={!props.shapeProps.hidden}
         {...props.shapeProps}
-        draggable={props.isSelected  && !props.shapeProps.lock}
+        draggable={props.isSelected && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
-          
+
           node.scaleX(1);
           node.scaleY(1);
           onChange(node.x(), node.y(), node.width() * scaleX, node.height() * scaleY, node.rotation());

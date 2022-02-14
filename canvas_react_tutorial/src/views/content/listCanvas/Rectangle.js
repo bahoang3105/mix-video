@@ -26,7 +26,7 @@ const Rectangle = (props) => {
   });
 
   const onChange = (x, y, w, h, g) => {
-    if(g === props.shapeProps.g) {
+    if (g === props.shapeProps.g) {
       const layer = {
         ...props.shapeProps,
         x: parseInt(x),
@@ -57,7 +57,7 @@ const Rectangle = (props) => {
         visible={!props.shapeProps.hidden}
         rotation={props.shapeProps.g}
         {...props.shapeProps}
-        draggable={props.isSelected  && !props.shapeProps.lock}
+        draggable={props.isSelected && !props.shapeProps.lock}
         onDragEnd={(e) => onMove(e.target.x(), e.target.y())}
         onTransformEnd={(e) => {
           const node = shapeRef.current;

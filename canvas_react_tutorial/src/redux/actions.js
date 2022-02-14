@@ -56,7 +56,7 @@ export const addStream = (link, curScene) => {
           }
         }
       })
-    } catch(err) {
+    } catch (err) {
       alert('This stream does not exist!');
     }
   }
@@ -248,7 +248,7 @@ export const switchVideo = video => ({
   }
 });
 
-export const moveLayer = ( sourceNum, destinationNum) => ({
+export const moveLayer = (sourceNum, destinationNum) => ({
   type: MOVE_LAYER,
   payload: {
     sourceNum,

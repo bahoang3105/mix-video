@@ -9,12 +9,12 @@ import {
   getNumScene,
 } from '../../../redux/selectors';
 
-const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti}) => {
+const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti }) => {
   const save = async () => {
     const saveLayer = [];
-    for(let i = 0; i < layers.length; i++) {
-      if(layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'rtmp' && layers[i].type !== 'video') {
-        if(layers[i].type === 'youtube' || layers[i].type === 'video' || layers[i].type === 'audio') {
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'rtmp' && layers[i].type !== 'video') {
+        if (layers[i].type === 'youtube' || layers[i].type === 'video' || layers[i].type === 'audio') {
           saveLayer.push({
             ...layers[i],
             start: false,

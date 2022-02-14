@@ -11,7 +11,7 @@ const Audio = (props) => {
       style={{ cursor: 'default' }}
     >
       <BsMusicNoteBeamed />
-      <span className='space'/>
+      <span className='space' />
       {props.name}
       <div className={isSelect === '' ? 'arrow-select' : 'none-arrow'}>
         <IoMdArrowDropright />
