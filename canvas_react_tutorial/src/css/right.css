@@ -418,7 +418,7 @@ input:checked + .slider:before {
 }
 
 #loop {
-  margin: -22px 0 0 220px;
+  margin: -25px 0 0 220px;
 }
 
 .on-select-play-pause {
