@@ -63,7 +63,11 @@ const VideoUpload = (props) => {
       const anim = new Animation(() => {
         if(props.shapeProps.start) {
           if(shapeRef.current !== null) {
-            shapeRef.current.cache();
+            try {
+              shapeRef.current.cache();
+            } catch (err) {
+              // do nothing
+            }
           }
         }
       }, [shapeRef.current.getLayer()]);
