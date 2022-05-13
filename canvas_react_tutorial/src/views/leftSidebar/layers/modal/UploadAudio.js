@@ -3,13 +3,21 @@ import { deleteFileAction, renameFileAction } from './Action';
 
 const UploadAudio = ({ data, setData, ...props }) => {
   const deleteFile = async (fileKey) => {
-    const newData = await deleteFileAction(fileKey, data);
-    setData(newData);
+    try {
+      const newData = await deleteFileAction(fileKey, data);
+      setData(newData);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   const renameFile = async (fileKey, fileName) => {
-    const newData = await renameFileAction(fileKey, fileName, data);
-    setData(newData);
+    try {
+      const newData = await renameFileAction(fileKey, fileName, data);
+      setData(newData);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (

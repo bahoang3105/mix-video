@@ -8,8 +8,12 @@ const UploadImage = ({ data, setData, ...props }) => {
   }
 
   const renameFile = async (fileKey, fileName) => {
-    const newData = await renameFileAction(fileKey, fileName, data);
-    setData(newData);
+    try {
+      const newData = await renameFileAction(fileKey, fileName, data);
+      setData(newData);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (

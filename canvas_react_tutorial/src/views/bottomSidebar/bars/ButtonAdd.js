@@ -18,8 +18,12 @@ const ButtonAdd = (props) => {
   });
 
   const getDevices = async () => {
-    const listDevice = await navigator.mediaDevices.enumerateDevices();
-    setDevices(listDevice);
+    try {
+      const listDevice = await navigator.mediaDevices.enumerateDevices();
+      setDevices(listDevice);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   const addEvent = () => {

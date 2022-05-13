@@ -2,17 +2,29 @@
   "name": "canvas_react_tutorial",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "HoangNB",
+    "email": "bahoang3105@gmail.com",
+    "url": "https://github.com/bahoang3105/"
+  },
   "dependencies": {
+    "@babel/core": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@u-wave/react-youtube": "^0.7.2",
+    "acorn": "^8.7.0",
     "axios": "^0.23.0",
+    "babel-loader": "^8.2.3",
     "flv.js": "^1.6.2",
     "html-webpack-plugin": "^5.5.0",
     "immer": "^9.0.12",
     "konva": "^8.3.2",
     "node-forge": "^1.2.1",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "os-utils": "0.0.14",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.6.4",
@@ -22,21 +34,52 @@
     "react-konva-utils": "^0.2.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
     "reactjs-popup": "^2.0.5",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
+    "smalltalk": "^4.0.7",
     "use-image": "^1.0.8",
     "web-vitals": "^1.1.2",
     "yt-player": "^3.5.0"
   },
+  "main": "build/electron.js",
+  "homepage": ".",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "dev": "webpack-dev-server --open",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "webpack --config webpack/base.config.js",
+    "electron": "webpack --config webpack/base.config.js && electron .",
+    "dist": "webpack --config webpack/base.config.js && electron-builder"
+  },
+  "build": {
+    "appId": "hoang.nb.mix.video",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "zip",
+        "dmg"
+      ]
+    },
+    "protocols": [
+      {
+        "name": "mix-video",
+        "schemes": [
+          "mix-video"
+        ]
+      }
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -58,10 +101,14 @@
   },
   "devDependencies": {
     "css-loader": "^6.6.0",
+    "electron": "^17.0.1",
+    "electron-builder": "^22.14.13",
     "file-loader": "^6.2.0",
+    "react-script": "^2.0.5",
     "style-loader": "^3.3.1",
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2",
+    "webpack-config": "^7.5.0",
     "webpack-dev-server": "^4.7.4"
   }
 }

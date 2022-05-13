@@ -1,7 +1,6 @@
 import { AiOutlineSave } from "react-icons/ai";
 import { connect } from "react-redux";
 import axios from 'axios';
-import BaseUrl from "../../../BaseUrl";
 import {
   getListLayer,
   getListScene,
@@ -11,34 +10,39 @@ import {
 
 const Save = ({ layers, scenes, numLayer, numScene, setDisplayNoti }) => {
   const save = async () => {
-    const saveLayer = [];
-    for (let i = 0; i < layers.length; i++) {
-      if (layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'rtmp' && layers[i].type !== 'video') {
-        if (layers[i].type === 'youtube' || layers[i].type === 'video' || layers[i].type === 'audio') {
-          saveLayer.push({
-            ...layers[i],
-            start: false,
-            pause: true,
-          });
-        } else {
-          saveLayer.push(layers[i]);
+    try {
+      const saveLayer = [];
+      for (let i = 0; i < layers.length; i++) {
+        if (layers[i].type !== 'camera' && layers[i].type !== 'screen' && layers[i].type !== 'micro' && layers[i].type !== 'rtmp' && layers[i].type !== 'video') {
+          if (layers[i].type === 'youtube' || layers[i].type === 'video' || layers[i].type === 'audio') {
+            saveLayer.push({
+              ...layers[i],
+              start: false,
+              pause: true,
+            });
+          } else {
+            saveLayer.push(layers[i]);
+          }
         }
       }
+      await axios.post(process.env.API_URL + '/app/save', {
+        layers: saveLayer,
+        scenes,
+        numLayer,
+        numScene,
+        liveId: localStorage.getItem('liveId'),
+      }, {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey')
+        }
+      });
+      setDisplayNoti(true);
+      setTimeout(() => {
+        setDisplayNoti(false);
+      }, 3000);
+    } catch (e) {
+      console.error(e);
     }
-    await axios.put(BaseUrl + '/app/save', {
-      layers: saveLayer,
-      scenes,
-      numLayer,
-      numScene,
-    }, {
-      headers: {
-        'secret-key': localStorage.getItem('secretKey')
-      }
-    });
-    setDisplayNoti(true);
-    setTimeout(() => {
-      setDisplayNoti(false);
-    }, 3000);
   }
 
   return (

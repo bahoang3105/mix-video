@@ -5,14 +5,18 @@ import { addVideo } from '../../../../redux/actions';
 
 const Screen = (props) => {
   const changeModal = async () => {
-    props.setShow(false);
-    const stream = await getDisplayMedia();
-    if (stream) {
-      props.addVideo('screen', 'Screen sharing ', {
-        src: stream,
-        height: stream.getVideoTracks()[0].getSettings().height / 2,
-        width: stream.getVideoTracks()[0].getSettings().width / 2,
-      });
+    try {
+      props.setShow(false);
+      const stream = await getDisplayMedia();
+      if (stream) {
+        props.addVideo('screen', 'Screen sharing ', {
+          src: stream,
+          height: stream.getVideoTracks()[0].getSettings().height / 2,
+          width: stream.getVideoTracks()[0].getSettings().width / 2,
+        });
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 

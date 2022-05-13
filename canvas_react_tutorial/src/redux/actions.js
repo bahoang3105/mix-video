@@ -1,5 +1,4 @@
 import axios from 'axios';
-import BaseUrl from './../BaseUrl';
 import {
   ADD_LAYER,
   ADD_SCENE,
@@ -34,6 +33,8 @@ import {
   // RENEW_URL,
 } from './actionTypes';
 
+const API_URL = process.env.API_URL;
+
 export const addLayer = (type, curScene, details) => ({
   type: ADD_LAYER,
   payload: {
@@ -46,7 +47,7 @@ export const addLayer = (type, curScene, details) => ({
 export const addStream = (link, curScene) => {
   return async (dispatch) => {
     try {
-      await axios.post('http://localhost:3001/rtmp/publish', { link });
+      await axios.post(API_URL + '/rtmp/publish', { link });
       dispatch({
         type: ADD_STREAM,
         payload: {
@@ -187,20 +188,26 @@ export const duplicateScene = (scene, numScene) => ({
 export const getLayers = () => {
   return async (dispatch) => {
     try {
-      const layers = await axios.get(BaseUrl + '/app/getLayer', {
+      const layers = await axios.get(API_URL + '/app/getLayer', {
         headers: {
           'secret-key': localStorage.getItem('secretKey'),
+        },
+        params: {
+          liveId: localStorage.getItem('liveId'),
         }
       });
-      const num = await axios.get(BaseUrl + '/app/getLayerNum', {
+      const num = await axios.get(API_URL + '/app/getLayerNum', {
         headers: {
           'secret-key': localStorage.getItem('secretKey'),
+        },
+        params: {
+          liveId: localStorage.getItem('liveId'),
         }
       });
       dispatch({
         type: GET_LAYERS,
         payload: {
-          layers: layers.data.layers,
+          layers: typeof layers.data.layers === 'string' ? JSON.parse(layers.data.layers) : layers.data.layers,
           num: num.data.layerNum,
           history: [{
             layers: layers.data.layers,
@@ -218,25 +225,31 @@ export const getLayers = () => {
 export const getScenes = () => {
   return async (dispatch) => {
     try {
-      const scenes = await axios.get(BaseUrl + '/app/getScene', {
+      const scenes = await axios.get(API_URL + '/app/getScene', {
         headers: {
           'secret-key': localStorage.getItem('secretKey'),
+        },
+        params: {
+          liveId: localStorage.getItem('liveId'),
         }
       });
-      const num = await axios.get(BaseUrl + '/app/getSceneNum', {
+      const num = await axios.get(API_URL + '/app/getSceneNum', {
         headers: {
           'secret-key': localStorage.getItem('secretKey'),
+        },
+        params: {
+          liveId: localStorage.getItem('liveId'),
         }
       });
       dispatch({
         type: GET_SCENES,
         payload: {
-          scenes: scenes.data.scenes,
+          scenes: typeof scenes.data.scenes === 'string' ? JSON.parse(scenes.data.scenes) : scenes.data.scenes,
           num: num.data.sceneNum,
         }
       });
     } catch (err) {
-      console.error(err.response.data.message);
+      console.error(err);
     }
   };
 };

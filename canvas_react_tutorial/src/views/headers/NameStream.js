@@ -1,20 +1,23 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
-import BaseUrl from '../../BaseUrl';
 
 const NameStream = ({ name, setName, ...props }) => {
   const [display, setDisplay] = useState(true);
   const [inputName, setInputName] = useState(name);
 
   const allowChangeName = async () => {
-    setName(inputName);
-    await axios.post(BaseUrl + '/app/updateName', { newName: inputName }, {
-      headers: {
-        'secret-key': localStorage.getItem('secretKey'),
-      }
-    })
-    setDisplay(!display);
+    try {
+      setName(inputName);
+      await axios.post(process.env.API_URL + '/app/updateName', { newName: inputName, liveId: localStorage.getItem('liveId'), }, {
+        headers: {
+          'secret-key': localStorage.getItem('secretKey'),
+        }
+      })
+      setDisplay(!display);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   const deniChangeName = () => {

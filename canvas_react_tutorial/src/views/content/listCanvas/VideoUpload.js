@@ -44,8 +44,7 @@ const VideoUpload = (props) => {
     element.controls = false;
     element.src = props.shapeProps.src;
     return element;
-    // eslint-disable-next-line
-  }, []);
+  }, [props.shapeProps.loop, props.shapeProps.src]);
 
   useEffect(() => {
     video.onloadeddata = () => {

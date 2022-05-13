@@ -36,8 +36,12 @@ const CameraModal = ({ setShow, show, cameraDevices, microDevices, addVideo, add
 
 
   const getVideo = async (camera, microphone) => {
-    const stream = await getUserMedia(camera, microphone);
-    videoRef.current.srcObject = stream;
+    try {
+      const stream = await getUserMedia(camera, microphone);
+      videoRef.current.srcObject = stream;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   if (cameraDevices !== null && microDevices !== null) {

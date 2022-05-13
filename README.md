@@ -8,7 +8,7 @@ Install node modules for these folders
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -36,13 +36,12 @@ npm run dev
 ```
 Start frontend:
 ```
-npm run dev
+npm run electron
 ```
-Start widget:
+Install electron app:
 ```
-cd initWidget && http-server .
+npm run dist
 ```
-Navigate Web Browser to http://localhost:8000/ to view project. (Maybe port 8001, 8002 or another)
 You will see a message asking you to enter the secret key. You need a secret key in the database to use this widget.
 
 Create a secret key (Port backend: 3001): 

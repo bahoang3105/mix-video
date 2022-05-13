@@ -10,7 +10,6 @@ import UploadAudio from "../modal/UploadAudio";
 import MicroModal from "./MicroModal";
 import AddRTMP from "../modal/AddRTMP";
 import axios from "axios";
-import BaseUrl from "../../../../BaseUrl";
 
 const ButtonAdd = (props) => {
   const [displayAdd, setDisplayAdd] = useState(' none');
@@ -38,9 +37,12 @@ const ButtonAdd = (props) => {
   const getFiles = async () => {
     try{
       if(dataImage === null && dataAudio === null) {
-        const listFile = await axios.get(BaseUrl + '/file/getFiles', {
+        const listFile = await axios.get(process.env.API_URL + '/file/getFiles', {
           headers: {
             'secret-key': localStorage.getItem('secretKey'),
+          },
+          params: {
+            liveId: localStorage.getItem('liveId'),
           }
         });
         const listAudioFile = listFile.data.files.filter(file => listAudioType.includes(file.fileType));
@@ -58,8 +60,12 @@ const ButtonAdd = (props) => {
   });
 
   const getDevices = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    setDevices(devices);
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      setDevices(devices);
+    } catch (e) {
+      console.error(e);
+    }
   }
   
   const renderCamera = () => {

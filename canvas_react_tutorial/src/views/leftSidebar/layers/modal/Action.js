@@ -1,9 +1,8 @@
 import axios from "axios";
-import BaseUrl from "../../../../BaseUrl";
 
 export const deleteFileAction = async (fileKey, data) => {
   try {
-    await axios.delete(BaseUrl + '/file/deleteFile', {
+    await axios.delete(process.env.API_URL + '/file/deleteFile', {
       headers: {
         'secret-key': localStorage.getItem('secretKey'),
       },
@@ -24,7 +23,7 @@ export const deleteFileAction = async (fileKey, data) => {
 
 export const renameFileAction = async (fileKey, fileName, data) => {
   try {
-    await axios.put(BaseUrl + '/file/renameFile', {
+    await axios.put(process.env.API_URL + '/file/renameFile', {
       fileKey,
       fileName,
     }, {

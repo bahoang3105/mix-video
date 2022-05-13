@@ -117,6 +117,7 @@
   border: 1px solid rgb(212, 212, 212);
   padding: 35px 5px 25px 5px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .name-button-add-video {

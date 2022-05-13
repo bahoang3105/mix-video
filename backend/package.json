@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r esm app.js",
-    "start": "node -r esm app.js"
+    "dev": "nodemon -r esm src/app.js",
+    "start": "node -r esm src/app.js",
+    "build": "babel src -d build --copy-files --minified --no-comments"
   },
   "author": "Hoang Nguyen",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.1007.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -21,6 +21,14 @@
     "mysql2": "^2.3.2",
     "nodemon": "^2.0.13",
     "sequelize": "^6.8.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "babel-plugin-module-resolver": "^4.1.0"
   }
 }

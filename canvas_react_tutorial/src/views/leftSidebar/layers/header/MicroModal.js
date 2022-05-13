@@ -29,8 +29,12 @@ const MicroModal = ({ show, setShow, microDevices, addLayer, ...props }) => {
   }
 
   const getAudio = async (microphone) => {
-    const stream = await getUserMicro(microphone);
-    audioRef.current.srcObject = stream;
+    try {
+      const stream = await getUserMicro(microphone);
+      audioRef.current.srcObject = stream;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   const closeStream = () => {

@@ -1,20 +1,24 @@
 let isOpen = false;
 
 const initPrompt = async () => {
-  const secretKeySaved = localStorage.getItem('secretKey');
-  const secretKey = secretKeySaved ? secretKeySaved : prompt('Please enter the secret key');
-  let check = await fetch('http://localhost:3001/app/verifyKey', {
-    method: 'GET',
-    headers: {
-      'secret-key': secretKey,
-    },
-  });
-  if (check.status === 200) {
-    renderButton();
-    localStorage.setItem('secretKey', secretKey);
-  } else {
-    alert('Invalid key');
-    localStorage.removeItem('secretKey');
+  try {
+    const secretKeySaved = localStorage.getItem('secretKey');
+    const secretKey = secretKeySaved ? secretKeySaved : prompt('Please enter the secret key');
+    let check = await fetch('http://localhost:3001/app/verifyKey', {
+      method: 'GET',
+      headers: {
+        'secret-key': secretKey,
+      },
+    });
+    if (check.status === 200) {
+      renderButton();
+      localStorage.setItem('secretKey', secretKey);
+    } else {
+      alert('Invalid key');
+      localStorage.removeItem('secretKey');
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
 

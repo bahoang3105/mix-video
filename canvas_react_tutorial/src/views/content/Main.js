@@ -6,10 +6,45 @@ import YoutubeIframe from "./YoutubeIframe";
 import ListCanvas from "./listCanvas/ListCanvas";
 import AudioTag from "./AudioTag";
 import MicroTag from './MicroTag';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Publish from './Publish';
 
-const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish }) => {
+// const ws = new WebSocket(
+//   process.env.SOCKET_URL + 
+//   '/rtmp/' + 
+//   encodeURIComponent('rtmp://localhost:19351/app/stream')
+// );
+
+// ws.addEventListener('open', (e) => {
+//   console.log('WebSocket Open', e);
+// });
+
+// ws.addEventListener('close', (e) => {
+//   console.log('WebSocket Close', e);
+// });
+
+const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCurLayer, size, publish, publishDone }) => {
+  const [publishStream, setPublishStream] = useState('');
+  useEffect(() => {
+    const config = {
+      callbacks: {
+        error: (e) => {
+          console.error(e);
+        },
+        connected: (e) => {
+          console.log('connected   ', e);
+        },
+        connectionClosed: e => {
+          console.log('connection closed   ', e);
+        },
+        iceStateChange: state => {
+          console.log(state);
+        }
+      }
+    }
+    setPublishStream(Publish.create(config));
+  }, []);
+  
   const dataScene = scenes.find(scene => scene.num === curScene);
   const layerRef = useRef(null);
 
@@ -80,45 +115,41 @@ const Main = ({ name, layers, curLayer, curScene, scenes, changeLayer, changeCur
     return listMicro;
   }
 
-  const config = {
-    callbacks: {
-      error: (e) => {
-        console.error(e);
-      },
-      connected: (e) => {
-        console.log('connected   ', e);
-      },
-      connectionClosed: e => {
-        console.log('connection closed   ', e);
-      },
-      iceStateChange: state => {
-        console.log(state);
-      }
-    }
-  }
-
   useEffect(() => {
     if (publish) {
       try {
         const nameStream = name.replaceAll(' ', '');
-        const publishStream = Publish.create(config);
-        publishStream.stream = layerRef.current.getCanvas()._canvas.captureStream(256);
-        console.log(publishStream.stream);
-        publishStream.startStreaming(`ws://localhost:3333/app/${nameStream}?direction=send`);
+        const stream = layerRef.current.getCanvas()._canvas.captureStream(256);
+        
+        // publish webRTC stream
+        publishStream.stream = stream;
+        publishStream.startStreaming(`${process.env.WEBRTC_URL}/app/${nameStream}?direction=send`);
+        console.log(`Link Publish: ${process.env.WEBRTC_URL}/app/${nameStream}`);
+
+        // publish RTMP stream
+        // const mediaRecorder = new MediaRecorder(stream);
+        // mediaRecorder.start(250);
+        // mediaRecorder.ondataavailable = (e) => {
+        //   ws.send(e);
+        // }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    if (publishDone) {
+      try {
+        publishStream.remove();
 
         // callback message
         window.parent.postMessage({
-          call: 'publish',
-          value: {
-            rtmpLink: `ws://localhost:3333/app/${nameStream}`
-          }
+          call: 'publishDone',
         }, '*');
       } catch (err) {
         console.error(err);
       }
     }
     // eslint-disable-next-line
-  }, [publish]);
+  }, [publish, publishDone]);
 
   if (!layers || !scenes || scenes.length === 0) {
     return <div />;
